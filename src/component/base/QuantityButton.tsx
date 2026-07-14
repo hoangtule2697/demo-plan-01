@@ -1,3 +1,8 @@
+import {
+    Button,
+    ButtonGroup,
+    TextField,
+} from "@mui/material";
 import { useState } from "react";
 
 const QuantityButton = ({
@@ -47,31 +52,36 @@ const QuantityButton = ({
     };
 
     return (
-        <div className="input-group" style={{ width: 120 }}>
-            <button
-                className="btn btn-outline-secondary"
+        <ButtonGroup size="small" variant="outlined">
+            <Button
                 disabled={value === "" || value <= min}
                 onClick={() => updateValue(Number(value) - 1)}
             >
                 −
-            </button>
+            </Button>
 
-            <input
-                type="text"
-                className="form-control text-center"
+            <TextField
                 value={value}
                 onChange={handleInput}
                 onBlur={handleBlur}
+                size="small"
+                slotProps={{
+                    htmlInput: {
+                        style: {
+                            width: 40,
+                            textAlign: "center",
+                        },
+                    },
+                }}
             />
 
-            <button
-                className="btn btn-outline-secondary"
+            <Button
                 disabled={value === "" || value >= max}
                 onClick={() => updateValue(Number(value) + 1)}
             >
                 +
-            </button>
-        </div>
+            </Button>
+        </ButtonGroup>
     );
 };
 
