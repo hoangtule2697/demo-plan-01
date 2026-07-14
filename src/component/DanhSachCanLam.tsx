@@ -92,7 +92,8 @@ const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: 
                 <Grid sx={{ xs: 12 }}>
                     <Grid>
                         <CollapseContent collapseKey={`collapse-${sanPhamCode}-${quantityBuy}`}>
-                            <ChiTietVatLieuSanPham /></CollapseContent>
+                            <ChiTietVatLieuSanPham />
+                        </CollapseContent>
                     </Grid>
                     <Grid>
                         <SummaryPriceSanPham />

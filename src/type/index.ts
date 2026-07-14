@@ -30,7 +30,7 @@ export interface TypeCanThietVatLieu {
     //cần vật liệu nào
     vatLieuCode: VatLieuCode;
     //sl bao nhiêu
-    quantity: number;
+    quantityNeed: number;
     //keyVatLieu khi nào 2 vật liệu mới tính là giống nhau
     keyVatLieu: string;
 
@@ -39,6 +39,7 @@ export interface TypeCanThietVatLieu {
     height?: number;
     title?: string;
     tienVatLieu?: number;
+    perTienVatLieu?: number;
     vatLieuData?: TypeVatLieu;
 }
 

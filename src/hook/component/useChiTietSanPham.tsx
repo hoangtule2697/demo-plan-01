@@ -38,13 +38,11 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
                                 }}
                             >
                                 <Typography>
-                                    {`- ${vl.quantity} ${vl.title}`}
+                                    {`- ${vl.quantityNeed} ${vl.title}`}
                                 </Typography>
 
                                 <Typography>
-                                    {utils.view.displayCurrency(
-                                        vl.tienVatLieu,
-                                    )}
+                                    {`${utils.view.displayCurrency(vl.perTienVatLieu)} x ${vl.quantityNeed} = ${utils.view.displayCurrency(vl.tienVatLieu)}`}
                                 </Typography>
                             </Stack>
                         </ListItem>
@@ -59,6 +57,7 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
 
         return (
             <Typography sx={{ mt: 1, fontWeight: "bold", ml: 2 }}>
+                giá tạm tính
                 1 cái:{" "}
                 {utils.view.displayCurrency(
                     tongTienSanPham /

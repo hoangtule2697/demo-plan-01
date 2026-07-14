@@ -26,7 +26,7 @@ export const phuPhiData: TypePhuPhi[] = [
 ];
 export const phuPhiOpts = utils.object.reMapObject(phuPhiData);
 
-const getTitleVatLieu = (item: TypeCanThietVatLieu) => {
+const getTitleVatLieu = (item: TypeCanThietVatLieu, vatLieuData: TypeVatLieu) => {
     const vl = vatLieuOpts[item.vatLieuCode];
     if (!vl) throw new Error(`Không tìm thấy vật liệu với code: ${item.vatLieuCode}`);
 
@@ -34,7 +34,7 @@ const getTitleVatLieu = (item: TypeCanThietVatLieu) => {
         return `cây sắt hộp dài ${item.width}cm`;
     }
     if (["van_go_vang_nhat", "van_go_nau_dam"].includes(item.vatLieuCode)) {
-        return `tấm ván gỗ dài ${item.width}cm x ${item.height}cm`;
+        return `tấm ${vatLieuData.name} dài ${item.width}cm x ${item.height}cm`;
     }
 }
 
@@ -43,7 +43,7 @@ const getTamTinhTienVatLieu = (item: TypeCanThietVatLieu) => {
     if (!vl) throw new Error(`Không tìm thấy vật liệu với code: ${item.vatLieuCode}`);
 
     if (["sat_hop_kem"].includes(item.vatLieuCode)) {
-        return (utils.number.num(item.width) / 100) * (vl.price / vl.value) * item.quantity;
+        return (utils.number.num(item.width) / 100) * (vl.price / vl.value);
     }
     if (["van_go_vang_nhat", "van_go_nau_dam"].includes(item.vatLieuCode)) {
         const dienTichTam = utils.number.num((vl as any)?.width) * utils.number.num((vl as any)?.height);
@@ -54,8 +54,7 @@ const getTamTinhTienVatLieu = (item: TypeCanThietVatLieu) => {
 
         return (
             (dienTichItem / dienTichTam) *
-            vl.price *
-            item.quantity
+            vl.price
         );
     }
 }
@@ -112,26 +111,26 @@ export const sanPhamBaseData = [
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_60",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 60,
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 30,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_30x50",
-                quantity: 3,
+                quantityNeed: 3,
                 width: 30,//cm
                 height: 50,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_10x50",
-                quantity: 2,
+                quantityNeed: 2,
                 width: 10,
                 height: 50,
             },
@@ -144,26 +143,26 @@ export const sanPhamBaseData = [
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_60",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 60,
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 30,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_30x50",
-                quantity: 3,
+                quantityNeed: 3,
                 width: 30,
                 height: 50,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_10x50",
-                quantity: 2,
+                quantityNeed: 2,
                 width: 10,
                 height: 50,
             },
@@ -176,26 +175,26 @@ export const sanPhamBaseData = [
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_100",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 100,
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 30,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_30x50",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 30,
                 height: 50,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_10x50",
-                quantity: 3,
+                quantityNeed: 3,
                 width: 10,
                 height: 50,
             },
@@ -208,26 +207,26 @@ export const sanPhamBaseData = [
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_100",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 100,
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 30,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_30x50",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 30,
                 height: 50,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_10x50",
-                quantity: 3,
+                quantityNeed: 3,
                 width: 10,
                 height: 50,
             },
@@ -240,26 +239,26 @@ export const sanPhamBaseData = [
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_130",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 130,
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 30,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_30x50",
-                quantity: 5,
+                quantityNeed: 5,
                 width: 30,
                 height: 50,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_10x50",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 10,
                 height: 50,
             },
@@ -272,26 +271,26 @@ export const sanPhamBaseData = [
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_130",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 130,
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 30,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_30x50",
-                quantity: 5,
+                quantityNeed: 5,
                 width: 30,
                 height: 50,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_10x50",
-                quantity: 4,
+                quantityNeed: 4,
                 width: 10,
                 height: 50,
             },
@@ -304,13 +303,14 @@ export const sanPhamData: TypeSanPham[] = sanPhamBaseData.map((sanPham) => {
         const vatLieuData = vatLieuOpts[vl.vatLieuCode];
         if (!vatLieuData) throw new Error(`Không tìm thấy vật liệu với code: ${vl.vatLieuCode}`);
 
-        const title = getTitleVatLieu(vl);
-        const tienVatLieu = getTamTinhTienVatLieu(vl);
+        const title = getTitleVatLieu(vl, vatLieuData);
+        const perTienVatLieu = utils.number.num(getTamTinhTienVatLieu(vl));
 
         return {
             ...vl,
             title,
-            tienVatLieu,
+            perTienVatLieu,
+            tienVatLieu: perTienVatLieu * vl.quantityNeed,
             vatLieuData,
         };
     });

@@ -1,4 +1,5 @@
 import {
+    Grid,
     List,
     ListItem,
     Stack,
@@ -17,46 +18,55 @@ export default function ChiTietVatLieu({ chiTietVatLieu }: { chiTietVatLieu: Typ
                 </Typography>
             }
         >
-            <List disablePadding>
-                {chiTietVatLieu
-                    .filter((c) => c.quantity)
-                    .map(
-                        (
-                            {
-                                title,
-                                quantity,
-                                tongTienVatLieu,
-                            },
-                            idx,
-                        ) => (
-                            <ListItem
-                                key={`ctvl-${idx}`}
-                                disableGutters
-                                sx={{ py: 1 }}
-                            >
-                                <Stack
-                                    direction="row"
-                                    sx={{
-                                        width: "100%",
-                                        justifyContent:
-                                            "space-between",
-                                        alignItems: "center",
-                                    }}
-                                >
-                                    <Typography>
-                                        {`${quantity} ${title}`}
-                                    </Typography>
+            <Grid>
+                <Grid>
+                    <List disablePadding>
+                        {chiTietVatLieu
+                            .filter((c) => c.quantityNeed)
+                            .map(
+                                (
+                                    {
+                                        title,
+                                        quantityNeed,
+                                        tongTienVatLieu,
+                                    },
+                                    idx,
+                                ) => (
+                                    <ListItem
+                                        key={`ctvl-${idx}`}
+                                        disableGutters
+                                        sx={{ py: 1 }}
+                                    >
+                                        <Stack
+                                            direction="row"
+                                            sx={{
+                                                width: "100%",
+                                                justifyContent:
+                                                    "space-between",
+                                                alignItems: "center",
+                                            }}
+                                        >
+                                            <Typography>
+                                                {`${quantityNeed} ${title}`}
+                                            </Typography>
 
-                                    <Typography>
-                                        {utils.view.displayCurrency(
-                                            tongTienVatLieu,
-                                        )}
-                                    </Typography>
-                                </Stack>
-                            </ListItem>
-                        ),
-                    )}
-            </List>
+                                            <Typography>
+                                                {utils.view.displayCurrency(
+                                                    tongTienVatLieu,
+                                                )}
+                                            </Typography>
+                                        </Stack>
+                                    </ListItem>
+                                ),
+                            )}
+                    </List>
+                </Grid>
+                <Grid>
+                    <Typography sx={{ fontWeight: "bold", textAlign: "right" }}>
+                        giá tạm tính
+                    </Typography>
+                </Grid>
+            </Grid>
         </BaseCard>
     );
 };

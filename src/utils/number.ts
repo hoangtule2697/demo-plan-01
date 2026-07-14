@@ -1,8 +1,14 @@
 export function num(
     value: unknown,
-    fallback: number = 0,
+    fallback = 0,
 ): number {
-    return typeof value === "number" && !Number.isNaN(value)
-        ? value
-        : fallback;
+    try {
+        const result = Number(value);
+
+        return Number.isNaN(result)
+            ? fallback
+            : result;
+    } catch {
+        return fallback;
+    }
 }

@@ -13,35 +13,38 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
         };
     });
 
-    const allVatLieu = details
+    const allVatLieuCanMua = details.filter((d) => d.quantityBuy)
         .map((d) =>
             d.vatLieu.map((vl) => ({
                 ...vl,
-                quantity: d.quantityBuy * vl.quantity,
-                tienVatLieu: d.quantityBuy * utils.number.num(vl.tienVatLieu),
+                quantityBuy: d.quantityBuy * vl.quantityNeed,
             })),
         )
         .flat();
 
     const chiTietVatLieu = Object.values(
-        allVatLieu.reduce((acc, item) => {
+        allVatLieuCanMua.reduce((acc, item) => {
             //vật liệu trùng code và value tính là cùng 1 vật liệu nên cộng lại
             const key = `${item.keyVatLieu}`;
 
             if (!acc[key]) {
                 acc[key] = { ...item };
             } else {
-                acc[key].quantity += item.quantity;
+                acc[key].quantityBuy += item.quantityBuy;
             }
 
             return acc;
-        }, {} as Record<string, typeof allVatLieu[number]>),
+        }, {} as Record<string, typeof allVatLieuCanMua[number]>),
     ).map((v) => {
         return {
             ...v,
-            tongTienVatLieu: utils.number.num(v.tienVatLieu) * v.quantity,
+            tongTienVatLieu: utils.number.num(v.tienVatLieu) * v.quantityBuy,
         };
-    });
+    }).sort((a, b) =>
+        a.keyVatLieu.localeCompare(b.keyVatLieu, undefined, {
+            sensitivity: "base",
+        }),
+    );
 
     const tongVatLieu = Object.values(
         chiTietVatLieu
