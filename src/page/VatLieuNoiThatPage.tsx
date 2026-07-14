@@ -1,8 +1,7 @@
 import {
-  ChiTietSanPham,
   ChiTietVatLieu,
   DanhSachCanLam,
-  TongVatLieu,
+  TongVatLieu
 } from "@component";
 import * as logic from "@logic";
 import { Container, Grid, Paper, Typography } from "@mui/material";
@@ -11,17 +10,17 @@ import * as utils from "@utils";
 import { useState } from "react";
 
 export default function VatLieuNoiThatPage() {
-  const [canLams, setCanLams] = useState(
+  const [danhSachCanLam, setDanhSachCanLam] = useState(
     logic.getDefaultDanhSachCanLam(),
   );
 
-  const data = logic.getFullData(canLams);
+  const data = logic.getFullData(danhSachCanLam);
   const { tongTien } = data;
 
   const onChangeDanhSachCanLam = (
     updatedCanLams: SanPhamCanLam[],
   ) => {
-    setCanLams(updatedCanLams);
+    setDanhSachCanLam(updatedCanLams);
 
     utils.url.updateUrlParams({
       danhSachCanLam: logic.stringifyDanhSachCanLam(
@@ -30,29 +29,33 @@ export default function VatLieuNoiThatPage() {
     });
   };
 
+  const onChangeSanPhamCanLam = (index: number, newQuantity: number) => {
+    const updatedCanLams = [...danhSachCanLam];
+    updatedCanLams[index].quantity = newQuantity;
+    onChangeDanhSachCanLam(updatedCanLams);
+  };
+
+  const onClearDanhSachCanLam = () => {
+    onChangeDanhSachCanLam(
+      danhSachCanLam.map((c) => ({
+        ...c,
+        quantity: 0,
+      })),
+    )
+  };
+
   return (
     <Container maxWidth="xl" sx={{ pb: 10, pt: 2 }}>
       <Grid container spacing={2}>
-        <Grid size={{ xs: 12, md: 4 }}>
+        <Grid size={{ xs: 6 }}>
           <DanhSachCanLam
             {...data}
-            onChange={(index, newQuantity) => {
-              const updatedCanLams = [...canLams];
-              updatedCanLams[index].quantity = newQuantity;
-              onChangeDanhSachCanLam(updatedCanLams);
-            }}
-            onClear={() =>
-              onChangeDanhSachCanLam(
-                canLams.map((c) => ({
-                  ...c,
-                  quantity: 0,
-                })),
-              )
-            }
+            onChangeSanPhamCanLam={onChangeSanPhamCanLam}
+            onClearDanhSachCanLam={onClearDanhSachCanLam}
           />
         </Grid>
 
-        <Grid size={{ xs: 12, md: 4 }}>
+        <Grid size={{ xs: 6 }}>
           <Grid sx={{ mb: 2 }}>
             <ChiTietVatLieu {...data} />
           </Grid>
@@ -62,9 +65,9 @@ export default function VatLieuNoiThatPage() {
           </Grid>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 4 }}>
+        {/* <Grid size={{ xs: 12, md: 4 }}>
           <ChiTietSanPham {...data} />
-        </Grid>
+        </Grid> */}
       </Grid>
 
       <Paper

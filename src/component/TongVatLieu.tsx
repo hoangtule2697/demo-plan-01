@@ -1,21 +1,22 @@
 import {
-    Box,
-    Divider,
     List,
     ListItem,
     Stack,
-    Typography,
+    Typography
 } from "@mui/material";
 import type { GetFullDataResult } from "@type";
 import * as utils from "@utils";
+import { BaseCard } from "./base";
 
 export default function TongVatLieu({ tongVatLieu }: { tongVatLieu: GetFullDataResult["tongVatLieu"] }) {
     return (
-        <Box>
-            <Typography variant="h6" sx={{ mb: 2 }}>
-                Tổng vật liệu
-            </Typography>
-
+        <BaseCard
+            header={
+                <Typography id="title">
+                    Tổng vật liệu
+                </Typography>
+            }
+        >
             <List disablePadding>
                 {tongVatLieu
                     .filter((t) => t.value)
@@ -54,8 +55,6 @@ export default function TongVatLieu({ tongVatLieu }: { tongVatLieu: GetFullDataR
                         ),
                     )}
             </List>
-
-            <Divider sx={{ mt: 2 }} />
-        </Box>
+        </BaseCard>
     );
 };

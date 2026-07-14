@@ -1,21 +1,22 @@
 import {
-    Box,
-    Divider,
     List,
     ListItem,
     Stack,
-    Typography,
+    Typography
 } from "@mui/material";
 import type { GetFullDataResult } from "@type";
 import * as utils from "@utils";
+import { BaseCard } from "./base";
 
 export default function ChiTietVatLieu({ chiTietVatLieu }: { chiTietVatLieu: GetFullDataResult["chiTietVatLieu"] }) {
     return (
-        <Box>
-            <Typography variant="h6" component="h6" sx={{ mb: 2 }}>
-                Chi tiết vật liệu
-            </Typography>
-
+        <BaseCard
+            header={
+                <Typography id="title">
+                    Chi tiết vật liệu
+                </Typography>
+            }
+        >
             <List disablePadding>
                 {chiTietVatLieu
                     .filter((c) => c.quantity)
@@ -56,8 +57,6 @@ export default function ChiTietVatLieu({ chiTietVatLieu }: { chiTietVatLieu: Get
                         ),
                     )}
             </List>
-
-            <Divider sx={{ mt: 2 }} />
-        </Box>
+        </BaseCard>
     );
 };

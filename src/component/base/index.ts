@@ -1,3 +1,4 @@
+import BaseCard from "./BaseCard";
 import QuantityButton from "./QuantityButton";
 
-export { QuantityButton };
+export { BaseCard, QuantityButton };

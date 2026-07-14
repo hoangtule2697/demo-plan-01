@@ -39,6 +39,9 @@
       "@component/base": [
         "component/base/index"
       ],
+      "@hook/component": [
+        "hook/component/index"
+      ],
       "@logic": [
         "logic/index"
       ],
