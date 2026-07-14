@@ -1,0 +1,1 @@
+export const displayCurrency = (p: number) => `${(Math.round(p / 1000) * 1000).toLocaleString("vi-VN")}đ`
