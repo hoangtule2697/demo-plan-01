@@ -5,7 +5,7 @@ import * as utils from "@utils";
 export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSanPham => {
     const details = (danhSachCanLam || []).map((SanPhamCanLam) => {
         const sanPham = sanPhamOpts[SanPhamCanLam.sanPhamCode];
-        const tongTienSanPham = utils.number.num(sanPham?.tienSanPham) * SanPhamCanLam.quantity;
+        const tongTienSanPham = utils.number.num(sanPham?.tienSanPham) * SanPhamCanLam.quantityBuy;
         return {
             ...SanPhamCanLam,
             ...sanPham,
@@ -17,30 +17,35 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
         .map((d) =>
             d.vatLieu.map((vl) => ({
                 ...vl,
-                quantity: d.quantity * vl.quantity,
-                tienVatLieu: d.quantity * utils.number.num(vl.tienVatLieu),
+                quantity: d.quantityBuy * vl.quantity,
+                tienVatLieu: d.quantityBuy * utils.number.num(vl.tienVatLieu),
             })),
         )
         .flat();
 
     const chiTietVatLieu = Object.values(
         allVatLieu.reduce((acc, item) => {
-            const key = `${item.vatLieuCode}_${item.value}`;
+            //vật liệu trùng code và value tính là cùng 1 vật liệu nên cộng lại
+            const key = `${item.keyVatLieu}`;
 
             if (!acc[key]) {
-                acc[key] = { ...item, tongTienVatLieu: item.tienVatLieu };
+                acc[key] = { ...item };
             } else {
                 acc[key].quantity += item.quantity;
-                acc[key].tongTienVatLieu += item.tienVatLieu;
             }
 
             return acc;
-        }, {} as Record<string, typeof allVatLieu[number] & { tongTienVatLieu: number }>),
-    );
+        }, {} as Record<string, typeof allVatLieu[number]>),
+    ).map((v) => {
+        return {
+            ...v,
+            tongTienVatLieu: utils.number.num(v.tienVatLieu) * v.quantity,
+        };
+    });
 
     const tongVatLieu = Object.values(
         chiTietVatLieu
-            .map((v) => ({ ...v, value: v.quantity * v.value, quantity: 1 }))
+            .map((v) => ({ ...v, quantity: 1 }))
             .reduce((acc, item) => {
                 const key = `${item.vatLieuCode}`;
 
@@ -48,17 +53,18 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
                     acc[key] = { ...item };
                 } else {
                     acc[key].tongTienVatLieu += item.tongTienVatLieu;
-                    acc[key].value += item.value;
                 }
 
                 return acc;
             }, {} as Record<string, typeof chiTietVatLieu[number]>),
-    ).map((v) => ({ ...v, value: Math.round(v.value * 10) / 10 }));
-
-    const tongTien = details.reduce(
-        (sum, item) => sum + item.tongTienSanPham,
-        0,
     );
+
+    // const tongTien = tongVatLieu.reduce(
+    //     (sum, item) => sum + utils.number.num(item?.tongTienSanPham),
+    //     0,
+    // );
+
+    const tongTien = 0;
 
     return {
         details,
@@ -77,13 +83,13 @@ export const getDefaultDanhSachCanLam = (): TypeSanPhamCanLam[] => {
     const dsCanLam = Object.values(
         [
             ...url.danhSachCanLam,
-            ...sanPhamData.map((sp) => ({ sanPhamCode: sp.code, quantity: 0 })),
+            ...sanPhamData.map((sp) => ({ sanPhamCode: sp.code, quantityBuy: 0 })),
         ].reduce((obj, item) => {
             obj[item.sanPhamCode] ??= {
                 ...item,
-                quantity: 0,
+                quantityBuy: 0,
             };
-            obj[item.sanPhamCode].quantity += item.quantity;
+            obj[item.sanPhamCode].quantityBuy += item.quantityBuy;
             return obj;
         }, {} as Record<string, TypeSanPhamCanLam>),
     ).sort((a, b) => codeOrder[a.sanPhamCode] - codeOrder[b.sanPhamCode]);
@@ -95,8 +101,8 @@ export const parseDanhSachCanLam = (danhSachCanLamStr: string): TypeSanPhamCanLa
     if (danhSachCanLamStr && danhSachCanLamStr !== "") {
         try {
             const danhSachCanLam = danhSachCanLamStr.split("~").map((SanPhamCanLamStr) => {
-                const [sanPhamCode, quantity] = SanPhamCanLamStr.split(".");
-                return { sanPhamCode, quantity: Number(quantity) };
+                const [sanPhamCode, quantityBuy] = SanPhamCanLamStr.split(".");
+                return { sanPhamCode, quantityBuy: utils.number.num(quantityBuy) };
             });
             return danhSachCanLam;
         } catch (error) {
@@ -110,7 +116,7 @@ export const stringifyDanhSachCanLam = (danhSachCanLam: TypeSanPhamCanLam[]): st
     if (danhSachCanLam?.length) {
         try {
             const strDscl = danhSachCanLam
-                .map((SanPhamCanLam) => `${SanPhamCanLam.sanPhamCode}.${SanPhamCanLam.quantity}`)
+                .map((SanPhamCanLam) => `${SanPhamCanLam.sanPhamCode}.${SanPhamCanLam.quantityBuy}`)
                 .join("~");
             return strDscl;
         } catch (error) {

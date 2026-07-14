@@ -15,7 +15,7 @@ export default function VatLieuNoiThatPage() {
   );
 
   const data = logic.getFullData(danhSachCanLam);
-  const { tongTien } = data;
+  const { details, chiTietVatLieu, tongVatLieu, tongTien } = data;
 
   const onChangeDanhSachCanLam = (
     updatedCanLams: TypeSanPhamCanLam[],
@@ -24,14 +24,14 @@ export default function VatLieuNoiThatPage() {
 
     utils.url.updateUrlParams({
       danhSachCanLam: logic.stringifyDanhSachCanLam(
-        updatedCanLams.filter((u) => u.quantity),
+        updatedCanLams.filter((u) => u.quantityBuy),
       ),
     });
   };
 
   const onChangeSanPhamCanLam = (index: number, newQuantity: number) => {
     const updatedCanLams = [...danhSachCanLam];
-    updatedCanLams[index].quantity = newQuantity;
+    updatedCanLams[index].quantityBuy = newQuantity;
     onChangeDanhSachCanLam(updatedCanLams);
   };
 
@@ -49,7 +49,7 @@ export default function VatLieuNoiThatPage() {
       <Grid container spacing={2}>
         <Grid size={{ xs: 6 }}>
           <DanhSachCanLam
-            details={data.details}
+            details={details}
             onChangeSanPhamCanLam={onChangeSanPhamCanLam}
             onClearDanhSachCanLam={onClearDanhSachCanLam}
           />
@@ -57,17 +57,13 @@ export default function VatLieuNoiThatPage() {
 
         <Grid size={{ xs: 6 }}>
           <Grid sx={{ mb: 2 }}>
-            <ChiTietVatLieu chiTietVatLieu={data.chiTietVatLieu} />
+            <ChiTietVatLieu chiTietVatLieu={chiTietVatLieu} />
           </Grid>
 
           <Grid>
-            <TongVatLieu tongVatLieu={data.tongVatLieu} />
+            <TongVatLieu tongVatLieu={tongVatLieu} />
           </Grid>
         </Grid>
-
-        {/* <Grid size={{ xs: 12, md: 4 }}>
-          <ChiTietSanPham {...data} />
-        </Grid> */}
       </Grid>
 
       <Paper

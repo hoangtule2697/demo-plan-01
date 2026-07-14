@@ -27,13 +27,19 @@ export type VatLieuCode = (typeof vatLieuData)[number]["code"];
 
 //vật liệu cần để tạo ra sản phẩm
 export interface TypeCanThietVatLieu {
+    //cần vật liệu nào
     vatLieuCode: VatLieuCode;
-    value: number;
+    //sl bao nhiêu
     quantity: number;
+    //keyVatLieu khi nào 2 vật liệu mới tính là giống nhau
+    keyVatLieu: string;
+
+    value?: number;
     width?: number;
     height?: number;
     title?: string;
     tienVatLieu?: number;
+    vatLieuData?: TypeVatLieu;
 }
 
 export interface TypeSanPham {
@@ -47,7 +53,7 @@ export type SanPhamCode = (typeof sanPhamData)[number]["code"];
 
 export interface TypeSanPhamCanLam {
     sanPhamCode: SanPhamCode;
-    quantity: number;
+    quantityBuy: number;
 }
 
 export type TypeFullDataSanPham = {

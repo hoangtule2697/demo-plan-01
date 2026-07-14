@@ -41,7 +41,7 @@ export default function DanhSachCanLam({
             <List disablePadding>
                 {details.map((sanPhamDetail, indexSanPham) => (
                     <ChiTietSanPham
-                        key={`dscl-${sanPhamDetail?.sanPhamCode}-${sanPhamDetail?.quantity}`}
+                        key={`dscl-${sanPhamDetail?.sanPhamCode}-${sanPhamDetail?.quantityBuy}`}
                         sanPhamDetail={sanPhamDetail}
                         indexSanPham={indexSanPham}
                         onChangeSanPhamCanLam={onChangeSanPhamCanLam}
@@ -57,7 +57,7 @@ const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: 
     const { CollapseButton, CollapseContent } = useCollapse();
     const { ChiTietVatLieuSanPham, SummaryPriceSanPham } = useChiTietSanPham({ sanPhamDetail });
 
-    const { sanPhamCode, name, quantity } = sanPhamDetail;
+    const { sanPhamCode, name, quantityBuy } = sanPhamDetail;
 
     return (
         <ListItem
@@ -76,14 +76,14 @@ const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: 
                 >
                     <Grid container spacing={1}>
                         <Typography>
-                            {`${quantity} cái ${name}`}
+                            {`${quantityBuy} cái ${name}`}
                         </Typography>
-                        <CollapseButton collapseKey={`collapse-${sanPhamCode}-${quantity}`} />
+                        <CollapseButton collapseKey={`collapse-${sanPhamCode}-${quantityBuy}`} />
                     </Grid>
 
 
                     <QuantityButton
-                        defaultValue={quantity}
+                        defaultValue={quantityBuy}
                         onChange={(newQuantity) =>
                             onChangeSanPhamCanLam(indexSanPham, newQuantity)
                         }
@@ -91,7 +91,7 @@ const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: 
                 </Grid>
                 <Grid sx={{ xs: 12 }}>
                     <Grid>
-                        <CollapseContent collapseKey={`collapse-${sanPhamCode}-${quantity}`}>
+                        <CollapseContent collapseKey={`collapse-${sanPhamCode}-${quantityBuy}`}>
                             <ChiTietVatLieuSanPham /></CollapseContent>
                     </Grid>
                     <Grid>

@@ -31,7 +31,7 @@ const getTitleVatLieu = (item: TypeCanThietVatLieu) => {
     if (!vl) throw new Error(`Không tìm thấy vật liệu với code: ${item.vatLieuCode}`);
 
     if (["sat_hop_kem"].includes(item.vatLieuCode)) {
-        return `cây sắt hộp dài ${item.value * 100}cm`;
+        return `cây sắt hộp dài ${item.width}cm`;
     }
     if (["van_go_vang_nhat", "van_go_nau_dam"].includes(item.vatLieuCode)) {
         return `tấm ván gỗ dài ${item.width}cm x ${item.height}cm`;
@@ -43,7 +43,7 @@ const getTamTinhTienVatLieu = (item: TypeCanThietVatLieu) => {
     if (!vl) throw new Error(`Không tìm thấy vật liệu với code: ${item.vatLieuCode}`);
 
     if (["sat_hop_kem"].includes(item.vatLieuCode)) {
-        return (item.value * item.quantity) * (vl.price / vl.value);
+        return (utils.number.num(item.width) / 100) * (vl.price / vl.value) * item.quantity;
     }
     if (["van_go_vang_nhat", "van_go_nau_dam"].includes(item.vatLieuCode)) {
         const dienTichTam = utils.number.num((vl as any)?.width) * utils.number.num((vl as any)?.height);
@@ -72,10 +72,10 @@ export const vatLieuData = [
         name: "ván gỗ - vàng nhạt",
         code: "van_go_vang_nhat",
         price: 360000,
-        unit: "tấm",
+        unit: "tấm",//cmxcm
         value: 1,
-        width: 2440,
-        height: 1220,
+        width: 244,
+        height: 122,
     },
     {
         name: "ván gỗ - nâu đậm",
@@ -83,8 +83,8 @@ export const vatLieuData = [
         price: 360000,
         unit: "tấm",
         value: 1,
-        width: 2440,
-        height: 1220,
+        width: 244,
+        height: 122,
     },
     // {
     //     name: "hộp đóng gói",
@@ -111,24 +111,26 @@ export const sanPhamBaseData = [
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
-                value: 0.6,
+                keyVatLieu: "sat_hop_kem_dai_60",
                 quantity: 4,
+                width: 60,
             },
             {
                 vatLieuCode: "sat_hop_kem",
-                value: 0.3,
+                keyVatLieu: "sat_hop_kem_dai_30",
                 quantity: 4,
+                width: 30,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
-                value: 0.15, // 0.15 m2 = 30cm x 50cm
+                keyVatLieu: "van_go_vang_nhat_30x50",
                 quantity: 3,
-                width: 30,
+                width: 30,//cm
                 height: 50,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
-                value: 0.05, // 0.15 m2 = 30cm x 50cm
+                keyVatLieu: "van_go_vang_nhat_10x50",
                 quantity: 2,
                 width: 10,
                 height: 50,
@@ -141,24 +143,26 @@ export const sanPhamBaseData = [
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
-                value: 0.6,
+                keyVatLieu: "sat_hop_kem_dai_60",
                 quantity: 4,
+                width: 60,
             },
             {
                 vatLieuCode: "sat_hop_kem",
-                value: 0.3,
+                keyVatLieu: "sat_hop_kem_dai_30",
                 quantity: 4,
+                width: 30,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
-                value: 0.15, // 0.15 m2 = 30cm x 50cm
+                keyVatLieu: "van_go_nau_dam_30x50",
                 quantity: 3,
                 width: 30,
                 height: 50,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
-                value: 0.05, // 0.15 m2 = 30cm x 50cm
+                keyVatLieu: "van_go_nau_dam_10x50",
                 quantity: 2,
                 width: 10,
                 height: 50,
@@ -171,24 +175,26 @@ export const sanPhamBaseData = [
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
-                value: 1,
+                keyVatLieu: "sat_hop_kem_dai_100",
                 quantity: 4,
+                width: 100,
             },
             {
                 vatLieuCode: "sat_hop_kem",
-                value: 0.3,
+                keyVatLieu: "sat_hop_kem_dai_30",
                 quantity: 4,
+                width: 30,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
-                value: 0.15, // 0.15 m2 = 30cm x 50cm
+                keyVatLieu: "van_go_vang_nhat_30x50",
                 quantity: 4,
                 width: 30,
                 height: 50,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
-                value: 0.05, // 0.15 m2 = 30cm x 50cm
+                keyVatLieu: "van_go_vang_nhat_10x50",
                 quantity: 3,
                 width: 10,
                 height: 50,
@@ -201,24 +207,26 @@ export const sanPhamBaseData = [
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
-                value: 1,
+                keyVatLieu: "sat_hop_kem_dai_100",
                 quantity: 4,
+                width: 100,
             },
             {
                 vatLieuCode: "sat_hop_kem",
-                value: 0.3,
+                keyVatLieu: "sat_hop_kem_dai_30",
                 quantity: 4,
+                width: 30,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
-                value: 0.15, // 0.15 m2 = 30cm x 50cm
+                keyVatLieu: "van_go_nau_dam_30x50",
                 quantity: 4,
                 width: 30,
                 height: 50,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
-                value: 0.05, // 0.15 m2 = 30cm x 50cm
+                keyVatLieu: "van_go_nau_dam_10x50",
                 quantity: 3,
                 width: 10,
                 height: 50,
@@ -231,24 +239,26 @@ export const sanPhamBaseData = [
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
-                value: 1.3,
+                keyVatLieu: "sat_hop_kem_dai_130",
                 quantity: 4,
+                width: 130,
             },
             {
                 vatLieuCode: "sat_hop_kem",
-                value: 0.3,
+                keyVatLieu: "sat_hop_kem_dai_30",
                 quantity: 4,
+                width: 30,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
-                value: 0.15, // 0.15 m2 = 30cm x 50cm
+                keyVatLieu: "van_go_vang_nhat_30x50",
                 quantity: 5,
                 width: 30,
                 height: 50,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
-                value: 0.05, // 0.15 m2 = 30cm x 50cm
+                keyVatLieu: "van_go_vang_nhat_10x50",
                 quantity: 4,
                 width: 10,
                 height: 50,
@@ -261,24 +271,26 @@ export const sanPhamBaseData = [
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
-                value: 1.3,
+                keyVatLieu: "sat_hop_kem_dai_130",
                 quantity: 4,
+                width: 130,
             },
             {
                 vatLieuCode: "sat_hop_kem",
-                value: 0.3,
+                keyVatLieu: "sat_hop_kem_dai_30",
                 quantity: 4,
+                width: 30,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
-                value: 0.15, // 0.15 m2 = 30cm x 50cm
+                keyVatLieu: "van_go_nau_dam_30x50",
                 quantity: 5,
                 width: 30,
                 height: 50,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
-                value: 0.05, // 0.15 m2 = 30cm x 50cm
+                keyVatLieu: "van_go_nau_dam_10x50",
                 quantity: 4,
                 width: 10,
                 height: 50,
@@ -299,6 +311,7 @@ export const sanPhamData: TypeSanPham[] = sanPhamBaseData.map((sanPham) => {
             ...vl,
             title,
             tienVatLieu,
+            vatLieuData,
         };
     });
 

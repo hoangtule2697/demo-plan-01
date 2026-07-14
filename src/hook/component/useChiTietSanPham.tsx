@@ -5,11 +5,11 @@ import {
     Stack,
     Typography
 } from "@mui/material";
-import type { TypeChiTietSanPham } from "@type";
+import type { TypeFullDataSanPham } from "@type";
 import * as utils from "@utils";
 
-export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: TypeChiTietSanPham }) {
-    const { name, quantity, vatLieu, tongTienSanPham } = sanPhamDetail;
+export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: TypeFullDataSanPham["details"][0] }) {
+    const { name, quantityBuy, vatLieu, tongTienSanPham } = sanPhamDetail;
 
     const ChiTietVatLieuSanPham = () => {
         return (
@@ -55,17 +55,17 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
     };
 
     const SummaryPriceSanPham = () => {
-        if (!quantity) return null;
+        if (!quantityBuy) return null;
 
         return (
             <Typography sx={{ mt: 1, fontWeight: "bold", ml: 2 }}>
                 1 cái:{" "}
                 {utils.view.displayCurrency(
                     tongTienSanPham /
-                    quantity,
+                    quantityBuy,
                 )}
                 {" / "}
-                tổng {quantity} cái:{" "}
+                tổng {quantityBuy} cái:{" "}
                 {utils.view.displayCurrency(
                     tongTienSanPham,
                 )}
