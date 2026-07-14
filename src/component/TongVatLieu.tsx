@@ -4,11 +4,11 @@ import {
     Stack,
     Typography
 } from "@mui/material";
-import type { GetFullDataResult } from "@type";
+import type { TypeFullDataSanPham } from "@type";
 import * as utils from "@utils";
 import { BaseCard } from "./base";
 
-export default function TongVatLieu({ tongVatLieu }: { tongVatLieu: GetFullDataResult["tongVatLieu"] }) {
+export default function TongVatLieu({ tongVatLieu }: { tongVatLieu: TypeFullDataSanPham["tongVatLieu"] }) {
     return (
         <BaseCard
             header={
@@ -23,8 +23,8 @@ export default function TongVatLieu({ tongVatLieu }: { tongVatLieu: GetFullDataR
                     .map(
                         ({
                             value,
-                            unit,
-                            name,
+                            // unit,
+                            // name,
                             tongTienVatLieu,
                         }) => (
                             <ListItem
@@ -42,7 +42,7 @@ export default function TongVatLieu({ tongVatLieu }: { tongVatLieu: GetFullDataR
                                     }}
                                 >
                                     <Typography>
-                                        {`${value} ${unit} ${name}`}
+                                        {`${value}`}
                                     </Typography>
 
                                     <Typography>

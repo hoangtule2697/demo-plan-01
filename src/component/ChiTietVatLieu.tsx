@@ -4,11 +4,11 @@ import {
     Stack,
     Typography
 } from "@mui/material";
-import type { GetFullDataResult } from "@type";
+import type { TypeFullDataSanPham } from "@type";
 import * as utils from "@utils";
 import { BaseCard } from "./base";
 
-export default function ChiTietVatLieu({ chiTietVatLieu }: { chiTietVatLieu: GetFullDataResult["chiTietVatLieu"] }) {
+export default function ChiTietVatLieu({ chiTietVatLieu }: { chiTietVatLieu: TypeFullDataSanPham["chiTietVatLieu"] }) {
     return (
         <BaseCard
             header={

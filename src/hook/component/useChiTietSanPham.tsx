@@ -5,10 +5,10 @@ import {
     Stack,
     Typography
 } from "@mui/material";
-import type { ChiTietSanPham } from "@type";
+import type { TypeChiTietSanPham } from "@type";
 import * as utils from "@utils";
 
-export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: ChiTietSanPham }) {
+export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: TypeChiTietSanPham }) {
     const { name, quantity, vatLieu, tongTienSanPham } = sanPhamDetail;
 
     const ChiTietVatLieuSanPham = () => {

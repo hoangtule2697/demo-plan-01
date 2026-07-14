@@ -1,5 +1,5 @@
 import * as logic from "@logic";
-import type { SanPhamCanLam } from "@type";
+import type { TypeSanPhamCanLam } from "@type";
 
 export const getParamsFromUrl = (): Record<string, string> => {
     return Object.fromEntries(
@@ -7,7 +7,7 @@ export const getParamsFromUrl = (): Record<string, string> => {
     );
 };
 
-export const genParamsFromUrl = (): { danhSachCanLam: SanPhamCanLam[] } => {
+export const genParamsFromUrl = (): { danhSachCanLam: TypeSanPhamCanLam[] } => {
     const { danhSachCanLam } = getParamsFromUrl();
 
     return {

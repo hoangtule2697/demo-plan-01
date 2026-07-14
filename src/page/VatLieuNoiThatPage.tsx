@@ -5,7 +5,7 @@ import {
 } from "@component";
 import * as logic from "@logic";
 import { Container, Grid, Paper, Typography } from "@mui/material";
-import type { SanPhamCanLam } from "@type";
+import type { TypeSanPhamCanLam } from "@type";
 import * as utils from "@utils";
 import { useState } from "react";
 
@@ -18,7 +18,7 @@ export default function VatLieuNoiThatPage() {
   const { tongTien } = data;
 
   const onChangeDanhSachCanLam = (
-    updatedCanLams: SanPhamCanLam[],
+    updatedCanLams: TypeSanPhamCanLam[],
   ) => {
     setDanhSachCanLam(updatedCanLams);
 
@@ -49,7 +49,7 @@ export default function VatLieuNoiThatPage() {
       <Grid container spacing={2}>
         <Grid size={{ xs: 6 }}>
           <DanhSachCanLam
-            {...data}
+            details={data.details}
             onChangeSanPhamCanLam={onChangeSanPhamCanLam}
             onClearDanhSachCanLam={onClearDanhSachCanLam}
           />
@@ -57,11 +57,11 @@ export default function VatLieuNoiThatPage() {
 
         <Grid size={{ xs: 6 }}>
           <Grid sx={{ mb: 2 }}>
-            <ChiTietVatLieu {...data} />
+            <ChiTietVatLieu chiTietVatLieu={data.chiTietVatLieu} />
           </Grid>
 
           <Grid>
-            <TongVatLieu {...data} />
+            <TongVatLieu tongVatLieu={data.tongVatLieu} />
           </Grid>
         </Grid>
 

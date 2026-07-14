@@ -1,11 +1,11 @@
 import { sanPhamData, sanPhamOpts } from "@data";
-import type { SanPhamCanLam } from "@type";
+import type { TypeFullDataSanPham, TypeSanPhamCanLam } from "@type";
 import * as utils from "@utils";
 
-export const getFullData = (danhSachCanLam: SanPhamCanLam[]) => {
+export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSanPham => {
     const details = (danhSachCanLam || []).map((SanPhamCanLam) => {
         const sanPham = sanPhamOpts[SanPhamCanLam.sanPhamCode];
-        const tongTienSanPham = sanPham.tienSanPham * SanPhamCanLam.quantity;
+        const tongTienSanPham = utils.number.num(sanPham?.tienSanPham) * SanPhamCanLam.quantity;
         return {
             ...SanPhamCanLam,
             ...sanPham,
@@ -18,14 +18,14 @@ export const getFullData = (danhSachCanLam: SanPhamCanLam[]) => {
             d.vatLieu.map((vl) => ({
                 ...vl,
                 quantity: d.quantity * vl.quantity,
-                tienVatLieu: d.quantity * vl.tienVatLieu,
+                tienVatLieu: d.quantity * utils.number.num(vl.tienVatLieu),
             })),
         )
         .flat();
 
     const chiTietVatLieu = Object.values(
         allVatLieu.reduce((acc, item) => {
-            const key = `${item.code}_${item.value}`;
+            const key = `${item.vatLieuCode}_${item.value}`;
 
             if (!acc[key]) {
                 acc[key] = { ...item, tongTienVatLieu: item.tienVatLieu };
@@ -42,7 +42,7 @@ export const getFullData = (danhSachCanLam: SanPhamCanLam[]) => {
         chiTietVatLieu
             .map((v) => ({ ...v, value: v.quantity * v.value, quantity: 1 }))
             .reduce((acc, item) => {
-                const key = `${item.code}`;
+                const key = `${item.vatLieuCode}`;
 
                 if (!acc[key]) {
                     acc[key] = { ...item };
@@ -68,7 +68,7 @@ export const getFullData = (danhSachCanLam: SanPhamCanLam[]) => {
     };
 };
 
-export const getDefaultDanhSachCanLam = (): SanPhamCanLam[] => {
+export const getDefaultDanhSachCanLam = (): TypeSanPhamCanLam[] => {
     const codeOrder: Record<string, number> = {};
     sanPhamData.forEach((sp, index) => {
         codeOrder[sp.code] = index;
@@ -85,13 +85,13 @@ export const getDefaultDanhSachCanLam = (): SanPhamCanLam[] => {
             };
             obj[item.sanPhamCode].quantity += item.quantity;
             return obj;
-        }, {} as Record<string, SanPhamCanLam>),
+        }, {} as Record<string, TypeSanPhamCanLam>),
     ).sort((a, b) => codeOrder[a.sanPhamCode] - codeOrder[b.sanPhamCode]);
 
     return dsCanLam;
 };
 
-export const parseDanhSachCanLam = (danhSachCanLamStr: string): SanPhamCanLam[] => {
+export const parseDanhSachCanLam = (danhSachCanLamStr: string): TypeSanPhamCanLam[] => {
     if (danhSachCanLamStr && danhSachCanLamStr !== "") {
         try {
             const danhSachCanLam = danhSachCanLamStr.split("~").map((SanPhamCanLamStr) => {
@@ -106,7 +106,7 @@ export const parseDanhSachCanLam = (danhSachCanLamStr: string): SanPhamCanLam[] 
     return [];
 };
 
-export const stringifyDanhSachCanLam = (danhSachCanLam: SanPhamCanLam[]): string => {
+export const stringifyDanhSachCanLam = (danhSachCanLam: TypeSanPhamCanLam[]): string => {
     if (danhSachCanLam?.length) {
         try {
             const strDscl = danhSachCanLam

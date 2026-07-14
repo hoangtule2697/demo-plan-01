@@ -1,6 +1,8 @@
-export type Unit = "m" | "m2" | "hộp" | "phần";
+import type { sanPhamData, vatLieuData } from "@data";
 
-export interface PhuPhi {
+export type Unit = "m" | "m2" | "hộp" | "phần" | "kg" | "cái" | "tấm";
+
+export interface TypePhuPhi {
     name: string;
     code: string;
     price: number;
@@ -8,7 +10,7 @@ export interface PhuPhi {
     value: number;
 }
 
-export interface VatLieu {
+export interface TypeVatLieu {
     name: string;
     code: string;
     price: number;
@@ -17,53 +19,40 @@ export interface VatLieu {
     width?: number;
     height?: number;
     description?: string;
-    getTitle: (item: VatLieuItem) => string;
+    getTitle?: (item: TypeCanThietVatLieu) => string;
+    getTamTinhTienVatLieu?: (item: TypeCanThietVatLieu) => number;
 }
 
-export interface VatLieuItem {
-    code: string;
+export type VatLieuCode = (typeof vatLieuData)[number]["code"];
+
+//vật liệu cần để tạo ra sản phẩm
+export interface TypeCanThietVatLieu {
+    vatLieuCode: VatLieuCode;
     value: number;
     quantity: number;
     width?: number;
     height?: number;
+    title?: string;
+    tienVatLieu?: number;
 }
 
-export interface SanPham {
+export interface TypeSanPham {
     name: string;
     code: string;
-    vatLieu: VatLieuItem[];
+    vatLieu: TypeCanThietVatLieu[];
+    tienSanPham?: number;
 }
 
-export interface SanPhamVatLieu extends VatLieu, VatLieuItem {
-    title: string;
-    tienVatLieu: number;
-}
+export type SanPhamCode = (typeof sanPhamData)[number]["code"];
 
-export interface SanPhamResult
-    extends Omit<SanPham, "vatLieu"> {
-    vatLieu: SanPhamVatLieu[];
-    tienSanPham: number;
-}
-
-export interface SanPhamCanLam {
-    sanPhamCode: string;
+export interface TypeSanPhamCanLam {
+    sanPhamCode: SanPhamCode;
     quantity: number;
 }
 
-export type GetFullDataResult = {
-    details: ChiTietSanPham[];
+export type TypeFullDataSanPham = {
+    details: (TypeSanPham & TypeSanPhamCanLam & { tongTienSanPham: number })[];
+    chiTietVatLieu: (TypeCanThietVatLieu & { tongTienVatLieu: number })[];
+    tongVatLieu: (TypeCanThietVatLieu & { tongTienVatLieu: number })[];
     tongTien: number;
-    chiTietVatLieu: ChiTietVatLieu[];
-    tongVatLieu: TongVatLieu[];
 };
-
-export type ChiTietSanPham = SanPhamResult &
-    SanPhamCanLam & {
-        tongTienSanPham: number;
-    };
-
-export type ChiTietVatLieu = SanPhamVatLieu & {
-    tongTienVatLieu: number;
-};
-
-export type TongVatLieu = ChiTietVatLieu;

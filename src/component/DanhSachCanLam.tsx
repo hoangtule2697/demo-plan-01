@@ -1,6 +1,6 @@
 import { BaseCard, QuantityButton } from "@component/base";
 import { Box, Button, Grid, List, ListItem, Typography } from "@mui/material";
-import type { ChiTietSanPham, GetFullDataResult } from "@type";
+import type { TypeFullDataSanPham } from "@type";
 import useChiTietSanPham from "hook/component/useChiTietSanPham";
 import { useCollapse } from "hook/component/useCollapse";
 
@@ -9,7 +9,7 @@ export default function DanhSachCanLam({
     onChangeSanPhamCanLam = () => { },
     onClearDanhSachCanLam = () => { },
 }: {
-    details: GetFullDataResult["details"];
+    details: TypeFullDataSanPham["details"];
     onChangeSanPhamCanLam?: (index: number, newQuantity: number) => void;
     onClearDanhSachCanLam?: () => void;
 }) {
@@ -52,7 +52,7 @@ export default function DanhSachCanLam({
     );
 };
 
-const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: { sanPhamDetail: ChiTietSanPham; indexSanPham: number; onChangeSanPhamCanLam: (index: number, newQuantity: number) => void }) => {
+const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: { sanPhamDetail: TypeFullDataSanPham["details"][0]; indexSanPham: number; onChangeSanPhamCanLam: (index: number, newQuantity: number) => void }) => {
     if (!sanPhamDetail) return null;
     const { CollapseButton, CollapseContent } = useCollapse();
     const { ChiTietVatLieuSanPham, SummaryPriceSanPham } = useChiTietSanPham({ sanPhamDetail });
