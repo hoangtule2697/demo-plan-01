@@ -1,6 +1,6 @@
 import type { sanPhamData, vatLieuData } from "@data";
 
-export type Unit = "m" | "m2" | "hộp" | "phần" | "kg" | "cái" | "tấm";
+export type Unit = "m" | "m2" | "hộp" | "phần" | "kg" | "cái" | "tấm" | "cây";
 
 export interface TypePhuPhi {
     name: string;
@@ -58,7 +58,7 @@ export interface TypeSanPhamCanLam {
 }
 
 export type TypeFullDataSanPham = {
-    details: (TypeSanPham & TypeSanPhamCanLam & { tongTienSanPham: number })[];
+    chiTietDanhSachSanPham: (TypeSanPham & TypeSanPhamCanLam & { tongTienSanPham: number })[];
     chiTietVatLieu: (TypeCanThietVatLieu & { tongTienVatLieu: number, quantityBuy: number, quantityNeedBuy: number })[];
     tongVatLieu: (TypeCanThietVatLieu & { tongTienVatLieu: number, quantityBuy: number, quantityNeedBuy: number })[];
     tongTien: number;

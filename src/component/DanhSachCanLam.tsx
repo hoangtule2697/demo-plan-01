@@ -5,11 +5,11 @@ import useChiTietSanPham from "hook/component/useChiTietSanPham";
 import { useCollapse } from "hook/component/useCollapse";
 
 export default function DanhSachCanLam({
-    details,
+    chiTietDanhSachSanPham,
     onChangeSanPhamCanLam = () => { },
     onClearDanhSachCanLam = () => { },
 }: {
-    details: TypeFullDataSanPham["details"];
+    chiTietDanhSachSanPham: TypeFullDataSanPham["chiTietDanhSachSanPham"];
     onChangeSanPhamCanLam?: (index: number, newQuantity: number) => void;
     onClearDanhSachCanLam?: () => void;
 }) {
@@ -39,7 +39,7 @@ export default function DanhSachCanLam({
             }
         >
             <List disablePadding>
-                {details.map((sanPhamDetail, indexSanPham) => (
+                {chiTietDanhSachSanPham.map((sanPhamDetail, indexSanPham) => (
                     <ChiTietSanPham
                         key={`dscl-${sanPhamDetail?.sanPhamCode}-${sanPhamDetail?.quantityBuy}`}
                         sanPhamDetail={sanPhamDetail}
@@ -52,7 +52,7 @@ export default function DanhSachCanLam({
     );
 };
 
-const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: { sanPhamDetail: TypeFullDataSanPham["details"][0]; indexSanPham: number; onChangeSanPhamCanLam: (index: number, newQuantity: number) => void }) => {
+const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: { sanPhamDetail: TypeFullDataSanPham["chiTietDanhSachSanPham"][0]; indexSanPham: number; onChangeSanPhamCanLam: (index: number, newQuantity: number) => void }) => {
     if (!sanPhamDetail) return null;
     const { CollapseButton, CollapseContent } = useCollapse();
     const { ChiTietVatLieuSanPham, SummaryPriceSanPham } = useChiTietSanPham({ sanPhamDetail });

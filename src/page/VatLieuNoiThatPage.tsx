@@ -15,7 +15,7 @@ export default function VatLieuNoiThatPage() {
   );
 
   const data = logic.getFullData(danhSachCanLam);
-  const { details, chiTietVatLieu, tongVatLieu, tongTien } = data;
+  const { chiTietDanhSachSanPham, chiTietVatLieu, tongVatLieu, tongTien } = data;
 
   const onChangeDanhSachCanLam = (
     updatedCanLams: TypeSanPhamCanLam[],
@@ -39,7 +39,7 @@ export default function VatLieuNoiThatPage() {
     onChangeDanhSachCanLam(
       danhSachCanLam.map((c) => ({
         ...c,
-        quantity: 0,
+        quantityBuy: 0,
       })),
     )
   };
@@ -49,7 +49,7 @@ export default function VatLieuNoiThatPage() {
       <Grid container spacing={2}>
         <Grid size={{ xs: 6 }}>
           <DanhSachCanLam
-            details={details}
+            chiTietDanhSachSanPham={chiTietDanhSachSanPham}
             onChangeSanPhamCanLam={onChangeSanPhamCanLam}
             onClearDanhSachCanLam={onClearDanhSachCanLam}
           />

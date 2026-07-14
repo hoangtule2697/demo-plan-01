@@ -3,7 +3,7 @@ import type { TypeFullDataSanPham, TypeSanPhamCanLam } from "@type";
 import * as utils from "@utils";
 
 export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSanPham => {
-    const details = (danhSachCanLam || []).map((SanPhamCanLam) => {
+    const chiTietDanhSachSanPham = (danhSachCanLam || []).map((SanPhamCanLam) => {
         const sanPham = sanPhamOpts[SanPhamCanLam.sanPhamCode];
         const tongTienSanPham = utils.number.num(sanPham?.tienSanPham) * SanPhamCanLam.quantityBuy;
         return {
@@ -13,7 +13,7 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
         };
     });
 
-    const allVatLieuCanMua = details.filter((d) => d.quantityBuy)
+    const allVatLieuCanMua = chiTietDanhSachSanPham.filter((d) => d.quantityBuy)
         .map((d) =>
             d.vatLieu.map((vl) => ({
                 ...vl,
@@ -49,7 +49,6 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
 
     const tongVatLieu = Object.values(
         chiTietVatLieu
-            .map((v) => ({ ...v, quantity: 1 }))
             .reduce((acc, item) => {
                 const key = `${item.vatLieuCode}`;
 
@@ -71,7 +70,7 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
     const tongTien = 0;
 
     return {
-        details,
+        chiTietDanhSachSanPham,
         tongTien,
         chiTietVatLieu,
         tongVatLieu,

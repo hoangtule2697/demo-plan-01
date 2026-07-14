@@ -8,7 +8,7 @@ import {
 import type { TypeFullDataSanPham } from "@type";
 import * as utils from "@utils";
 
-export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: TypeFullDataSanPham["details"][0] }) {
+export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: TypeFullDataSanPham["chiTietDanhSachSanPham"][0] }) {
     const { name, quantityBuy, vatLieu, tongTienSanPham } = sanPhamDetail;
 
     const ChiTietVatLieuSanPham = () => {
