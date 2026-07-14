@@ -10,6 +10,7 @@ import * as utils from "@utils";
 import { BaseCard } from "./base";
 
 export default function ChiTietVatLieu({ chiTietVatLieu }: { chiTietVatLieu: TypeFullDataSanPham["chiTietVatLieu"] }) {
+    const tongTienChiTietVatLieu = chiTietVatLieu.reduce((acc, cur) => acc + utils.number.num(cur.tongTienVatLieu), 0);
     return (
         <BaseCard
             header={
@@ -22,13 +23,14 @@ export default function ChiTietVatLieu({ chiTietVatLieu }: { chiTietVatLieu: Typ
                 <Grid>
                     <List disablePadding>
                         {chiTietVatLieu
-                            .filter((c) => c.quantityNeed)
+                            .filter((c) => c.quantityNeedBuy)
                             .map(
                                 (
                                     {
                                         title,
-                                        quantityNeed,
+                                        quantityNeedBuy,
                                         tongTienVatLieu,
+                                        perTienVatLieu
                                     },
                                     idx,
                                 ) => (
@@ -47,13 +49,11 @@ export default function ChiTietVatLieu({ chiTietVatLieu }: { chiTietVatLieu: Typ
                                             }}
                                         >
                                             <Typography>
-                                                {`${quantityNeed} ${title}`}
+                                                {`${quantityNeedBuy} ${title}`}
                                             </Typography>
 
                                             <Typography>
-                                                {utils.view.displayCurrency(
-                                                    tongTienVatLieu,
-                                                )}
+                                                {`${utils.view.displayCurrency(perTienVatLieu)} x ${quantityNeedBuy} = ${utils.view.displayCurrency(tongTienVatLieu)}`}
                                             </Typography>
                                         </Stack>
                                     </ListItem>
@@ -63,7 +63,7 @@ export default function ChiTietVatLieu({ chiTietVatLieu }: { chiTietVatLieu: Typ
                 </Grid>
                 <Grid>
                     <Typography sx={{ fontWeight: "bold", textAlign: "right" }}>
-                        giá tạm tính
+                        giá tạm tính: {utils.view.displayCurrency(tongTienChiTietVatLieu)}
                     </Typography>
                 </Grid>
             </Grid>

@@ -17,7 +17,8 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
         .map((d) =>
             d.vatLieu.map((vl) => ({
                 ...vl,
-                quantityBuy: d.quantityBuy * vl.quantityNeed,
+                quantityNeedBuy: d.quantityBuy * vl.quantityNeed,
+                quantityBuy: d.quantityBuy,
             })),
         )
         .flat();
@@ -30,7 +31,7 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
             if (!acc[key]) {
                 acc[key] = { ...item };
             } else {
-                acc[key].quantityBuy += item.quantityBuy;
+                acc[key].quantityNeedBuy += item.quantityNeedBuy;
             }
 
             return acc;
@@ -38,7 +39,7 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
     ).map((v) => {
         return {
             ...v,
-            tongTienVatLieu: utils.number.num(v.tienVatLieu) * v.quantityBuy,
+            tongTienVatLieu: utils.number.num(v.perTienVatLieu) * v.quantityNeedBuy,
         };
     }).sort((a, b) =>
         a.keyVatLieu.localeCompare(b.keyVatLieu, undefined, {

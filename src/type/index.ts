@@ -59,7 +59,7 @@ export interface TypeSanPhamCanLam {
 
 export type TypeFullDataSanPham = {
     details: (TypeSanPham & TypeSanPhamCanLam & { tongTienSanPham: number })[];
-    chiTietVatLieu: (TypeCanThietVatLieu & { tongTienVatLieu: number })[];
-    tongVatLieu: (TypeCanThietVatLieu & { tongTienVatLieu: number })[];
+    chiTietVatLieu: (TypeCanThietVatLieu & { tongTienVatLieu: number, quantityBuy: number, quantityNeedBuy: number })[];
+    tongVatLieu: (TypeCanThietVatLieu & { tongTienVatLieu: number, quantityBuy: number, quantityNeedBuy: number })[];
     tongTien: number;
 };
