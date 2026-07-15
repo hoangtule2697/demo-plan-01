@@ -63,9 +63,20 @@ export interface TypeSanPhamCanLam {
 }
 
 export type TypeFullDataSanPham = {
-    chiTietDanhSachSanPham: (TypeSanPham & TypeSanPhamCanLam & { tongTienSanPham: number })[];
+    chiTietDanhSachSanPham: (
+        TypeSanPham & TypeSanPhamCanLam & {
+            tongTienSanPham: number,
+            tongTienPhuPhi: number,
+            phuPhi: ({
+                phuPhiCode: PhuPhiCode,
+                phuPhiData: TypePhuPhi,
+                tongTienPhuPhi: number,
+                options?: any
+            })[],
+            tongTien: number
+        })[];
     chiTietVatLieu: (TypeCanThietVatLieu & { tongTienVatLieu: number, quantityBuy: number, quantityNeedBuy: number })[];
-    tongVatLieuCanMua: ({
+    chiTietVatLieuCanMua: ({
         vatLieuCode: VatLieuCode,
         totalVatLieuCanMua: number,
         quantityNeedBuy: number,
@@ -73,10 +84,10 @@ export type TypeFullDataSanPham = {
         //dùng cho cắt cây sắt
         options?: any
     })[];
-    tongPhuPhi: ({
+    chiTietPhuPhi: ({
         phuPhiCode: PhuPhiCode,
         phuPhiData: TypePhuPhi,
-        tongPhuPhi: number,
+        tongTienPhuPhi: number,
         options?: any
     })[];
     tongTien: number;

@@ -1,6 +1,7 @@
 import { BaseCard, QuantityButton } from "@component/base";
 import { Button, Grid, List, ListItem, Typography } from "@mui/material";
 import type { TypeFullDataSanPham } from "@type";
+import * as utils from "@utils";
 import useChiTietSanPham from "hook/component/useChiTietSanPham";
 import { useCollapse } from "hook/component/useCollapse";
 
@@ -13,6 +14,10 @@ export default function DanhSachCanLam({
     onChangeSanPhamCanLam?: (index: number, newQuantity: number) => void;
     onClearDanhSachCanLam?: () => void;
 }) {
+    const tongTienTamTinh = chiTietDanhSachSanPham.filter(c => c.quantityBuy).reduce(
+        (sum, item) => sum + utils.number.num(item.tongTien) * utils.number.num(item.quantityBuy),
+        0,
+    );
 
     return (
         <BaseCard
@@ -36,6 +41,11 @@ export default function DanhSachCanLam({
                         onChangeSanPhamCanLam={onChangeSanPhamCanLam}
                     />
                 ))}
+                <Grid sx={{ mt: 2 }}>
+                    <Typography sx={{ fontWeight: "bold", textAlign: "right" }}>
+                        tổng tiền tạm tính: {utils.view.displayCurrency(tongTienTamTinh)}
+                    </Typography>
+                </Grid>
             </List>
         </BaseCard>
     );

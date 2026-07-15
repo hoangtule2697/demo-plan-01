@@ -8,28 +8,16 @@ import type { TypeFullDataSanPham } from "@type";
 import * as utils from "@utils";
 import { BaseCard } from "./base";
 
-export default function TongPhuPhi({ tongPhuPhi }: { tongPhuPhi: TypeFullDataSanPham["tongPhuPhi"] }) {
-    const tongTienPhuPhi = tongPhuPhi.reduce((acc, cur) => acc + utils.number.num(cur.tongPhuPhi), 0);
-
-    const viewOptions = ({ phuPhiCode, phuPhiData, options }: TypeFullDataSanPham["tongPhuPhi"][number]) => {
-        switch (phuPhiCode) {
-            case "dan_vien_4_canh_van_ep": {
-                return `• ${options.totalMet}m - (${utils.view.displayCurrency(phuPhiData.price)} / 1m)`
-            }
-            case "son_tinh_dien": {
-                return `• ${options.totalWeight}kg, ${options.totalMet}m - (${utils.view.displayCurrency(phuPhiData.price)} / 1kg)`
-            }
-        }
-        return "";
-    }
+export default function TongPhuPhi({ chiTietPhuPhi }: { chiTietPhuPhi: TypeFullDataSanPham["chiTietPhuPhi"] }) {
+    const tongTienPhuPhi = chiTietPhuPhi.reduce((acc, cur) => acc + utils.number.num(cur.tongTienPhuPhi), 0);
 
     return (
         <BaseCard title="Tổng phụ phí">
             <Grid>
                 <Grid>
                     <List disablePadding>
-                        {tongPhuPhi
-                            .map((chiTietPhuPhi, idx) => (
+                        {chiTietPhuPhi
+                            .map((detailPhuPhi, idx) => (
                                 <ListItem
                                     key={`ctvl-${idx}`}
                                     disableGutters
@@ -38,16 +26,16 @@ export default function TongPhuPhi({ tongPhuPhi }: { tongPhuPhi: TypeFullDataSan
                                     <Grid sx={{ width: "100%" }}>
                                         <Grid container sx={{ justifyContent: "space-between" }}>
                                             <Typography>
-                                                {`${chiTietPhuPhi.phuPhiData.name}`}
+                                                {`${detailPhuPhi.phuPhiData.name}`}
                                             </Typography>
 
                                             <Typography>
-                                                {`${utils.view.displayCurrency(chiTietPhuPhi.tongPhuPhi)}`}
+                                                {`${utils.view.displayCurrency(detailPhuPhi.tongTienPhuPhi)}`}
                                             </Typography>
                                         </Grid>
                                         <Grid>
                                             <Typography sx={{ ml: 4 }}>
-                                                {viewOptions(chiTietPhuPhi)}
+                                                {viewOptions(detailPhuPhi)}
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -58,10 +46,22 @@ export default function TongPhuPhi({ tongPhuPhi }: { tongPhuPhi: TypeFullDataSan
                 </Grid>
                 <Grid>
                     <Typography sx={{ fontWeight: "bold", textAlign: "right" }}>
-                        giá tạm tính: {utils.view.displayCurrency(tongTienPhuPhi)}
+                        tổng tiền phụ phí: {utils.view.displayCurrency(tongTienPhuPhi)}
                     </Typography>
                 </Grid>
             </Grid>
         </BaseCard>
     );
 };
+
+export const viewOptions = ({ phuPhiCode, phuPhiData, options }: TypeFullDataSanPham["chiTietPhuPhi"][number]) => {
+    switch (phuPhiCode) {
+        case "dan_vien_4_canh_van_ep": {
+            return `• ${options.totalMet}m - (${utils.view.displayCurrency(phuPhiData.price)} / 1m)`
+        }
+        case "son_tinh_dien": {
+            return `• ${options.totalWeight}kg, ${options.totalMet}m - (${utils.view.displayCurrency(phuPhiData.price)} / 1kg)`
+        }
+    }
+    return "";
+}

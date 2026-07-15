@@ -17,7 +17,7 @@ export default function VatLieuNoiThatPage() {
   );
 
   const data = logic.getFullData(danhSachCanLam);
-  const { chiTietDanhSachSanPham, chiTietVatLieu, tongVatLieuCanMua, tongPhuPhi, tongTien } = data;
+  const { chiTietDanhSachSanPham, chiTietVatLieu, chiTietVatLieuCanMua, chiTietPhuPhi, tongTien } = data;
 
   const onChangeDanhSachCanLam = (
     updatedCanLams: TypeSanPhamCanLam[],
@@ -69,11 +69,11 @@ export default function VatLieuNoiThatPage() {
           </Grid>
 
           <Grid sx={{ mb: 2 }}>
-            <TongVatLieu tongVatLieuCanMua={tongVatLieuCanMua} />
+            <TongVatLieu chiTietVatLieuCanMua={chiTietVatLieuCanMua} />
           </Grid>
 
           <Grid sx={{ mb: 2 }}>
-            <TongPhuPhi tongPhuPhi={tongPhuPhi} />
+            <TongPhuPhi chiTietPhuPhi={chiTietPhuPhi} />
           </Grid>
         </Grid>
       </Grid>

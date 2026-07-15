@@ -6,11 +6,33 @@ import { MaxRectsPacker, PACKING_LOGIC } from "maxrects-packer";
 export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSanPham => {
     const chiTietDanhSachSanPham = (danhSachCanLam || []).map((SanPhamCanLam) => {
         const sanPham = sanPhamOpts[SanPhamCanLam.sanPhamCode];
-        const tongTienSanPham = utils.number.num(sanPham?.tienSanPham) * SanPhamCanLam.quantityBuy;
+        const tongTienSanPham = utils.number.num(sanPham?.tienSanPham);
+
+        const allChiTietVatLieuCoPhuPhi = sanPham.vatLieu.filter(c => c.phuPhiCodes?.length).flatMap(({ phuPhiCodes, ...item }) => (phuPhiCodes || []).map(phuPhiCode => ({ ...item, phuPhiCode, })));
+        const groupPhuPhi = utils.object.reMapObject(allChiTietVatLieuCoPhuPhi.map(i => ({ ...i, quantityNeedBuy: i.quantityNeed })), "phuPhiCode", { isArray: true });
+
+        let phuPhiChiTietVatLieu = [];
+        for (const phuPhiCode of Object.keys(groupPhuPhi) as (keyof typeof groupPhuPhi)[]) {
+            const phuPhiData = phuPhiOpts[phuPhiCode];
+            phuPhiChiTietVatLieu.push({
+                phuPhiCode,
+                phuPhiData,
+                ...getTamTinhTienPhuPhi(phuPhiData, groupPhuPhi[phuPhiCode] as unknown as TypeFullDataSanPham["chiTietVatLieu"])
+            });
+        };
+        const phuPhi = [...phuPhiChiTietVatLieu];
+        const tongTienPhuPhi = phuPhi.reduce(
+            (sum, item) => sum + utils.number.num(item?.tongTienPhuPhi),
+            0,
+        );
+
         return {
             ...SanPhamCanLam,
             ...sanPham,
+            phuPhi,
             tongTienSanPham,
+            tongTienPhuPhi,
+            tongTien: tongTienSanPham + tongTienPhuPhi,
         };
     });
 
@@ -49,12 +71,12 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
     );
 
     const groupVatLieu = utils.object.reMapObject(chiTietVatLieu, "vatLieuCode", { isArray: true });
-    let tongVatLieuCanMua = [];
+    let chiTietVatLieuCanMua = [];
     for (const vatLieuCode of Object.keys(groupVatLieu) as (keyof typeof groupVatLieu)[]) {
         const vlCanMua = getTongVatLieuCanMua(vatLieuCode, groupVatLieu[vatLieuCode]);
-        if (vlCanMua) tongVatLieuCanMua.push(vlCanMua);
+        if (vlCanMua) chiTietVatLieuCanMua.push(vlCanMua);
     };
-    const tongTienvatLieuCanMua = tongVatLieuCanMua.reduce(
+    const tongTienvatLieuCanMua = chiTietVatLieuCanMua.reduce(
         (sum, item) => sum + utils.number.num(item?.totalVatLieuCanMua),
         0,
     );
@@ -70,19 +92,19 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
             ...getTamTinhTienPhuPhi(phuPhiData, groupPhuPhi[phuPhiCode])
         });
     };
-    const tongPhuPhi = [...phuPhiChiTietVatLieu];
-    const tongTienPhuPhi = tongPhuPhi.reduce(
-        (sum, item) => sum + utils.number.num(item?.tongPhuPhi),
+    const chiTietPhuPhi = [...phuPhiChiTietVatLieu];
+    const tongTienPhuPhi = chiTietPhuPhi.reduce(
+        (sum, item) => sum + utils.number.num(item?.tongTienPhuPhi),
         0,
     );
 
     const tongTien = tongTienvatLieuCanMua + tongTienPhuPhi;
     return {
         chiTietDanhSachSanPham,
-        tongTien,
         chiTietVatLieu,
-        tongVatLieuCanMua,
-        tongPhuPhi
+        chiTietVatLieuCanMua,
+        chiTietPhuPhi,
+        tongTien,
     };
 };
 

@@ -1,5 +1,6 @@
 import {
     Box,
+    Grid,
     List,
     ListItem,
     Stack,
@@ -7,9 +8,10 @@ import {
 } from "@mui/material";
 import type { TypeFullDataSanPham } from "@type";
 import * as utils from "@utils";
+import { viewOptions } from "component/TongPhuPhi";
 
 export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: TypeFullDataSanPham["chiTietDanhSachSanPham"][0] }) {
-    const { name, quantityBuy, vatLieu, tongTienSanPham } = sanPhamDetail;
+    const { name, quantityBuy, vatLieu, phuPhi, tongTien } = sanPhamDetail;
 
     const ChiTietVatLieuSanPham = () => {
         return (
@@ -47,6 +49,30 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
                             </Stack>
                         </ListItem>
                     ))}
+                    {phuPhi.map((detailPhuPhi, idx) => (
+                        <ListItem
+                            key={`ctvl2-${idx}`}
+                            disableGutters
+                            sx={{ py: 1 }}
+                        >
+                            <Grid sx={{ width: "100%" }}>
+                                <Grid container sx={{ justifyContent: "space-between" }}>
+                                    <Typography>
+                                        {`${detailPhuPhi.phuPhiData.name}`}
+                                    </Typography>
+
+                                    <Typography>
+                                        {`${utils.view.displayCurrency(detailPhuPhi.tongTienPhuPhi)}`}
+                                    </Typography>
+                                </Grid>
+                                <Grid>
+                                    <Typography sx={{ ml: 4 }}>
+                                        {viewOptions(detailPhuPhi)}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        </ListItem>
+                    ))}
                 </List>
             </Box>
         );
@@ -57,17 +83,7 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
 
         return (
             <Typography sx={{ mt: 1, fontWeight: "bold", ml: 2 }}>
-                giá tạm tính
-                1 cái:{" "}
-                {utils.view.displayCurrency(
-                    tongTienSanPham /
-                    quantityBuy,
-                )}
-                {" / "}
-                tổng {quantityBuy} cái:{" "}
-                {utils.view.displayCurrency(
-                    tongTienSanPham,
-                )}
+                {`giá tạm tính 1 cái: ${utils.view.displayCurrency(tongTien)}, tổng ${quantityBuy} cái: ${utils.view.displayCurrency(tongTien * quantityBuy)}`}
             </Typography>
         );
     }

@@ -63,9 +63,9 @@ export const getTamTinhTienVatLieu = (item: TypeCanThietVatLieu) => {
 export const getTamTinhTienPhuPhi = (phuPhiData: TypePhuPhi, items: TypeFullDataSanPham["chiTietVatLieu"]) => {
     if (["dan_vien_4_canh_van_ep"].includes(phuPhiData.code)) {
         const totalMet = items.reduce((a, b) => a + (utils.number.num(b.width) + utils.number.num(b.height)) * 2 / 100 * utils.number.num(b.quantityNeedBuy), 0);
-        const tongPhuPhi = totalMet * phuPhiData.price;
+        const tongTienPhuPhi = totalMet * phuPhiData.price;
         return {
-            tongPhuPhi,
+            tongTienPhuPhi,
             options: { totalMet }
         };
     }
@@ -73,13 +73,13 @@ export const getTamTinhTienPhuPhi = (phuPhiData: TypePhuPhi, items: TypeFullData
         const vatLieuData = items[0].vatLieuData;
         const totalMet = Math.round(items.reduce((a, b) => a + utils.number.num(b.width) / 100 * utils.number.num(b.quantityNeedBuy), 0) * 10) / 10;
         const totalWeight = Math.round((totalMet / 6) * utils.number.num(vatLieuData?.weight) * 10) / 10;
-        const tongPhuPhi = totalWeight * phuPhiData.price;
+        const tongTienPhuPhi = totalWeight * phuPhiData.price;
         return {
-            tongPhuPhi,
+            tongTienPhuPhi,
             options: { totalMet, totalWeight }
         };
     }
-    return { tongPhuPhi: 0 };
+    return { tongTienPhuPhi: 0 };
 }
 
 export const danhSachVatLieu = [

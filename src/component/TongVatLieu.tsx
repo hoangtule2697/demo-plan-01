@@ -10,10 +10,10 @@ import type { TypeCanThietVatLieu, TypeFullDataSanPham, VatLieuCode } from "@typ
 import * as utils from "@utils";
 import { BaseCard, BaseDrawer } from "./base";
 
-export default function TongVatLieu({ tongVatLieuCanMua }: { tongVatLieuCanMua: TypeFullDataSanPham["tongVatLieuCanMua"] }) {
-    const totalVatLieuCanMua = tongVatLieuCanMua.reduce((acc, cur) => acc + utils.number.num(cur.totalVatLieuCanMua), 0);
+export default function TongVatLieu({ chiTietVatLieuCanMua }: { chiTietVatLieuCanMua: TypeFullDataSanPham["chiTietVatLieuCanMua"] }) {
+    const totalVatLieuCanMua = chiTietVatLieuCanMua.reduce((acc, cur) => acc + utils.number.num(cur.totalVatLieuCanMua), 0);
 
-    const viewOptions = ({ vatLieuCode, options }: TypeFullDataSanPham["tongVatLieuCanMua"][number]) => {
+    const viewOptions = ({ vatLieuCode, options }: TypeFullDataSanPham["chiTietVatLieuCanMua"][number]) => {
         switch (vatLieuCode) {
             case "sat_hop_kem": {
                 return `• Đã dùng ${options.totalUsed / 100}m / ${options.totalLength / 100}m, còn lại ${options.totalRemaining / 100}m`
@@ -33,7 +33,7 @@ export default function TongVatLieu({ tongVatLieuCanMua }: { tongVatLieuCanMua: 
             <Grid>
                 <Grid>
                     <List disablePadding>
-                        {tongVatLieuCanMua
+                        {chiTietVatLieuCanMua
                             .map(
                                 (vatLieuCanMua, idx) => {
                                     const { vatLieuData, quantityNeedBuy, totalVatLieuCanMua } = vatLieuCanMua;
@@ -82,7 +82,7 @@ export default function TongVatLieu({ tongVatLieuCanMua }: { tongVatLieuCanMua: 
     );
 };
 
-const ChiTietBanVe = (vatLieuCanMua: TypeFullDataSanPham["tongVatLieuCanMua"][number]) => {
+const ChiTietBanVe = (vatLieuCanMua: TypeFullDataSanPham["chiTietVatLieuCanMua"][number]) => {
     switch (vatLieuCanMua.vatLieuCode) {
         case "sat_hop_kem": {
             return <ChiTietBanVeSatHop {...vatLieuCanMua} />
@@ -97,7 +97,7 @@ const ChiTietBanVe = (vatLieuCanMua: TypeFullDataSanPham["tongVatLieuCanMua"][nu
     return null;
 };
 
-const ChiTietBanVeSatHop = ({ options, vatLieuData }: TypeFullDataSanPham["tongVatLieuCanMua"][number]) => {
+const ChiTietBanVeSatHop = ({ options, vatLieuData }: TypeFullDataSanPham["chiTietVatLieuCanMua"][number]) => {
     const { bars } = options;
 
     const BanVeHopSat = ({ fullWidth, remainingLength, cuts }: { fullWidth: number; remainingLength: number; cuts: number[] }) => {
@@ -131,7 +131,7 @@ const ChiTietBanVeSatHop = ({ options, vatLieuData }: TypeFullDataSanPham["tongV
     </Grid>;
 }
 
-const ChiTietBanVeVanGo = ({ vatLieuCode, options, vatLieuData }: TypeFullDataSanPham["tongVatLieuCanMua"][number]) => {
+const ChiTietBanVeVanGo = ({ vatLieuCode, options, vatLieuData }: TypeFullDataSanPham["chiTietVatLieuCanMua"][number]) => {
     const { pieces } = options;
     const fullWidth = utils.number.num(vatLieuData.width);
     const fullHeight = utils.number.num(vatLieuData.height);
