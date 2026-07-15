@@ -83,7 +83,7 @@ export const getTamTinhTienVatLieu = (item: TypeCanThietVatLieu) => {
 
 export const getTamTinhTienPhuPhi = (phuPhiData: TypePhuPhi, items: TypeFullDataSanPham["chiTietVatLieu"]) => {
     if (["dan_vien_4_canh_van_ep"].includes(phuPhiData.code)) {
-        const totalMet = Math.round(items.reduce((a, b) => a + (utils.number.num(b.width) + utils.number.num(b.height)) * 2 / 100 * utils.number.num(b.quantityNeedBuy), 0) * 10) / 10;
+        const totalMet = Math.round(items.reduce((a, b) => a + (utils.number.num(b.width) + utils.number.num(b.height)) * 2 / 100 * utils.number.num(b.quantityNeedBuy, 1), 0) * 10) / 10;
         const tongTienPhuPhi = totalMet * phuPhiData.price;
         return {
             tongTienPhuPhi,
@@ -92,12 +92,19 @@ export const getTamTinhTienPhuPhi = (phuPhiData: TypePhuPhi, items: TypeFullData
     }
     if (["son_tinh_dien"].includes(phuPhiData.code)) {
         const vatLieuData = items[0].vatLieuData;
-        const totalMet = Math.round(items.reduce((a, b) => a + utils.number.num(b.width) / 100 * utils.number.num(b.quantityNeedBuy), 0) * 10) / 10;
+        const totalMet = Math.round(items.reduce((a, b) => a + utils.number.num(b.width) / 100 * utils.number.num(b.quantityNeedBuy, 1), 0) * 10) / 10;
         const totalWeight = Math.round((totalMet / 6) * utils.number.num(vatLieuData?.weight) * 10) / 10;
         const tongTienPhuPhi = totalWeight * phuPhiData.price;
         return {
             tongTienPhuPhi,
             options: { totalMet, totalWeight }
+        };
+    }
+    if (["gia_cong_khung_ke_2_tang", "gia_cong_khung_ke_3_tang", "gia_cong_khung_ke_4_tang", "gia_cong_khung_ke_5_tang"].includes(phuPhiData.code)) {
+        const quantity = items.reduce((a, b) => a + utils.number.num(b.quantityNeedBuy, 1), 0);
+        return {
+            tongTienPhuPhi: phuPhiData.price * quantity,
+            options: { quantity }
         };
     }
     return { tongTienPhuPhi: 0 };
@@ -126,20 +133,22 @@ export const danhSachVatLieu = [
     {
         name: "ván gỗ - vàng nhạt",
         code: "van_go_vang_nhat",
-        price: 360000,//đã bao gồm dán melamine 2 mặt
+        price: 460000,//đã bao gồm dán melamine 2 mặt
         unit: "tấm",//cmxcm
         width: 244,
         height: 122,
-        unitPrice: "cm"
+        unitPrice: "cm",
+        description: "340k đã bao gồm dán melamine 2 mặt vân gỗ, mua lẻ +20k, cnc cắt gỗ + 100k, khoan mồi k tính"
     },
     {
         name: "ván gỗ - nâu đậm",
         code: "van_go_nau_dam",
-        price: 360000,//đã bao gồm dán melamine 2 mặt
+        price: 460000,//đã bao gồm dán melamine 2 mặt
         unit: "tấm",
         width: 244,
         height: 122,
-        unitPrice: "cm"
+        unitPrice: "cm",
+        description: "340k đã bao gồm dán melamine 2 mặt vân gỗ, mua lẻ +20k, cnc cắt gỗ + 100k, khoan mồi k tính"
     },
     // {
     //     name: "hộp đóng gói",

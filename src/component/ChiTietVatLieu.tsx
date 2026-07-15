@@ -2,7 +2,6 @@ import {
     Grid,
     List,
     ListItem,
-    Stack,
     Typography
 } from "@mui/material";
 import type { TypeFullDataSanPham } from "@type";
@@ -32,20 +31,8 @@ export default function ChiTietVatLieu({ chiTietVatLieu }: { chiTietVatLieu: Typ
                                     },
                                     idx,
                                 ) => (
-                                    <ListItem
-                                        key={`ctvl-${idx}`}
-                                        disableGutters
-                                        sx={{ py: 1 }}
-                                    >
-                                        <Stack
-                                            direction="row"
-                                            sx={{
-                                                width: "100%",
-                                                justifyContent:
-                                                    "space-between",
-                                                alignItems: "center",
-                                            }}
-                                        >
+                                    <ListItem key={`ctvl-${idx}`} disableGutters sx={{ py: 1 }} >
+                                        <Grid container sx={{ width: "100%", justifyContent: "space-between" }}>
                                             <Typography>
                                                 {`${quantityNeedBuy} ${title}`}
                                             </Typography>
@@ -53,7 +40,7 @@ export default function ChiTietVatLieu({ chiTietVatLieu }: { chiTietVatLieu: Typ
                                             <Typography>
                                                 {`${utils.view.displayCurrency(perTienVatLieu)} x ${quantityNeedBuy} = ${utils.view.displayCurrency(tongTienVatLieu)}`}
                                             </Typography>
-                                        </Stack>
+                                        </Grid>
                                     </ListItem>
                                 ),
                             )}

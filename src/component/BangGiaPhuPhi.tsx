@@ -5,7 +5,6 @@ import {
     Grid,
     List,
     ListItem,
-    Stack,
     Typography
 } from "@mui/material";
 import * as utils from "@utils";
@@ -23,19 +22,8 @@ export default function BangGiaPhuPhi() {
                         (phuPhi) => (
                             <Grid key={`pp-${phuPhi.code}`}>
                                 <Grid>
-                                    <ListItem
-                                        disableGutters
-                                        sx={{ py: 1 }}
-                                    >
-                                        <Stack
-                                            direction="row"
-                                            sx={{
-                                                width: "100%",
-                                                justifyContent:
-                                                    "space-between",
-                                                alignItems: "center",
-                                            }}
-                                        >
+                                    <ListItem disableGutters sx={{ py: 1 }} >
+                                        <Grid container sx={{ width: "100%", justifyContent: "space-between" }}>
                                             <Typography>
                                                 {phuPhi.name}
                                             </Typography>
@@ -43,7 +31,7 @@ export default function BangGiaPhuPhi() {
                                             <Typography>
                                                 {`${utils.view.displayCurrency(phuPhi.price)} / ${phuPhi.value}${phuPhi.unit}`}
                                             </Typography>
-                                        </Stack>
+                                        </Grid>
                                     </ListItem>
                                 </Grid>
                                 <Divider sx={{ mt: 0.5, mb: 1 }} />

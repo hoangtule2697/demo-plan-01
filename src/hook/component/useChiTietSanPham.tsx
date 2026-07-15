@@ -3,7 +3,6 @@ import {
     Grid,
     List,
     ListItem,
-    Stack,
     Typography
 } from "@mui/material";
 import type { TypeFullDataSanPham } from "@type";
@@ -25,20 +24,8 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
 
                 <List disablePadding sx={{ ml: 2 }}>
                     {vatLieu.map((vl) => (
-                        <ListItem
-                            key={`ctsp-vl-${vl.title}`}
-                            disableGutters
-                            sx={{ py: 1 }}
-                        >
-                            <Stack
-                                direction="row"
-                                sx={{
-                                    width: "100%",
-                                    justifyContent:
-                                        "space-between",
-                                    alignItems: "center",
-                                }}
-                            >
+                        <ListItem key={`ctsp-vl-${vl.title}`} disableGutters sx={{ py: 1 }} >
+                            <Grid container sx={{ width: "100%", justifyContent: "space-between" }}>
                                 <Typography>
                                     {`- ${vl.quantityNeed} ${vl.title}`}
                                 </Typography>
@@ -46,7 +33,7 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
                                 <Typography>
                                     {`${utils.view.displayCurrency(vl.perTienVatLieu)} x ${vl.quantityNeed} = ${utils.view.displayCurrency(vl.tienVatLieu)}`}
                                 </Typography>
-                            </Stack>
+                            </Grid>
                         </ListItem>
                     ))}
                     {phuPhi.map((detailPhuPhi, idx) => (

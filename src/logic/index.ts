@@ -8,14 +8,16 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
         const sanPham = sanPhamOpts[SanPhamCanLam.sanPhamCode];
         const tongTienSanPham = utils.number.num(sanPham?.tienSanPham);
 
-        const { danhSachPhuPhi: danhSachPhuPhiVatLieu, tongTienPhuPhi } = getDanhSachPhuPhi(sanPham.vatLieu.map(i => ({ ...i, quantityNeedBuy: i.quantityNeed })) as unknown as TypeFullDataSanPham["chiTietVatLieu"]);
-        const phuPhi = [...danhSachPhuPhiVatLieu];
+        const { danhSachPhuPhi: danhSachPhuPhiVatLieu, tongTienPhuPhi: tongTienPhuPhiVatLieu } = getDanhSachPhuPhi(sanPham.vatLieu.map(i => ({ ...i, quantityNeedBuy: i.quantityNeed })) as unknown as TypeFullDataSanPham["chiTietVatLieu"]);
+        const { danhSachPhuPhi: danhSachPhuPhiSanPham, tongTienPhuPhi: tongTienPhuPhiSanPham } = getDanhSachPhuPhi([sanPham] as unknown as TypeFullDataSanPham["chiTietVatLieu"]);
+
+        const phuPhi = [...danhSachPhuPhiVatLieu, ...danhSachPhuPhiSanPham];
 
         return {
             ...SanPhamCanLam,
             ...sanPham,
             phuPhi,
-            tongTien: tongTienSanPham + tongTienPhuPhi,
+            tongTien: tongTienSanPham + tongTienPhuPhiVatLieu + tongTienPhuPhiSanPham,
         };
     });
 
@@ -70,9 +72,10 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
     );
 
     const { danhSachPhuPhi: danhSachPhuPhiVatLieu, tongTienPhuPhi: tongTienPhuPhiVatLieu } = getDanhSachPhuPhi(chiTietVatLieu.map(i => ({ ...i, quantityNeedBuy: i.quantityNeed })) as unknown as TypeFullDataSanPham["chiTietVatLieu"]);
-    const chiTietPhuPhi = [...danhSachPhuPhiVatLieu];
+    const { danhSachPhuPhi: danhSachPhuPhiSanPham, tongTienPhuPhi: tongTienPhuPhiSanPham } = getDanhSachPhuPhi(chiTietDanhSachSanPham.filter(c => c.quantityBuy).map(i => ({ ...i, quantityNeedBuy: i.quantityBuy })) as unknown as TypeFullDataSanPham["chiTietVatLieu"]);
+    const chiTietPhuPhi = [...danhSachPhuPhiVatLieu, ...danhSachPhuPhiSanPham];
 
-    const tongTien = tongTienvatLieuCanMua + tongTienPhuPhiVatLieu;
+    const tongTien = tongTienvatLieuCanMua + tongTienPhuPhiVatLieu + tongTienPhuPhiSanPham;
     return {
         chiTietDanhSachSanPham,
         chiTietVatLieu,
