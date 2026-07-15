@@ -89,14 +89,14 @@ const ChiTietBanVeSatHop = ({ options, vatLieuData }: TypeFullDataSanPham["tongV
             <Grid>
                 <Typography>{`cắt ${cuts.length} đoạn`}</Typography>
             </Grid>
-            <Grid data-testid="ban-ve-hop-sat" container sx={{ width: "100%", backgroundColor: "red", height: "40px" }}>
+            <Grid data-testid="ban-ve-hop-sat" container wrap="nowrap" sx={{ width: "100%", backgroundColor: "red", height: "40px" }}>
                 {cuts.map((cut: number, idx: number) => {
-                    return <Grid key={`cut-${idx}`} container sx={{ width: `${Math.round((cut * 100) / fullWidth)}%`, backgroundColor: "#7cdf7c", height: "40px", borderRight: "4px dashed grey", alignItems: "center" }}>
+                    return <Grid key={`cut-${idx}`} container sx={{ width: `${Math.ceil((cut * 100) / fullWidth)}%`, backgroundColor: "#7cdf7c", height: "40px", borderRight: "4px dashed grey", alignItems: "center" }}>
                         <span style={{ textAlign: "center", width: "100%" }}>{cut}</span>
                     </Grid>
                 })}
                 {remainingLength &&
-                    <Grid container sx={{ width: `${Math.round((remainingLength * 100) / fullWidth)}%`, height: "40px", alignItems: "center" }}>
+                    <Grid container sx={{ width: `${Math.ceil((remainingLength * 100) / fullWidth)}%`, height: "40px", alignItems: "center" }}>
                         <span style={{ textAlign: "center", width: "100%" }}>{remainingLength}</span>
                     </Grid>}
             </Grid>
@@ -108,7 +108,7 @@ const ChiTietBanVeSatHop = ({ options, vatLieuData }: TypeFullDataSanPham["tongV
             <Typography>{`${vatLieuData.name} dài ${utils.number.num(vatLieuData.width) / 100}m`}</Typography>
         </Grid>
         {bars.map((bar: any, idx: number) => {
-            return <Grid key={`bar-${idx}`} sx={{ mb: 2 }}>
+            return <Grid key={`bar-${idx}`} sx={{ mb: 3 }}>
                 <BanVeHopSat {...bar} />
             </Grid>
         })}
