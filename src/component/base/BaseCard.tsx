@@ -75,7 +75,7 @@ const BaseCard = ({
                 </>
             )}
 
-            <CardContent sx={{ p: 0 }} {...contentProps}>
+            <CardContent data-testid="card-content" sx={{ padding: 0, paddingBottom: "8px !important" }} {...contentProps}>
                 <CollapseContent>
                     {children}
                 </CollapseContent>

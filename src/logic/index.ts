@@ -1,4 +1,4 @@
-import { sanPhamData, sanPhamOpts } from "@data";
+import { danhSachSanPham, getTamTinhTienPhuPhi, phuPhiOpts, sanPhamOpts } from "@data";
 import type { TypeFullDataSanPham, TypeSanPhamCanLam, TypeVatLieu, VatLieuCode } from "@type";
 import * as utils from "@utils";
 import { MaxRectsPacker, PACKING_LOGIC } from "maxrects-packer";
@@ -53,18 +53,36 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
     for (const vatLieuCode of Object.keys(groupVatLieu) as (keyof typeof groupVatLieu)[]) {
         const vlCanMua = getTongVatLieuCanMua(vatLieuCode, groupVatLieu[vatLieuCode]);
         if (vlCanMua) tongVatLieuCanMua.push(vlCanMua);
-    }
-
-    const tongTien = tongVatLieuCanMua.reduce(
+    };
+    const tongTienvatLieuCanMua = tongVatLieuCanMua.reduce(
         (sum, item) => sum + utils.number.num(item?.totalVatLieuCanMua),
         0,
     );
 
+    const allChiTietVatLieuCoPhuPhi = chiTietVatLieu.filter(c => c.phuPhiCodes?.length).flatMap(({ phuPhiCodes, ...item }) => (phuPhiCodes || []).map(phuPhiCode => ({ ...item, phuPhiCode, })));
+    const groupPhuPhi = utils.object.reMapObject(allChiTietVatLieuCoPhuPhi, "phuPhiCode", { isArray: true });
+    let phuPhiChiTietVatLieu = [];
+    for (const phuPhiCode of Object.keys(groupPhuPhi) as (keyof typeof groupPhuPhi)[]) {
+        const phuPhiData = phuPhiOpts[phuPhiCode];
+        phuPhiChiTietVatLieu.push({
+            phuPhiCode,
+            phuPhiData,
+            ...getTamTinhTienPhuPhi(phuPhiData, groupPhuPhi[phuPhiCode])
+        });
+    };
+    const tongPhuPhi = [...phuPhiChiTietVatLieu];
+    const tongTienPhuPhi = tongPhuPhi.reduce(
+        (sum, item) => sum + utils.number.num(item?.tongPhuPhi),
+        0,
+    );
+
+    const tongTien = tongTienvatLieuCanMua + tongTienPhuPhi;
     return {
         chiTietDanhSachSanPham,
         tongTien,
         chiTietVatLieu,
         tongVatLieuCanMua,
+        tongPhuPhi
     };
 };
 
@@ -205,14 +223,14 @@ const getTongVatLieuCanMuaVanGo = (vatLieuCode: VatLieuCode, vatLieuData: TypeVa
 
 export const getDefaultDanhSachCanLam = (): TypeSanPhamCanLam[] => {
     const codeOrder: Record<string, number> = {};
-    sanPhamData.forEach((sp, index) => {
+    danhSachSanPham.forEach((sp, index) => {
         codeOrder[sp.code] = index;
     });
     const url = utils.url.genParamsFromUrl();
     const dsCanLam = Object.values(
         [
             ...url.danhSachCanLam,
-            ...sanPhamData.map((sp) => ({ sanPhamCode: sp.code, quantityBuy: 0 })),
+            ...danhSachSanPham.map((sp) => ({ sanPhamCode: sp.code, quantityBuy: 0 })),
         ].reduce((obj, item) => {
             obj[item.sanPhamCode] ??= {
                 ...item,

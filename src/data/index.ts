@@ -1,7 +1,7 @@
-import type { TypeCanThietVatLieu, TypePhuPhi, TypeSanPham, TypeVatLieu } from "@type";
+import type { TypeCanThietVatLieu, TypeFullDataSanPham, TypePhuPhi, TypeSanPham, TypeVatLieu } from "@type";
 import * as utils from "@utils";
 
-export const phuPhiData: TypePhuPhi[] = [
+export const danhSachPhuPhi = [
     {
         name: "Gia công khung kệ 3 tầng",
         code: "gia_cong_khung_ke_3_tang",
@@ -23,8 +23,9 @@ export const phuPhiData: TypePhuPhi[] = [
         unit: "m",
         value: 1,
     },
-];
-export const phuPhiOpts = utils.object.reMapObject(phuPhiData);
+    //khoan mồi không tính phí
+] as const satisfies TypePhuPhi[];
+export const phuPhiOpts = utils.object.reMapObject(danhSachPhuPhi);
 
 export const getTitleVatLieu = (item: TypeCanThietVatLieu, vatLieuData: TypeVatLieu) => {
     const vl = vatLieuOpts[item.vatLieuCode];
@@ -59,14 +60,27 @@ export const getTamTinhTienVatLieu = (item: TypeCanThietVatLieu) => {
     }
 }
 
-export const vatLieuData = [
+export const getTamTinhTienPhuPhi = (phuPhiData: TypePhuPhi, items: TypeFullDataSanPham["chiTietVatLieu"]) => {
+    if (["dan_vien_4_canh_van_ep"].includes(phuPhiData.code)) {
+        const totalMet = items.reduce((a, b) => a + (utils.number.num(b.width) + utils.number.num(b.height)) * 2 / 100 * utils.number.num(b.quantityNeedBuy), 0);
+        const tongPhuPhi = totalMet * phuPhiData.price;
+        return {
+            tongPhuPhi,
+            options: { totalMet }
+        };
+    }
+    return { tongPhuPhi: 0 };
+}
+
+export const danhSachVatLieu = [
     {
         name: "sắt hộp đen",
         code: "sat_hop_den",
         price: 60000,
         unit: "cây",
         width: 600,//cm
-        unitPrice: "cm"
+        unitPrice: "cm",
+        weight: 3.54 //kg
     },
     {
         name: "sắt hộp kẽm",
@@ -74,12 +88,14 @@ export const vatLieuData = [
         price: 60000,
         unit: "cây",
         width: 600,//cm
-        unitPrice: "cm"
+        unitPrice: "cm",
+        weight: 3.54 //kg
+        //dày: 0.9
     },
     {
         name: "ván gỗ - vàng nhạt",
         code: "van_go_vang_nhat",
-        price: 360000,
+        price: 360000,//đã bao gồm dán melamine 2 mặt
         unit: "tấm",//cmxcm
         width: 244,
         height: 122,
@@ -88,7 +104,7 @@ export const vatLieuData = [
     {
         name: "ván gỗ - nâu đậm",
         code: "van_go_nau_dam",
-        price: 360000,
+        price: 360000,//đã bao gồm dán melamine 2 mặt
         unit: "tấm",
         width: 244,
         height: 122,
@@ -108,7 +124,7 @@ export const vatLieuData = [
     // },
 ] as const satisfies TypeVatLieu[];
 
-export const vatLieuOpts = utils.object.reMapObject(vatLieuData);
+export const vatLieuOpts = utils.object.reMapObject(danhSachVatLieu);
 
 export const sanPhamBaseData = [
     {
@@ -133,6 +149,7 @@ export const sanPhamBaseData = [
                 quantityNeed: 2,
                 width: 50,//cm
                 height: 30,
+                phuPhiCodes: ["dan_vien_4_canh_van_ep"]
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
@@ -165,6 +182,7 @@ export const sanPhamBaseData = [
                 quantityNeed: 2,
                 width: 50,
                 height: 30,
+                phuPhiCodes: ["dan_vien_4_canh_van_ep"]
             },
             {
                 vatLieuCode: "van_go_nau_dam",
@@ -197,6 +215,7 @@ export const sanPhamBaseData = [
                 quantityNeed: 3,
                 width: 50,//cm
                 height: 30,
+                phuPhiCodes: ["dan_vien_4_canh_van_ep"]
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
@@ -229,6 +248,7 @@ export const sanPhamBaseData = [
                 quantityNeed: 3,
                 width: 50,
                 height: 30,
+                phuPhiCodes: ["dan_vien_4_canh_van_ep"]
             },
             {
                 vatLieuCode: "van_go_nau_dam",
@@ -261,6 +281,7 @@ export const sanPhamBaseData = [
                 quantityNeed: 4,
                 width: 50,
                 height: 30,
+                phuPhiCodes: ["dan_vien_4_canh_van_ep"]
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
@@ -293,6 +314,7 @@ export const sanPhamBaseData = [
                 quantityNeed: 4,
                 width: 50,
                 height: 30,
+                phuPhiCodes: ["dan_vien_4_canh_van_ep"]
             },
             {
                 vatLieuCode: "van_go_nau_dam",
@@ -325,6 +347,7 @@ export const sanPhamBaseData = [
                 quantityNeed: 5,
                 width: 50,
                 height: 30,
+                phuPhiCodes: ["dan_vien_4_canh_van_ep"]
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
@@ -357,6 +380,7 @@ export const sanPhamBaseData = [
                 quantityNeed: 5,
                 width: 50,
                 height: 30,
+                phuPhiCodes: ["dan_vien_4_canh_van_ep"]
             },
             {
                 vatLieuCode: "van_go_nau_dam",
@@ -369,7 +393,7 @@ export const sanPhamBaseData = [
     },
 ] as const satisfies TypeSanPham[];
 
-export const sanPhamData: TypeSanPham[] = sanPhamBaseData.map((sanPham) => {
+export const danhSachSanPham: TypeSanPham[] = sanPhamBaseData.map((sanPham) => {
     const vatLieu = sanPham.vatLieu.map((vl) => {
         const vatLieuData = vatLieuOpts[vl.vatLieuCode];
         if (!vatLieuData) throw new Error(`Không tìm thấy vật liệu với code: ${vl.vatLieuCode}`);
@@ -398,4 +422,4 @@ export const sanPhamData: TypeSanPham[] = sanPhamBaseData.map((sanPham) => {
     };
 });
 
-export const sanPhamOpts = utils.object.reMapObject(sanPhamData);
+export const sanPhamOpts = utils.object.reMapObject(danhSachSanPham);

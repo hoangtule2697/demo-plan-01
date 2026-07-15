@@ -11,6 +11,7 @@ import * as utils from "@utils";
 import { BaseCard, BaseDrawer } from "./base";
 
 export default function TongVatLieu({ tongVatLieuCanMua }: { tongVatLieuCanMua: TypeFullDataSanPham["tongVatLieuCanMua"] }) {
+    const totalVatLieuCanMua = tongVatLieuCanMua.reduce((acc, cur) => acc + utils.number.num(cur.totalVatLieuCanMua), 0);
 
     const viewOptions = ({ vatLieuCode, options }: TypeFullDataSanPham["tongVatLieuCanMua"][number]) => {
         switch (vatLieuCode) {
@@ -23,45 +24,54 @@ export default function TongVatLieu({ tongVatLieuCanMua }: { tongVatLieuCanMua: 
 
     return (
         <BaseCard title="Tổng vật liệu">
-            <List disablePadding>
-                {tongVatLieuCanMua
-                    .map(
-                        (vatLieuCanMua, idx) => {
-                            const { vatLieuData, quantityNeedBuy, totalVatLieuCanMua } = vatLieuCanMua;
+            <Grid>
+                <Grid>
+                    <List disablePadding>
+                        {tongVatLieuCanMua
+                            .map(
+                                (vatLieuCanMua, idx) => {
+                                    const { vatLieuData, quantityNeedBuy, totalVatLieuCanMua } = vatLieuCanMua;
 
-                            return <ListItem
-                                key={`tvl-${idx}`}
-                                disableGutters
-                                sx={{ py: 1 }}
-                            >
-                                <Grid sx={{ width: "100%" }}>
-                                    <Grid container sx={{ justifyContent: "space-between" }} >
-                                        <Grid>
-                                            <Typography>
-                                                {`${quantityNeedBuy} ${getTitleVatLieu({ ...vatLieuData, vatLieuCode: vatLieuData.code } as unknown as TypeCanThietVatLieu, vatLieuData)}`}
-                                            </Typography>
+                                    return <ListItem
+                                        key={`tvl-${idx}`}
+                                        disableGutters
+                                        sx={{ py: 1 }}
+                                    >
+                                        <Grid sx={{ width: "100%" }}>
+                                            <Grid container sx={{ justifyContent: "space-between" }} >
+                                                <Grid>
+                                                    <Typography>
+                                                        {`${quantityNeedBuy} ${getTitleVatLieu({ ...vatLieuData, vatLieuCode: vatLieuData.code } as unknown as TypeCanThietVatLieu, vatLieuData)}`}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid>
+                                                    <Typography>{utils.view.displayCurrency(totalVatLieuCanMua)}</Typography>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid container sx={{ justifyContent: "space-between" }}>
+                                                <Grid>
+                                                    <Typography sx={{ ml: 4 }}>
+                                                        {viewOptions(vatLieuCanMua)}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid>
+                                                    <BaseDrawer title="Chi tiết bản vẽ" contentProps={{ sx: { p: 0, minWidth: "1300px" } }}>
+                                                        <ChiTietBanVe {...vatLieuCanMua} />
+                                                    </BaseDrawer>
+                                                </Grid>
+                                            </Grid>
                                         </Grid>
-                                        <Grid>
-                                            <Typography>{utils.view.displayCurrency(totalVatLieuCanMua)}</Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container sx={{ justifyContent: "space-between" }}>
-                                        <Grid>
-                                            <Typography sx={{ ml: 4 }}>
-                                                {viewOptions(vatLieuCanMua)}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid>
-                                            <BaseDrawer title="Chi tiết bản vẽ" contentProps={{ sx: { p: 0, minWidth: "1300px" } }}>
-                                                <ChiTietBanVe {...vatLieuCanMua} />
-                                            </BaseDrawer>
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                        }
-                    )}
-            </List>
+                                    </ListItem>
+                                }
+                            )}
+                    </List>
+                </Grid>
+                <Grid>
+                    <Typography sx={{ fontWeight: "bold", textAlign: "right" }}>
+                        tổng tiền vật liệu: {utils.view.displayCurrency(totalVatLieuCanMua)}
+                    </Typography>
+                </Grid>
+            </Grid>
         </BaseCard>
     );
 };

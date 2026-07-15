@@ -1,4 +1,4 @@
-import type { sanPhamData, vatLieuData } from "@data";
+import type { danhSachPhuPhi, danhSachSanPham, danhSachVatLieu } from "@data";
 
 export type Unit = "cm" | "m" | "m2" | "hộp" | "phần" | "kg" | "cái" | "tấm" | "cây";
 
@@ -10,6 +10,8 @@ export interface TypePhuPhi {
     value: number;
 }
 
+export type PhuPhiCode = (typeof danhSachPhuPhi)[number]["code"];
+
 export interface TypeVatLieu {
     name: string;
     code: string;
@@ -19,12 +21,13 @@ export interface TypeVatLieu {
     value?: number;
     width?: number;
     height?: number;
+    weight?: number;
     description?: string;
     getTitle?: (item: TypeCanThietVatLieu) => string;
     getTamTinhTienVatLieu?: (item: TypeCanThietVatLieu) => number;
 }
 
-export type VatLieuCode = (typeof vatLieuData)[number]["code"];
+export type VatLieuCode = (typeof danhSachVatLieu)[number]["code"];
 
 //vật liệu cần để tạo ra sản phẩm
 export interface TypeCanThietVatLieu {
@@ -34,6 +37,7 @@ export interface TypeCanThietVatLieu {
     quantityNeed: number;
     //keyVatLieu khi nào 2 vật liệu mới tính là giống nhau
     keyVatLieu: string;
+    phuPhiCodes?: PhuPhiCode[];
 
     value?: number;
     width?: number;
@@ -51,7 +55,7 @@ export interface TypeSanPham {
     tienSanPham?: number;
 }
 
-export type SanPhamCode = (typeof sanPhamData)[number]["code"];
+export type SanPhamCode = (typeof danhSachSanPham)[number]["code"];
 
 export interface TypeSanPhamCanLam {
     sanPhamCode: SanPhamCode;
@@ -67,6 +71,12 @@ export type TypeFullDataSanPham = {
         quantityNeedBuy: number,
         vatLieuData: TypeVatLieu,
         //dùng cho cắt cây sắt
+        options?: any
+    })[];
+    tongPhuPhi: ({
+        phuPhiCode: PhuPhiCode,
+        phuPhiData: TypePhuPhi,
+        tongPhuPhi: number,
         options?: any
     })[];
     tongTien: number;

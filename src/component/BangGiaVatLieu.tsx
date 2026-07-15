@@ -1,5 +1,5 @@
 import { BaseCard } from "@component/base";
-import { getTamTinhTienVatLieu, getTitleVatLieu, vatLieuData } from "@data";
+import { danhSachVatLieu, getTamTinhTienVatLieu, getTitleVatLieu } from "@data";
 import {
     Divider,
     Grid,
@@ -20,7 +20,7 @@ export default function BangGiaVatLieu() {
             defaultOpen={false}
         >
             <List disablePadding>
-                {vatLieuData
+                {danhSachVatLieu
                     .map(
                         (vatLieu) => (
                             <Grid key={`vl-${vatLieu.code}`}>

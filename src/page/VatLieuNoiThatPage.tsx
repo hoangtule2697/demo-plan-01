@@ -1,6 +1,7 @@
 import {
   ChiTietVatLieu,
   DanhSachCanLam,
+  TongPhuPhi,
   TongVatLieu
 } from "@component";
 import * as logic from "@logic";
@@ -16,7 +17,7 @@ export default function VatLieuNoiThatPage() {
   );
 
   const data = logic.getFullData(danhSachCanLam);
-  const { chiTietDanhSachSanPham, chiTietVatLieu, tongVatLieuCanMua, tongTien } = data;
+  const { chiTietDanhSachSanPham, chiTietVatLieu, tongVatLieuCanMua, tongPhuPhi, tongTien } = data;
 
   const onChangeDanhSachCanLam = (
     updatedCanLams: TypeSanPhamCanLam[],
@@ -67,8 +68,12 @@ export default function VatLieuNoiThatPage() {
             <ChiTietVatLieu chiTietVatLieu={chiTietVatLieu} />
           </Grid>
 
-          <Grid>
+          <Grid sx={{ mb: 2 }}>
             <TongVatLieu tongVatLieuCanMua={tongVatLieuCanMua} />
+          </Grid>
+
+          <Grid sx={{ mb: 2 }}>
+            <TongPhuPhi tongPhuPhi={tongPhuPhi} />
           </Grid>
         </Grid>
       </Grid>
