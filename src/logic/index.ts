@@ -1,5 +1,5 @@
 import { sanPhamData, sanPhamOpts } from "@data";
-import type { TypeFullDataSanPham, TypeSanPhamCanLam } from "@type";
+import type { TypeFullDataSanPham, TypeSanPhamCanLam, VatLieuCode } from "@type";
 import * as utils from "@utils";
 
 export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSanPham => {
@@ -47,6 +47,13 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
         }),
     );
 
+    const groupVatLieu = utils.object.reMapObject(chiTietVatLieu, "vatLieuCode", { isArray: true });
+    let groupVatLieuCanMua = [];
+    for (const vatLieuCode of Object.keys(groupVatLieu) as (keyof typeof groupVatLieu)[]) {
+        const vlCanMua = getTongVatLieuCanMua(vatLieuCode, groupVatLieu[vatLieuCode]);
+        groupVatLieuCanMua.push(vlCanMua);
+    }
+
     const tongVatLieu = Object.values(
         chiTietVatLieu
             .reduce((acc, item) => {
@@ -76,6 +83,21 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
         tongVatLieu,
     };
 };
+
+const getTongVatLieuCanMua = (
+    vatLieuCode: VatLieuCode,
+    dsVatLieu: TypeFullDataSanPham["chiTietVatLieu"],
+) => {
+    const vatLieuData = dsVatLieu[0]?.vatLieuData;
+    if (!vatLieuData) throw new Error(`Không tìm thấy vật liệu với code: ${vatLieuCode}`);
+
+    switch (vatLieuCode) {
+        case "sat_hop_kem":
+            return null;
+    }
+
+    //throw new Error(`Không tìm thấy vật liệu với code: ${vatLieuCode}`);
+}
 
 export const getDefaultDanhSachCanLam = (): TypeSanPhamCanLam[] => {
     const codeOrder: Record<string, number> = {};

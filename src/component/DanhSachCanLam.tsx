@@ -1,5 +1,5 @@
 import { BaseCard, QuantityButton } from "@component/base";
-import { Box, Button, Grid, List, ListItem, Typography } from "@mui/material";
+import { Button, Grid, List, ListItem, Typography } from "@mui/material";
 import type { TypeFullDataSanPham } from "@type";
 import useChiTietSanPham from "hook/component/useChiTietSanPham";
 import { useCollapse } from "hook/component/useCollapse";
@@ -16,26 +16,15 @@ export default function DanhSachCanLam({
 
     return (
         <BaseCard
-            header={
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                    }}
+            title="Danh sách cần làm"
+            actionHeader={
+                <Button
+                    variant="outlined"
+                    color="inherit"
+                    onClick={onClearDanhSachCanLam}
                 >
-                    <Typography variant="h6" id="title">
-                        Danh sách cần làm
-                    </Typography>
-
-                    <Button
-                        variant="outlined"
-                        color="inherit"
-                        onClick={onClearDanhSachCanLam}
-                    >
-                        X
-                    </Button>
-                </Box>
+                    X
+                </Button>
             }
         >
             <List disablePadding>

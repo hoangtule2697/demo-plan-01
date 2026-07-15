@@ -26,24 +26,24 @@ export const phuPhiData: TypePhuPhi[] = [
 ];
 export const phuPhiOpts = utils.object.reMapObject(phuPhiData);
 
-const getTitleVatLieu = (item: TypeCanThietVatLieu, vatLieuData: TypeVatLieu) => {
+export const getTitleVatLieu = (item: TypeCanThietVatLieu, vatLieuData: TypeVatLieu) => {
     const vl = vatLieuOpts[item.vatLieuCode];
     if (!vl) throw new Error(`Không tìm thấy vật liệu với code: ${item.vatLieuCode}`);
 
-    if (["sat_hop_kem"].includes(item.vatLieuCode)) {
-        return `cây sắt hộp dài ${item.width}cm`;
+    if (["sat_hop_den", "sat_hop_kem"].includes(item.vatLieuCode)) {
+        return `${vatLieuData.unit} ${vatLieuData.name} dài ${item.width}${vatLieuData.unitPrice}`;
     }
     if (["van_go_vang_nhat", "van_go_nau_dam"].includes(item.vatLieuCode)) {
-        return `tấm ${vatLieuData.name} dài ${item.width}cm x ${item.height}cm`;
+        return `${vatLieuData.unit} ${vatLieuData.name} ${item.width}${vatLieuData.unitPrice} x ${item.height}${vatLieuData.unitPrice}`;
     }
 }
 
-const getTamTinhTienVatLieu = (item: TypeCanThietVatLieu) => {
+export const getTamTinhTienVatLieu = (item: TypeCanThietVatLieu) => {
     const vl = vatLieuOpts[item.vatLieuCode];
     if (!vl) throw new Error(`Không tìm thấy vật liệu với code: ${item.vatLieuCode}`);
 
-    if (["sat_hop_kem"].includes(item.vatLieuCode)) {
-        return (utils.number.num(item.width) / 100) * (vl.price / vl.value);
+    if (["sat_hop_den", "sat_hop_kem"].includes(item.vatLieuCode)) {
+        return utils.number.num(item.width) * (vl.price / vl.width);
     }
     if (["van_go_vang_nhat", "van_go_nau_dam"].includes(item.vatLieuCode)) {
         const dienTichTam = utils.number.num((vl as any)?.width) * utils.number.num((vl as any)?.height);
@@ -61,43 +61,50 @@ const getTamTinhTienVatLieu = (item: TypeCanThietVatLieu) => {
 
 export const vatLieuData = [
     {
+        name: "sắt hộp đen",
+        code: "sat_hop_den",
+        price: 60000,
+        unit: "cây",
+        width: 600,//cm
+        unitPrice: "cm"
+    },
+    {
         name: "sắt hộp kẽm",
         code: "sat_hop_kem",
         price: 60000,
-        unit: "m",
-        value: 6,
+        unit: "cây",
+        width: 600,//cm
+        unitPrice: "cm"
     },
     {
         name: "ván gỗ - vàng nhạt",
         code: "van_go_vang_nhat",
         price: 360000,
         unit: "tấm",//cmxcm
-        value: 1,
         width: 244,
         height: 122,
+        unitPrice: "cm"
     },
     {
         name: "ván gỗ - nâu đậm",
         code: "van_go_nau_dam",
         price: 360000,
         unit: "tấm",
-        value: 1,
         width: 244,
         height: 122,
+        unitPrice: "cm"
     },
     // {
     //     name: "hộp đóng gói",
     //     code: "hop_dong_goi",
     //     price: 10000,
     //     unit: "hộp",
-    //     value: 1,
     // },
     // {
     //     name: "phụ kiện kệ bàn",
     //     code: "phu_kien_ke_ban",
     //     price: 20000,
     //     unit: "phần",
-    //     value: 1,
     // },
 ] as const satisfies TypeVatLieu[];
 

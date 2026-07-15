@@ -7,6 +7,7 @@ import * as logic from "@logic";
 import { Container, Grid, Paper, Typography } from "@mui/material";
 import type { TypeSanPhamCanLam } from "@type";
 import * as utils from "@utils";
+import BangGiaVatLieu from "component/BangGiaVatLieu";
 import { useState } from "react";
 
 export default function VatLieuNoiThatPage() {
@@ -56,6 +57,10 @@ export default function VatLieuNoiThatPage() {
         </Grid>
 
         <Grid size={{ xs: 6 }}>
+          <Grid sx={{ mb: 2 }}>
+            <BangGiaVatLieu />
+          </Grid>
+
           <Grid sx={{ mb: 2 }}>
             <ChiTietVatLieu chiTietVatLieu={chiTietVatLieu} />
           </Grid>

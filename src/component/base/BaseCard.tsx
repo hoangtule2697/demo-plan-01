@@ -4,23 +4,36 @@ import {
     CardHeader,
     Divider,
     Grid,
+    Typography,
     type CardProps,
 } from "@mui/material";
+import { useCollapse } from "hook/component/useCollapse";
 import type { ReactNode } from "react";
 
 const BaseCard = ({
+    isUseCollapse,
+    defaultCollapse = true,
+    title,
+    actionHeader,
     header,
     children,
     propsCard,
     propsHeader,
     propsContent,
 }: CardProps & {
+    isUseCollapse?: boolean;
+    defaultCollapse?: boolean;
+    title?: string;
     header?: ReactNode;
+    actionHeader?: ReactNode;
     children?: ReactNode;
     propsCard?: CardProps;
     propsHeader?: any;
     propsContent?: any;
 }) => {
+    const { CollapseButton, CollapseContent } = useCollapse({ "default-key": defaultCollapse });
+    console.log("header || title || actionHeader", header || title || actionHeader)
+
     return (
         <Card
             elevation={0}
@@ -33,17 +46,26 @@ const BaseCard = ({
             }}
             {...propsCard}
         >
-            {header && (
+            {!!(header || title || actionHeader) && (
                 <>
                     <CardHeader
-                        title={header}
+                        title={<Grid data-testid="base-card-header">
+                            <Grid container spacing={1} sx={{ justifyContent: "space-between" }}>
+                                <Grid container>
+                                    <Grid sx={{ mr: 1 }}>
+                                        {title && <Typography variant="h6" sx={{ fontWeight: 600, fontSize: 20 }}>{title}</Typography>}
+                                    </Grid>
+                                    <Grid>
+                                        {isUseCollapse && <CollapseButton />}
+                                    </Grid>
+                                </Grid>
+                                <Grid>{actionHeader}</Grid>
+                            </Grid>
+                            <Grid>{header}</Grid>
+                        </Grid>}
                         sx={{
                             py: 1.5,
                             px: 2,
-                            "#title": {
-                                fontSize: 20,
-                                fontWeight: 600,
-                            },
                             p: 0,
                         }}
                         {...propsHeader}
@@ -55,7 +77,9 @@ const BaseCard = ({
             )}
 
             <CardContent sx={{ p: 0 }} {...propsContent}>
-                {children}
+                <CollapseContent>
+                    {children}
+                </CollapseContent>
             </CardContent>
         </Card>
     );

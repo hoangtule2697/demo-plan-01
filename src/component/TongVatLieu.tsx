@@ -10,13 +10,7 @@ import { BaseCard } from "./base";
 
 export default function TongVatLieu({ tongVatLieu }: { tongVatLieu: TypeFullDataSanPham["tongVatLieu"] }) {
     return (
-        <BaseCard
-            header={
-                <Typography id="title">
-                    Tổng vật liệu
-                </Typography>
-            }
-        >
+        <BaseCard title="Tổng vật liệu">
             <List disablePadding>
                 {tongVatLieu
                     .filter((t) => t.value)

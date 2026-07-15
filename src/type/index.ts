@@ -1,6 +1,6 @@
 import type { sanPhamData, vatLieuData } from "@data";
 
-export type Unit = "m" | "m2" | "hộp" | "phần" | "kg" | "cái" | "tấm" | "cây";
+export type Unit = "cm" | "m" | "m2" | "hộp" | "phần" | "kg" | "cái" | "tấm" | "cây";
 
 export interface TypePhuPhi {
     name: string;
@@ -15,7 +15,8 @@ export interface TypeVatLieu {
     code: string;
     price: number;
     unit: Unit;
-    value: number;
+    unitPrice: Unit;
+    value?: number;
     width?: number;
     height?: number;
     description?: string;
