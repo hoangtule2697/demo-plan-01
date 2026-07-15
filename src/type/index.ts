@@ -91,4 +91,5 @@ export type TypeFullDataSanPham = {
         options?: any
     })[];
     tongTien: number;
+    tongTienTamTinh: number;
 };

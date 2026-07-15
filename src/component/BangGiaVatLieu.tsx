@@ -12,7 +12,6 @@ import type { TypeCanThietVatLieu } from "@type";
 import * as utils from "@utils";
 
 export default function BangGiaVatLieu() {
-
     return (
         <BaseCard
             title="Bảng giá vật liệu"

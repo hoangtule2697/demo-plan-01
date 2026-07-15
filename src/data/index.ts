@@ -62,7 +62,7 @@ export const getTamTinhTienVatLieu = (item: TypeCanThietVatLieu) => {
 
 export const getTamTinhTienPhuPhi = (phuPhiData: TypePhuPhi, items: TypeFullDataSanPham["chiTietVatLieu"]) => {
     if (["dan_vien_4_canh_van_ep"].includes(phuPhiData.code)) {
-        const totalMet = items.reduce((a, b) => a + (utils.number.num(b.width) + utils.number.num(b.height)) * 2 / 100 * utils.number.num(b.quantityNeedBuy), 0);
+        const totalMet = Math.round(items.reduce((a, b) => a + (utils.number.num(b.width) + utils.number.num(b.height)) * 2 / 100 * utils.number.num(b.quantityNeedBuy), 0) * 10) / 10;
         const tongTienPhuPhi = totalMet * phuPhiData.price;
         return {
             tongTienPhuPhi,

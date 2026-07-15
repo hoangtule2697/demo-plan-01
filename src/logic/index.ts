@@ -36,6 +36,11 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
         };
     });
 
+    const tongTienTamTinh = chiTietDanhSachSanPham.filter(c => c.quantityBuy).reduce(
+        (sum, item) => sum + utils.number.num(item.tongTien) * utils.number.num(item.quantityBuy),
+        0,
+    );
+
     const allVatLieuCanMua = chiTietDanhSachSanPham.filter((d) => d.quantityBuy)
         .map((d) =>
             d.vatLieu.map((vl) => ({
@@ -105,6 +110,7 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
         chiTietVatLieuCanMua,
         chiTietPhuPhi,
         tongTien,
+        tongTienTamTinh
     };
 };
 

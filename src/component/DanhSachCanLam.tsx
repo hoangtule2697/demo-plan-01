@@ -7,17 +7,15 @@ import { useCollapse } from "hook/component/useCollapse";
 
 export default function DanhSachCanLam({
     chiTietDanhSachSanPham,
+    tongTienTamTinh,
     onChangeSanPhamCanLam = () => { },
     onClearDanhSachCanLam = () => { },
 }: {
     chiTietDanhSachSanPham: TypeFullDataSanPham["chiTietDanhSachSanPham"];
+    tongTienTamTinh: TypeFullDataSanPham["tongTienTamTinh"];
     onChangeSanPhamCanLam?: (index: number, newQuantity: number) => void;
     onClearDanhSachCanLam?: () => void;
 }) {
-    const tongTienTamTinh = chiTietDanhSachSanPham.filter(c => c.quantityBuy).reduce(
-        (sum, item) => sum + utils.number.num(item.tongTien) * utils.number.num(item.quantityBuy),
-        0,
-    );
 
     return (
         <BaseCard

@@ -8,6 +8,7 @@ import * as logic from "@logic";
 import { Container, Grid, Paper, Typography } from "@mui/material";
 import type { TypeSanPhamCanLam } from "@type";
 import * as utils from "@utils";
+import BangGiaPhuPhi from "component/BangGiaPhuPhi";
 import BangGiaVatLieu from "component/BangGiaVatLieu";
 import { useState } from "react";
 
@@ -17,7 +18,7 @@ export default function VatLieuNoiThatPage() {
   );
 
   const data = logic.getFullData(danhSachCanLam);
-  const { chiTietDanhSachSanPham, chiTietVatLieu, chiTietVatLieuCanMua, chiTietPhuPhi, tongTien } = data;
+  const { chiTietDanhSachSanPham, chiTietVatLieu, chiTietVatLieuCanMua, chiTietPhuPhi, tongTien, tongTienTamTinh } = data;
 
   const onChangeDanhSachCanLam = (
     updatedCanLams: TypeSanPhamCanLam[],
@@ -51,15 +52,20 @@ export default function VatLieuNoiThatPage() {
       <Grid container spacing={2}>
         <Grid size={{ xs: 6 }}>
           <Grid sx={{ mb: 2 }}>
-            <BangGiaVatLieu />
-          </Grid>
-
-          <Grid>
             <DanhSachCanLam
+              tongTienTamTinh={tongTienTamTinh}
               chiTietDanhSachSanPham={chiTietDanhSachSanPham}
               onChangeSanPhamCanLam={onChangeSanPhamCanLam}
               onClearDanhSachCanLam={onClearDanhSachCanLam}
             />
+          </Grid>
+
+          <Grid sx={{ mb: 2 }}>
+            <BangGiaVatLieu />
+          </Grid>
+
+          <Grid sx={{ mb: 2 }}>
+            <BangGiaPhuPhi />
           </Grid>
         </Grid>
 
@@ -90,9 +96,19 @@ export default function VatLieuNoiThatPage() {
           zIndex: (theme) => theme.zIndex.appBar,
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: 700 }}>
-          Tổng cộng: {utils.view.displayCurrency(tongTien)}
-        </Typography>
+        <Grid container sx={{ justifyContent: "end" }}>
+          <Grid sx={{ mr: 6 }}>
+            <Typography variant="h5" color="warning" sx={{ fontWeight: 700 }}>
+              Tạm tính: {utils.view.displayCurrency(tongTienTamTinh)}
+            </Typography>
+          </Grid>
+          <Grid>
+            <Typography variant="h5" color="success" sx={{ fontWeight: 700 }}>
+              Tổng cộng: {utils.view.displayCurrency(tongTien)}
+            </Typography>
+          </Grid>
+        </Grid>
+
       </Paper>
     </Container>
   );
