@@ -12,27 +12,26 @@ import type { ReactNode } from "react";
 
 const BaseCard = ({
     isUseCollapse,
-    defaultCollapse = true,
+    defaultOpen = true,
     title,
     actionHeader,
     header,
     children,
-    propsCard,
-    propsHeader,
-    propsContent,
+    cardProps,
+    headerProps,
+    contentProps,
 }: CardProps & {
     isUseCollapse?: boolean;
-    defaultCollapse?: boolean;
+    defaultOpen?: boolean;
     title?: string;
     header?: ReactNode;
     actionHeader?: ReactNode;
     children?: ReactNode;
-    propsCard?: CardProps;
-    propsHeader?: any;
-    propsContent?: any;
+    cardProps?: CardProps;
+    headerProps?: any;
+    contentProps?: any;
 }) => {
-    const { CollapseButton, CollapseContent } = useCollapse({ "default-key": defaultCollapse });
-    console.log("header || title || actionHeader", header || title || actionHeader)
+    const { CollapseButton, CollapseContent } = useCollapse({ "default-key": defaultOpen });
 
     return (
         <Card
@@ -44,7 +43,7 @@ const BaseCard = ({
                 borderColor: "divider",
                 p: 2
             }}
-            {...propsCard}
+            {...cardProps}
         >
             {!!(header || title || actionHeader) && (
                 <>
@@ -68,7 +67,7 @@ const BaseCard = ({
                             px: 2,
                             p: 0,
                         }}
-                        {...propsHeader}
+                        {...headerProps}
                     />
                     <Grid sx={{ mt: 1, mb: 1 }}>
                         <Divider />
@@ -76,7 +75,7 @@ const BaseCard = ({
                 </>
             )}
 
-            <CardContent sx={{ p: 0 }} {...propsContent}>
+            <CardContent sx={{ p: 0 }} {...contentProps}>
                 <CollapseContent>
                     {children}
                 </CollapseContent>

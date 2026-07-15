@@ -17,7 +17,7 @@ export default function BangGiaVatLieu() {
         <BaseCard
             title="Bảng giá vật liệu"
             isUseCollapse={true}
-            defaultCollapse={false}
+            defaultOpen={false}
         >
             <List disablePadding>
                 {vatLieuData

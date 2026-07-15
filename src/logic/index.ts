@@ -97,6 +97,7 @@ const getTongVatLieuCanMua = (
                 usedLength: number;
                 remainingLength: number;
                 cuts: number[];
+                fullWidth: number
             }[] = [];
 
             for (const length of lengths) {
@@ -118,6 +119,7 @@ const getTongVatLieuCanMua = (
                         remainingLength:
                             widthSatHop - length,
                         cuts: [length],
+                        fullWidth: utils.number.num(vatLieuData.width)
                     });
                 }
             }

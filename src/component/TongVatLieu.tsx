@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import type { TypeCanThietVatLieu, TypeFullDataSanPham } from "@type";
 import * as utils from "@utils";
-import { BaseCard } from "./base";
+import { BaseCard, BaseDrawer } from "./base";
 
 export default function TongVatLieu({ tongVatLieuCanMua }: { tongVatLieuCanMua: TypeFullDataSanPham["tongVatLieuCanMua"] }) {
 
@@ -33,23 +33,28 @@ export default function TongVatLieu({ tongVatLieuCanMua }: { tongVatLieuCanMua: 
                                 disableGutters
                                 sx={{ py: 1 }}
                             >
-                                <Grid
-                                    container
-                                    sx={{
-                                        justifyContent: "space-between",
-                                        width: "100%"
-                                    }}
-                                >
-                                    <Grid>
-                                        <Typography>
-                                            {`${quantityNeedBuy} ${getTitleVatLieu({ ...vatLieuData, vatLieuCode: vatLieuData.code } as unknown as TypeCanThietVatLieu, vatLieuData)}`}
-                                        </Typography>
-                                        <Typography sx={{ ml: 4 }}>
-                                            {viewOptions(vatLieuCanMua)}
-                                        </Typography>
+                                <Grid sx={{ width: "100%" }}>
+                                    <Grid container sx={{ justifyContent: "space-between" }} >
+                                        <Grid>
+                                            <Typography>
+                                                {`${quantityNeedBuy} ${getTitleVatLieu({ ...vatLieuData, vatLieuCode: vatLieuData.code } as unknown as TypeCanThietVatLieu, vatLieuData)}`}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid>
+                                            <Typography>{utils.view.displayCurrency(totalVatLieuCanMua)}</Typography>
+                                        </Grid>
                                     </Grid>
-                                    <Grid>
-                                        <Typography>{utils.view.displayCurrency(totalVatLieuCanMua)}</Typography>
+                                    <Grid container sx={{ justifyContent: "space-between" }}>
+                                        <Grid>
+                                            <Typography sx={{ ml: 4 }}>
+                                                {viewOptions(vatLieuCanMua)}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid>
+                                            <BaseDrawer title="Chi tiết bản vẽ" contentProps={{ sx: { p: 0, minWidth: "1300px" } }}>
+                                                <ChiTietBanVe {...vatLieuCanMua} />
+                                            </BaseDrawer>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </ListItem>
@@ -59,3 +64,42 @@ export default function TongVatLieu({ tongVatLieuCanMua }: { tongVatLieuCanMua: 
         </BaseCard>
     );
 };
+
+const ChiTietBanVe = (vatLieuCanMua: TypeFullDataSanPham["tongVatLieuCanMua"][number]) => {
+    switch (vatLieuCanMua.vatLieuCode) {
+        case "sat_hop_kem": {
+            return <ChiTietBanVeSatHop {...vatLieuCanMua} />
+        }
+    }
+    return null;
+};
+
+const ChiTietBanVeSatHop = ({ options, vatLieuData }: TypeFullDataSanPham["tongVatLieuCanMua"][number]) => {
+    const { bars } = options;
+
+    const BanVeHopSat = ({ fullWidth, cuts }: { fullWidth: number; cuts: number[] }) => {
+        return <Grid>
+            <Grid>
+                <Typography>{`cắt ${cuts.length} đoạn`}</Typography>
+            </Grid>
+            <Grid data-testid="ban-ve-hop-sat" container sx={{ width: "100%", backgroundColor: "red", height: "40px" }}>
+                {cuts.map((cut: number) => {
+                    return <Grid container sx={{ width: `${Math.round((cut * 100) / fullWidth)}%`, backgroundColor: "#7cdf7c", height: "40px", borderRight: "4px dashed grey", alignItems: "center" }}>
+                        <span style={{ textAlign: "center", width: "100%" }}>{cut}</span>
+                    </Grid>
+                })}
+            </Grid>
+        </Grid>;
+    }
+
+    return <Grid>
+        <Grid sx={{ mb: 2 }}>
+            <Typography>{`${vatLieuData.name} dài ${utils.number.num(vatLieuData.width) / 100}m`}</Typography>
+        </Grid>
+        {bars.map((bar: any) => {
+            return <Grid sx={{ mb: 2 }}>
+                <BanVeHopSat {...bar} />
+            </Grid>
+        })}
+    </Grid>;
+}

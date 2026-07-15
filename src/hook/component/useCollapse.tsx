@@ -4,11 +4,11 @@ import { Collapse, IconButton } from "@mui/material";
 import { useState } from "react";
 
 export const useCollapse = (
-    defaultCollapse: Record<string, boolean> = {},
+    defaultOpen: Record<string, boolean> = {},
 ) => {
     const [collapseMap, setCollapseMap] =
         useState<Record<string, boolean>>(
-            defaultCollapse
+            defaultOpen
         );
 
     const isCollapse = (
