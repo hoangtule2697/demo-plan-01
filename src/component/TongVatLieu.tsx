@@ -1,25 +1,24 @@
+import { getTitleVatLieu } from "@data";
 import {
     List,
     ListItem,
     Stack,
     Typography
 } from "@mui/material";
-import type { TypeFullDataSanPham } from "@type";
+import type { TypeCanThietVatLieu, TypeFullDataSanPham } from "@type";
 import * as utils from "@utils";
 import { BaseCard } from "./base";
 
-export default function TongVatLieu({ tongVatLieu }: { tongVatLieu: TypeFullDataSanPham["tongVatLieu"] }) {
+export default function TongVatLieu({ tongVatLieuCanMua }: { tongVatLieuCanMua: TypeFullDataSanPham["tongVatLieuCanMua"] }) {
     return (
         <BaseCard title="Tổng vật liệu">
             <List disablePadding>
-                {tongVatLieu
-                    .filter((t) => t.value)
+                {tongVatLieuCanMua
                     .map(
                         ({
-                            value,
-                            // unit,
-                            // name,
-                            tongTienVatLieu,
+                            vatLieuData,
+                            quantityNeedBuy,
+                            totalVatLieuCanMua,
                         }) => (
                             <ListItem
                                 key={`tvl-${name}`}
@@ -36,12 +35,12 @@ export default function TongVatLieu({ tongVatLieu }: { tongVatLieu: TypeFullData
                                     }}
                                 >
                                     <Typography>
-                                        {`${value}`}
+                                        {`${quantityNeedBuy} ${getTitleVatLieu({ ...vatLieuData, vatLieuCode: vatLieuData.code } as unknown as TypeCanThietVatLieu, vatLieuData)}`}
                                     </Typography>
 
                                     <Typography>
                                         {utils.view.displayCurrency(
-                                            tongTienVatLieu,
+                                            totalVatLieuCanMua,
                                         )}
                                     </Typography>
                                 </Stack>

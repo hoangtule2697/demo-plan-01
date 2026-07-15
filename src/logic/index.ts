@@ -48,39 +48,22 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
     );
 
     const groupVatLieu = utils.object.reMapObject(chiTietVatLieu, "vatLieuCode", { isArray: true });
-    let groupVatLieuCanMua = [];
+    let tongVatLieuCanMua = [];
     for (const vatLieuCode of Object.keys(groupVatLieu) as (keyof typeof groupVatLieu)[]) {
         const vlCanMua = getTongVatLieuCanMua(vatLieuCode, groupVatLieu[vatLieuCode]);
-        groupVatLieuCanMua.push(vlCanMua);
+        if (vlCanMua) tongVatLieuCanMua.push(vlCanMua);
     }
 
-    const tongVatLieu = Object.values(
-        chiTietVatLieu
-            .reduce((acc, item) => {
-                const key = `${item.vatLieuCode}`;
-
-                if (!acc[key]) {
-                    acc[key] = { ...item };
-                } else {
-                    acc[key].tongTienVatLieu += item.tongTienVatLieu;
-                }
-
-                return acc;
-            }, {} as Record<string, typeof chiTietVatLieu[number]>),
+    const tongTien = tongVatLieuCanMua.reduce(
+        (sum, item) => sum + utils.number.num(item?.totalVatLieuCanMua),
+        0,
     );
-
-    // const tongTien = tongVatLieu.reduce(
-    //     (sum, item) => sum + utils.number.num(item?.tongTienSanPham),
-    //     0,
-    // );
-
-    const tongTien = 0;
 
     return {
         chiTietDanhSachSanPham,
         tongTien,
         chiTietVatLieu,
-        tongVatLieu,
+        tongVatLieuCanMua,
     };
 };
 
@@ -93,7 +76,24 @@ const getTongVatLieuCanMua = (
 
     switch (vatLieuCode) {
         case "sat_hop_kem":
-            return null;
+            let quantityNeedBuy = 0;
+            let used = 0;
+            const widthSatHop = utils.number.num(vatLieuData.width);
+            const newDs = dsVatLieu.flatMap((d) => Array(d.quantityNeedBuy).fill(d.width)).sort((a, b) => b - a);
+
+            for (const vl of newDs) {
+                used += utils.number.num(vl.width);
+                if (used >= widthSatHop) {
+                    quantityNeedBuy++;
+                    used = used - widthSatHop;
+                }
+            }
+            return {
+                vatLieuCode,
+                quantityNeedBuy: utils.number.num(quantityNeedBuy, 1),
+                totalVatLieuCanMua: utils.number.num(quantityNeedBuy, 1) * vatLieuData.price,
+                vatLieuData
+            };
     }
 
     //throw new Error(`Không tìm thấy vật liệu với code: ${vatLieuCode}`);

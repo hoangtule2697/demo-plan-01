@@ -5,9 +5,11 @@ export function num(
     try {
         const result = Number(value);
 
-        return Number.isNaN(result)
-            ? fallback
-            : result;
+        if (Number.isNaN(result) || result === 0) {
+            return fallback;
+        }
+
+        return result;
     } catch {
         return fallback;
     }
