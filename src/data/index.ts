@@ -69,6 +69,16 @@ export const getTamTinhTienPhuPhi = (phuPhiData: TypePhuPhi, items: TypeFullData
             options: { totalMet }
         };
     }
+    if (["son_tinh_dien"].includes(phuPhiData.code)) {
+        const vatLieuData = items[0].vatLieuData;
+        const totalMet = Math.round(items.reduce((a, b) => a + utils.number.num(b.width) / 100 * utils.number.num(b.quantityNeedBuy), 0) * 10) / 10;
+        const totalWeight = Math.round((totalMet / 6) * utils.number.num(vatLieuData?.weight) * 10) / 10;
+        const tongPhuPhi = totalWeight * phuPhiData.price;
+        return {
+            tongPhuPhi,
+            options: { totalMet, totalWeight }
+        };
+    }
     return { tongPhuPhi: 0 };
 }
 
@@ -136,12 +146,14 @@ export const sanPhamBaseData = [
                 keyVatLieu: "sat_hop_kem_dai_35",
                 quantityNeed: 4,
                 width: 35,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
                 quantityNeed: 4,
                 width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
@@ -169,12 +181,14 @@ export const sanPhamBaseData = [
                 keyVatLieu: "sat_hop_kem_dai_35",
                 quantityNeed: 4,
                 width: 35,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
                 quantityNeed: 4,
                 width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "van_go_nau_dam",
@@ -202,12 +216,14 @@ export const sanPhamBaseData = [
                 keyVatLieu: "sat_hop_kem_dai_66.5",
                 quantityNeed: 4,
                 width: 66.5,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
                 quantityNeed: 4,
                 width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
@@ -235,12 +251,14 @@ export const sanPhamBaseData = [
                 keyVatLieu: "sat_hop_kem_dai_66.5",
                 quantityNeed: 4,
                 width: 66.5,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
                 quantityNeed: 4,
                 width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "van_go_nau_dam",
@@ -268,12 +286,14 @@ export const sanPhamBaseData = [
                 keyVatLieu: "sat_hop_kem_dai_100",
                 quantityNeed: 4,
                 width: 100,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
                 quantityNeed: 4,
                 width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
@@ -301,12 +321,14 @@ export const sanPhamBaseData = [
                 keyVatLieu: "sat_hop_kem_dai_100",
                 quantityNeed: 4,
                 width: 100,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
                 quantityNeed: 4,
                 width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "van_go_nau_dam",
@@ -334,12 +356,14 @@ export const sanPhamBaseData = [
                 keyVatLieu: "sat_hop_kem_dai_130",
                 quantityNeed: 4,
                 width: 130,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
                 quantityNeed: 4,
                 width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
@@ -367,12 +391,14 @@ export const sanPhamBaseData = [
                 keyVatLieu: "sat_hop_kem_dai_130",
                 quantityNeed: 4,
                 width: 130,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "sat_hop_kem",
                 keyVatLieu: "sat_hop_kem_dai_30",
                 quantityNeed: 4,
                 width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
             },
             {
                 vatLieuCode: "van_go_nau_dam",

@@ -204,8 +204,14 @@ const getTongVatLieuCanMuaVanGo = (vatLieuCode: VatLieuCode, vatLieuData: TypeVa
             x2: r.x + r.width,
             y2: r.y + r.height,
         }));
+        const usedArea = bin.rects.reduce((sum, r) => sum + r.width * r.height, 0);
+        const totalArea = widthVanGo * heightVanGo;
+        const usedPercent = Math.round((usedArea / totalArea) * 100);
         return {
             rects: newRests,
+            usedArea,
+            totalArea,
+            usedPercent
         };
     });
 
@@ -216,7 +222,8 @@ const getTongVatLieuCanMuaVanGo = (vatLieuCode: VatLieuCode, vatLieuData: TypeVa
         quantityNeedBuy,
         totalVatLieuCanMua: quantityNeedBuy * vatLieuData.price,
         options: {
-            pieces
+            pieces,
+            usedPercent: Math.round(pieces.reduce((sum, r) => sum + r.usedPercent, 0) / pieces.length)
         }
     }
 }

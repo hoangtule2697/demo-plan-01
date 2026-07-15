@@ -18,6 +18,12 @@ export default function TongVatLieu({ tongVatLieuCanMua }: { tongVatLieuCanMua: 
             case "sat_hop_kem": {
                 return `• Đã dùng ${options.totalUsed / 100}m / ${options.totalLength / 100}m, còn lại ${options.totalRemaining / 100}m`
             }
+            case "van_go_vang_nhat": {
+                return `• Đã dùng ${options.usedPercent}%`
+            }
+            case "van_go_nau_dam": {
+                return `• Đã dùng ${options.usedPercent}%`
+            }
         }
         return null;
     }

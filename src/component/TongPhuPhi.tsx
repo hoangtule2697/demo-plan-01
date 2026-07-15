@@ -2,7 +2,6 @@ import {
     Grid,
     List,
     ListItem,
-    Stack,
     Typography
 } from "@mui/material";
 import type { TypeFullDataSanPham } from "@type";
@@ -12,10 +11,13 @@ import { BaseCard } from "./base";
 export default function TongPhuPhi({ tongPhuPhi }: { tongPhuPhi: TypeFullDataSanPham["tongPhuPhi"] }) {
     const tongTienPhuPhi = tongPhuPhi.reduce((acc, cur) => acc + utils.number.num(cur.tongPhuPhi), 0);
 
-    const viewOptions = ({ phuPhiCode, options }: TypeFullDataSanPham["tongPhuPhi"][number]) => {
+    const viewOptions = ({ phuPhiCode, phuPhiData, options }: TypeFullDataSanPham["tongPhuPhi"][number]) => {
         switch (phuPhiCode) {
             case "dan_vien_4_canh_van_ep": {
-                return ` - ${options.totalMet}m`
+                return `• ${options.totalMet}m - (${utils.view.displayCurrency(phuPhiData.price)} / 1m)`
+            }
+            case "son_tinh_dien": {
+                return `• ${options.totalWeight}kg, ${options.totalMet}m - (${utils.view.displayCurrency(phuPhiData.price)} / 1kg)`
             }
         }
         return "";
@@ -33,23 +35,22 @@ export default function TongPhuPhi({ tongPhuPhi }: { tongPhuPhi: TypeFullDataSan
                                     disableGutters
                                     sx={{ py: 1 }}
                                 >
-                                    <Stack
-                                        direction="row"
-                                        sx={{
-                                            width: "100%",
-                                            justifyContent:
-                                                "space-between",
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <Typography>
-                                            {`${chiTietPhuPhi.phuPhiData.name} ${viewOptions(chiTietPhuPhi)}`}
-                                        </Typography>
+                                    <Grid sx={{ width: "100%" }}>
+                                        <Grid container sx={{ justifyContent: "space-between" }}>
+                                            <Typography>
+                                                {`${chiTietPhuPhi.phuPhiData.name}`}
+                                            </Typography>
 
-                                        <Typography>
-                                            {`${utils.view.displayCurrency(chiTietPhuPhi.tongPhuPhi)}`}
-                                        </Typography>
-                                    </Stack>
+                                            <Typography>
+                                                {`${utils.view.displayCurrency(chiTietPhuPhi.tongPhuPhi)}`}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid>
+                                            <Typography sx={{ ml: 4 }}>
+                                                {viewOptions(chiTietPhuPhi)}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
                                 </ListItem>
                             ),
                             )}
