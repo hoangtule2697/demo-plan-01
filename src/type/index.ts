@@ -52,6 +52,7 @@ export interface TypeSanPham {
     name: string;
     code: string;
     vatLieu: TypeCanThietVatLieu[];
+    phuPhiCodes?: PhuPhiCode[];
     tienSanPham?: number;
 }
 
@@ -65,8 +66,6 @@ export interface TypeSanPhamCanLam {
 export type TypeFullDataSanPham = {
     chiTietDanhSachSanPham: (
         TypeSanPham & TypeSanPhamCanLam & {
-            tongTienSanPham: number,
-            tongTienPhuPhi: number,
             phuPhi: ({
                 phuPhiCode: PhuPhiCode,
                 phuPhiData: TypePhuPhi,

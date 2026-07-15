@@ -8,30 +8,13 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
         const sanPham = sanPhamOpts[SanPhamCanLam.sanPhamCode];
         const tongTienSanPham = utils.number.num(sanPham?.tienSanPham);
 
-        const allChiTietVatLieuCoPhuPhi = sanPham.vatLieu.filter(c => c.phuPhiCodes?.length).flatMap(({ phuPhiCodes, ...item }) => (phuPhiCodes || []).map(phuPhiCode => ({ ...item, phuPhiCode, })));
-        const groupPhuPhi = utils.object.reMapObject(allChiTietVatLieuCoPhuPhi.map(i => ({ ...i, quantityNeedBuy: i.quantityNeed })), "phuPhiCode", { isArray: true });
-
-        let phuPhiChiTietVatLieu = [];
-        for (const phuPhiCode of Object.keys(groupPhuPhi) as (keyof typeof groupPhuPhi)[]) {
-            const phuPhiData = phuPhiOpts[phuPhiCode];
-            phuPhiChiTietVatLieu.push({
-                phuPhiCode,
-                phuPhiData,
-                ...getTamTinhTienPhuPhi(phuPhiData, groupPhuPhi[phuPhiCode] as unknown as TypeFullDataSanPham["chiTietVatLieu"])
-            });
-        };
-        const phuPhi = [...phuPhiChiTietVatLieu];
-        const tongTienPhuPhi = phuPhi.reduce(
-            (sum, item) => sum + utils.number.num(item?.tongTienPhuPhi),
-            0,
-        );
+        const { danhSachPhuPhi: danhSachPhuPhiVatLieu, tongTienPhuPhi } = getDanhSachPhuPhi(sanPham.vatLieu.map(i => ({ ...i, quantityNeedBuy: i.quantityNeed })) as unknown as TypeFullDataSanPham["chiTietVatLieu"]);
+        const phuPhi = [...danhSachPhuPhiVatLieu];
 
         return {
             ...SanPhamCanLam,
             ...sanPham,
             phuPhi,
-            tongTienSanPham,
-            tongTienPhuPhi,
             tongTien: tongTienSanPham + tongTienPhuPhi,
         };
     });
@@ -86,24 +69,10 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
         0,
     );
 
-    const allChiTietVatLieuCoPhuPhi = chiTietVatLieu.filter(c => c.phuPhiCodes?.length).flatMap(({ phuPhiCodes, ...item }) => (phuPhiCodes || []).map(phuPhiCode => ({ ...item, phuPhiCode, })));
-    const groupPhuPhi = utils.object.reMapObject(allChiTietVatLieuCoPhuPhi, "phuPhiCode", { isArray: true });
-    let phuPhiChiTietVatLieu = [];
-    for (const phuPhiCode of Object.keys(groupPhuPhi) as (keyof typeof groupPhuPhi)[]) {
-        const phuPhiData = phuPhiOpts[phuPhiCode];
-        phuPhiChiTietVatLieu.push({
-            phuPhiCode,
-            phuPhiData,
-            ...getTamTinhTienPhuPhi(phuPhiData, groupPhuPhi[phuPhiCode])
-        });
-    };
-    const chiTietPhuPhi = [...phuPhiChiTietVatLieu];
-    const tongTienPhuPhi = chiTietPhuPhi.reduce(
-        (sum, item) => sum + utils.number.num(item?.tongTienPhuPhi),
-        0,
-    );
+    const { danhSachPhuPhi: danhSachPhuPhiVatLieu, tongTienPhuPhi: tongTienPhuPhiVatLieu } = getDanhSachPhuPhi(chiTietVatLieu.map(i => ({ ...i, quantityNeedBuy: i.quantityNeed })) as unknown as TypeFullDataSanPham["chiTietVatLieu"]);
+    const chiTietPhuPhi = [...danhSachPhuPhiVatLieu];
 
-    const tongTien = tongTienvatLieuCanMua + tongTienPhuPhi;
+    const tongTien = tongTienvatLieuCanMua + tongTienPhuPhiVatLieu;
     return {
         chiTietDanhSachSanPham,
         chiTietVatLieu,
@@ -113,6 +82,27 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
         tongTienTamTinh
     };
 };
+
+const getDanhSachPhuPhi = (items: TypeFullDataSanPham["chiTietVatLieu"]) => {
+    const allChiTietVatLieuCoPhuPhi = items.filter(c => c.phuPhiCodes?.length).flatMap(({ phuPhiCodes, ...item }) => (phuPhiCodes || []).map(phuPhiCode => ({ ...item, phuPhiCode })));
+    const groupPhuPhi = utils.object.reMapObject(allChiTietVatLieuCoPhuPhi, "phuPhiCode", { isArray: true });
+
+    let phuPhiChiTietVatLieu = [];
+    for (const phuPhiCode of Object.keys(groupPhuPhi) as (keyof typeof groupPhuPhi)[]) {
+        const phuPhiData = phuPhiOpts[phuPhiCode];
+        phuPhiChiTietVatLieu.push({
+            phuPhiCode,
+            phuPhiData,
+            ...getTamTinhTienPhuPhi(phuPhiData, groupPhuPhi[phuPhiCode] as unknown as TypeFullDataSanPham["chiTietVatLieu"])
+        });
+    };
+    const danhSachPhuPhi = [...phuPhiChiTietVatLieu];
+    const tongTienPhuPhi = danhSachPhuPhi.reduce(
+        (sum, item) => sum + utils.number.num(item?.tongTienPhuPhi),
+        0,
+    );
+    return { danhSachPhuPhi, tongTienPhuPhi };
+}
 
 const getTongVatLieuCanMua = (
     vatLieuCode: VatLieuCode,

@@ -3,8 +3,29 @@ import * as utils from "@utils";
 
 export const danhSachPhuPhi = [
     {
+        name: "Gia công khung kệ 2 tầng",
+        code: "gia_cong_khung_ke_2_tang",
+        price: 35000,
+        unit: "cái",
+        value: 1,
+    },
+    {
         name: "Gia công khung kệ 3 tầng",
         code: "gia_cong_khung_ke_3_tang",
+        price: 35000,
+        unit: "cái",
+        value: 1,
+    },
+    {
+        name: "Gia công khung kệ 4 tầng",
+        code: "gia_cong_khung_ke_4_tang",
+        price: 35000,
+        unit: "cái",
+        value: 1,
+    },
+    {
+        name: "Gia công khung kệ 5 tầng",
+        code: "gia_cong_khung_ke_5_tang",
         price: 35000,
         unit: "cái",
         value: 1,
@@ -17,7 +38,7 @@ export const danhSachPhuPhi = [
         value: 1,
     },
     {
-        name: "dán viền 4 cạnh - ván ép",
+        name: "Dán viền 4 cạnh - ván ép",
         code: "dan_vien_4_canh_van_ep",
         price: 7000,
         unit: "m",
@@ -140,6 +161,7 @@ export const sanPhamBaseData = [
     {
         name: "Kệ 2 tầng - gỗ vàng nhạt",
         code: "ke_2_tang_vang_nhat",
+        phuPhiCodes: ["gia_cong_khung_ke_2_tang"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -175,6 +197,7 @@ export const sanPhamBaseData = [
     {
         name: "Kệ 2 tầng - gỗ nâu đậm",
         code: "ke_2_tang_nau_dam",
+        phuPhiCodes: ["gia_cong_khung_ke_2_tang"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -210,6 +233,7 @@ export const sanPhamBaseData = [
     {
         name: "Kệ 3 tầng - gỗ vàng nhạt",
         code: "ke_3_tang_vang_nhat",
+        phuPhiCodes: ["gia_cong_khung_ke_3_tang"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -245,6 +269,7 @@ export const sanPhamBaseData = [
     {
         name: "Kệ 3 tầng - gỗ nâu đậm",
         code: "ke_3_tang_nau_dam",
+        phuPhiCodes: ["gia_cong_khung_ke_3_tang"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -280,6 +305,7 @@ export const sanPhamBaseData = [
     {
         name: "Kệ 4 tầng - gỗ vàng nhạt",
         code: "ke_4_tang_vang_nhat",
+        phuPhiCodes: ["gia_cong_khung_ke_4_tang"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -315,6 +341,7 @@ export const sanPhamBaseData = [
     {
         name: "Kệ 4 tầng - gỗ nâu đậm",
         code: "ke_4_tang_nau_dam",
+        phuPhiCodes: ["gia_cong_khung_ke_4_tang"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -350,6 +377,7 @@ export const sanPhamBaseData = [
     {
         name: "Kệ 5 tầng - gỗ vàng nhạt",
         code: "ke_5_tang_vang_nhat",
+        phuPhiCodes: ["gia_cong_khung_ke_5_tang"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -385,6 +413,7 @@ export const sanPhamBaseData = [
     {
         name: "Kệ 5 tầng - gỗ nâu đậm",
         code: "ke_5_tang_nau_dam",
+        phuPhiCodes: ["gia_cong_khung_ke_5_tang"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
