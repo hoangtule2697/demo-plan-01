@@ -15,7 +15,6 @@ export default function BangGiaVatLieu() {
         <BaseCard
             title="Bảng giá vật liệu"
             isUseCollapse={true}
-            defaultOpen={false}
         >
             <List disablePadding>
                 {danhSachVatLieu
@@ -47,6 +46,11 @@ export default function BangGiaVatLieu() {
                                             </Typography>
                                         </Grid>
                                     </ListItem>
+                                </Grid>
+                                <Grid sx={{ ml: 4 }}>
+                                    <Typography>
+                                        {('description' in vatLieu) ? vatLieu.description : null}
+                                    </Typography>
                                 </Grid>
                                 <Divider sx={{ mt: 0.5, mb: 1 }} />
                             </Grid>

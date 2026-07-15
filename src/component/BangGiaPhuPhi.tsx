@@ -14,7 +14,6 @@ export default function BangGiaPhuPhi() {
         <BaseCard
             title="Bảng giá phụ phí"
             isUseCollapse={true}
-            defaultOpen={false}
         >
             <List disablePadding>
                 {danhSachPhuPhi
