@@ -112,14 +112,78 @@ export const vatLieuOpts = utils.object.reMapObject(vatLieuData);
 
 export const sanPhamBaseData = [
     {
+        name: "Kệ 2 tầng - gỗ vàng nhạt",
+        code: "ke_2_tang_vang_nhat",
+        vatLieu: [
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_35",
+                quantityNeed: 4,
+                width: 35,
+            },
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_30",
+                quantityNeed: 4,
+                width: 30,
+            },
+            {
+                vatLieuCode: "van_go_vang_nhat",
+                keyVatLieu: "van_go_vang_nhat_30x50",
+                quantityNeed: 2,
+                width: 50,//cm
+                height: 30,
+            },
+            {
+                vatLieuCode: "van_go_vang_nhat",
+                keyVatLieu: "van_go_vang_nhat_10x50",
+                quantityNeed: 1,
+                width: 50,
+                height: 8
+            },
+        ],
+    },
+    {
+        name: "Kệ 2 tầng - gỗ nâu đậm",
+        code: "ke_2_tang_nau_dam",
+        vatLieu: [
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_35",
+                quantityNeed: 4,
+                width: 35,
+            },
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_30",
+                quantityNeed: 4,
+                width: 30,
+            },
+            {
+                vatLieuCode: "van_go_nau_dam",
+                keyVatLieu: "van_go_nau_dam_30x50",
+                quantityNeed: 2,
+                width: 50,
+                height: 30,
+            },
+            {
+                vatLieuCode: "van_go_nau_dam",
+                keyVatLieu: "van_go_nau_dam_10x50",
+                quantityNeed: 1,
+                width: 50,
+                height: 8
+            },
+        ],
+    },
+    {
         name: "Kệ 3 tầng - gỗ vàng nhạt",
         code: "ke_3_tang_vang_nhat",
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_60",
+                keyVatLieu: "sat_hop_kem_dai_66.5",
                 quantityNeed: 4,
-                width: 60,
+                width: 66.5,
             },
             {
                 vatLieuCode: "sat_hop_kem",
@@ -131,15 +195,15 @@ export const sanPhamBaseData = [
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_30x50",
                 quantityNeed: 3,
-                width: 30,//cm
-                height: 50,
+                width: 50,//cm
+                height: 30,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_10x50",
                 quantityNeed: 2,
-                width: 10,
-                height: 50,
+                width: 50,
+                height: 8
             },
         ],
     },
@@ -149,9 +213,9 @@ export const sanPhamBaseData = [
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_60",
+                keyVatLieu: "sat_hop_kem_dai_66.5",
                 quantityNeed: 4,
-                width: 60,
+                width: 66.5,
             },
             {
                 vatLieuCode: "sat_hop_kem",
@@ -163,15 +227,15 @@ export const sanPhamBaseData = [
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_30x50",
                 quantityNeed: 3,
-                width: 30,
-                height: 50,
+                width: 50,
+                height: 30,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_10x50",
                 quantityNeed: 2,
-                width: 10,
-                height: 50,
+                width: 50,
+                height: 8
             },
         ],
     },
@@ -195,15 +259,15 @@ export const sanPhamBaseData = [
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_30x50",
                 quantityNeed: 4,
-                width: 30,
-                height: 50,
+                width: 50,
+                height: 30,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_10x50",
                 quantityNeed: 3,
-                width: 10,
-                height: 50,
+                width: 50,
+                height: 8
             },
         ],
     },
@@ -227,15 +291,15 @@ export const sanPhamBaseData = [
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_30x50",
                 quantityNeed: 4,
-                width: 30,
-                height: 50,
+                width: 50,
+                height: 30,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_10x50",
                 quantityNeed: 3,
-                width: 10,
-                height: 50,
+                width: 50,
+                height: 8
             },
         ],
     },
@@ -259,15 +323,15 @@ export const sanPhamBaseData = [
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_30x50",
                 quantityNeed: 5,
-                width: 30,
-                height: 50,
+                width: 50,
+                height: 30,
             },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_10x50",
                 quantityNeed: 4,
-                width: 10,
-                height: 50,
+                width: 50,
+                height: 8
             },
         ],
     },
@@ -291,15 +355,15 @@ export const sanPhamBaseData = [
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_30x50",
                 quantityNeed: 5,
-                width: 30,
-                height: 50,
+                width: 50,
+                height: 30,
             },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_10x50",
                 quantityNeed: 4,
-                width: 10,
-                height: 50,
+                width: 50,
+                height: 8
             },
         ],
     },

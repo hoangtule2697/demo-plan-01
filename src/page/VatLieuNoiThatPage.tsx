@@ -49,18 +49,20 @@ export default function VatLieuNoiThatPage() {
     <Container maxWidth="xl" sx={{ pb: 10, pt: 2 }}>
       <Grid container spacing={2}>
         <Grid size={{ xs: 6 }}>
-          <DanhSachCanLam
-            chiTietDanhSachSanPham={chiTietDanhSachSanPham}
-            onChangeSanPhamCanLam={onChangeSanPhamCanLam}
-            onClearDanhSachCanLam={onClearDanhSachCanLam}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 6 }}>
           <Grid sx={{ mb: 2 }}>
             <BangGiaVatLieu />
           </Grid>
 
+          <Grid>
+            <DanhSachCanLam
+              chiTietDanhSachSanPham={chiTietDanhSachSanPham}
+              onChangeSanPhamCanLam={onChangeSanPhamCanLam}
+              onClearDanhSachCanLam={onClearDanhSachCanLam}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid size={{ xs: 6 }}>
           <Grid sx={{ mb: 2 }}>
             <ChiTietVatLieu chiTietVatLieu={chiTietVatLieu} />
           </Grid>
