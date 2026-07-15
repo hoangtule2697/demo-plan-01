@@ -72,32 +72,76 @@ const getTongVatLieuCanMua = (
     dsVatLieu: TypeFullDataSanPham["chiTietVatLieu"],
 ) => {
     const vatLieuData = dsVatLieu[0]?.vatLieuData;
-    if (!vatLieuData) throw new Error(`Không tìm thấy vật liệu với code: ${vatLieuCode}`);
 
-    switch (vatLieuCode) {
-        case "sat_hop_kem":
-            let quantityNeedBuy = 0;
-            let used = 0;
-            const widthSatHop = utils.number.num(vatLieuData.width);
-            const newDs = dsVatLieu.flatMap((d) => Array(d.quantityNeedBuy).fill(d.width)).sort((a, b) => b - a);
-
-            for (const vl of newDs) {
-                used += utils.number.num(vl.width);
-                if (used >= widthSatHop) {
-                    quantityNeedBuy++;
-                    used = used - widthSatHop;
-                }
-            }
-            return {
-                vatLieuCode,
-                quantityNeedBuy: utils.number.num(quantityNeedBuy, 1),
-                totalVatLieuCanMua: utils.number.num(quantityNeedBuy, 1) * vatLieuData.price,
-                vatLieuData
-            };
+    if (!vatLieuData) {
+        throw new Error(
+            `Không tìm thấy vật liệu với code: ${vatLieuCode}`,
+        );
     }
 
-    //throw new Error(`Không tìm thấy vật liệu với code: ${vatLieuCode}`);
-}
+    switch (vatLieuCode) {
+        case "sat_hop_kem": {
+            const widthSatHop = utils.number.num(
+                vatLieuData.width,
+            );
+
+            const lengths = dsVatLieu
+                .flatMap((d) =>
+                    Array(d.quantityNeedBuy).fill(
+                        utils.number.num(d.width),
+                    ),
+                )
+                .sort((a, b) => b - a);
+
+            const bars: {
+                usedLength: number;
+                remainingLength: number;
+                cuts: number[];
+            }[] = [];
+
+            for (const length of lengths) {
+                let placed = false;
+
+                for (const bar of bars) {
+                    if (bar.remainingLength >= length) {
+                        bar.usedLength += length;
+                        bar.remainingLength -= length;
+                        bar.cuts.push(length);
+                        placed = true;
+                        break;
+                    }
+                }
+
+                if (!placed) {
+                    bars.push({
+                        usedLength: length,
+                        remainingLength:
+                            widthSatHop - length,
+                        cuts: [length],
+                    });
+                }
+            }
+
+            const totalUsed = bars.reduce((s, b) => s + b.usedLength, 0);
+            const totalLength = bars.length * widthSatHop;
+            const totalRemaining = bars.reduce((s, b) => s + b.remainingLength, 0);
+
+            return {
+                vatLieuCode,
+                quantityNeedBuy: bars.length,
+                totalVatLieuCanMua:
+                    bars.length * vatLieuData.price,
+                vatLieuData,
+                options: {
+                    bars,
+                    totalUsed,
+                    totalLength,
+                    totalRemaining
+                },
+            };
+        }
+    }
+};
 
 export const getDefaultDanhSachCanLam = (): TypeSanPhamCanLam[] => {
     const codeOrder: Record<string, number> = {};

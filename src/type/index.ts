@@ -61,6 +61,13 @@ export interface TypeSanPhamCanLam {
 export type TypeFullDataSanPham = {
     chiTietDanhSachSanPham: (TypeSanPham & TypeSanPhamCanLam & { tongTienSanPham: number })[];
     chiTietVatLieu: (TypeCanThietVatLieu & { tongTienVatLieu: number, quantityBuy: number, quantityNeedBuy: number })[];
-    tongVatLieuCanMua: ({ vatLieuCode: VatLieuCode, totalVatLieuCanMua: number, quantityNeedBuy: number, vatLieuData: TypeVatLieu })[];
+    tongVatLieuCanMua: ({
+        vatLieuCode: VatLieuCode,
+        totalVatLieuCanMua: number,
+        quantityNeedBuy: number,
+        vatLieuData: TypeVatLieu,
+        //dùng cho cắt cây sắt
+        options?: any
+    })[];
     tongTien: number;
 };
