@@ -55,7 +55,7 @@ export default function TongPhuPhi({ chiTietPhuPhi }: { chiTietPhuPhi: TypeFullD
 };
 
 export const viewOptions = ({ phuPhiCode, phuPhiData, options }: TypeFullDataSanPham["chiTietPhuPhi"][number]) => {
-    const giaCongKhungKe = () => `• ${options.quantity > 1 ? `Làm ${options.quantity} cái, ` : ""}${utils.view.displayCurrency(phuPhiData.price)} / 1cái`;
+    const optionDefault = () => `• ${options.quantityNeedDo > 1 ? `Làm ${options.quantityNeedDo} cái, ` : ""}${utils.view.displayCurrency(phuPhiData.price)} / 1cái`;
     switch (phuPhiCode) {
         case "dan_vien_4_canh_van_ep": {
             return `• ${options.totalMet}m - (${utils.view.displayCurrency(phuPhiData.price)} / 1m)`
@@ -63,21 +63,8 @@ export const viewOptions = ({ phuPhiCode, phuPhiData, options }: TypeFullDataSan
         case "son_tinh_dien": {
             return `• ${options.totalWeight}kg, ${options.totalMet}m - (${utils.view.displayCurrency(phuPhiData.price)} / 1kg)`
         }
-        case "gia_cong_khung_ke_1_tang": {
-            return giaCongKhungKe();
-        }
-        case "gia_cong_khung_ke_2_tang": {
-            return giaCongKhungKe();
-        }
-        case "gia_cong_khung_ke_3_tang": {
-            return giaCongKhungKe();
-        }
-        case "gia_cong_khung_ke_4_tang": {
-            return giaCongKhungKe();
-        }
-        case "gia_cong_khung_ke_5_tang": {
-            return giaCongKhungKe();
+        default: {
+            return optionDefault();
         }
     }
-    return "";
 }

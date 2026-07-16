@@ -18,7 +18,7 @@ export default function DanhSachCanLam({
 
     return (
         <BaseCard
-            title="Danh sách cần làm"
+            title="Danh sách sản phẩm cần làm"
             actionHeader={
                 <Button
                     variant="outlined"
