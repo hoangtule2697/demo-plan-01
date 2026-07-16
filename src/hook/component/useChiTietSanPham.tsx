@@ -73,25 +73,25 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
     const SummaryPriceSanPham = () => {
         return (
             <Grid container sx={{ mt: 1, ml: 2, justifyContent: "space-between" }}>
-                <Grid container>
+                <Grid container spacing={1}>
                     <Grid>
                         <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                            {`giá tạm tính: ${utils.view.displayCurrency(tongTien)}`}
+                            {`net: ${utils.view.displayCurrency(tongTien)}`}
                         </Typography>
                     </Grid>
                     <Grid>
-                        {giaShopee && <Typography variant="body2" color="warning" sx={{ fontWeight: "bold", ml: 1 }}>
-                            {`giá shopee: ${utils.view.displayCurrency(giaShopee)}`}
+                        {giaShopee && <Typography variant="body2" color="warning" sx={{ fontWeight: "bold" }}>
+                            {`shopee: ${utils.view.displayCurrency(giaShopee)}`}
                         </Typography>}
                     </Grid>
                     <Grid>
-                        {giaShopee && <Typography variant="body2" color={giaShopee - tongTien > 0 ? "success" : "error"} sx={{ fontWeight: "bold", ml: 1 }}>
-                            {`chênh lệch: ${utils.view.displayCurrency(giaShopee - tongTien)}`}
+                        {giaShopee && <Typography variant="body2" color={giaShopee - tongTien > 0 ? "success" : "error"} sx={{ fontWeight: "bold" }}>
+                            {`= ${utils.view.displayCurrency(giaShopee - tongTien)} (${Math.round(tongTien * 100 / giaShopee)}%)`}
                         </Typography>}
                     </Grid>
                 </Grid>
                 <Grid>
-                    {quantityBuy > 1 && <Typography variant="body2" sx={{ fontWeight: "bold", ml: 1 }}>
+                    {quantityBuy > 1 && <Typography variant="body2" sx={{ fontWeight: "bold" }}>
                         {quantityBuy > 1 ? `${quantityBuy} cái: ${utils.view.displayCurrency(tongTien * quantityBuy)}` : ""}
                     </Typography>}
                 </Grid>
