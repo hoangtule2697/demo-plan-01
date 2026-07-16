@@ -11,7 +11,7 @@ import * as utils from "@utils";
 import { viewOptions } from "component/TongPhuPhi";
 
 export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: TypeFullDataSanPham["chiTietDanhSachSanPham"][0] }) {
-    const { name, quantityBuy, vatLieu, phuPhi, tongTien, giaShopee } = sanPhamDetail;
+    const { name, vatLieu, phuPhi, tamTinhPhiNhapHang, giaShopee, giaBan, tongChiPhiSauKhiBan, soTienConLai } = sanPhamDetail;
 
     const ChiTietVatLieuSanPham = () => {
         return (
@@ -75,26 +75,46 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
             <Grid container sx={{ mt: 1, ml: 2, justifyContent: "space-between" }}>
                 <Grid container spacing={1}>
                     <Grid>
-                        <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                            {`net: ${utils.view.displayCurrency(tongTien)}`}
-                        </Typography>
-                    </Grid>
-                    <Grid>
                         {giaShopee && <Typography variant="body2" color="warning" sx={{ fontWeight: "bold" }}>
                             {`shopee: ${utils.view.displayCurrency(giaShopee)}`}
                         </Typography>}
                     </Grid>
+
                     <Grid>
-                        {giaShopee && <Typography variant="body2" color={giaShopee - tongTien > 0 ? "success" : "error"} sx={{ fontWeight: "bold" }}>
+                        <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                            {`nhập: ${utils.view.displayCurrency(tamTinhPhiNhapHang)}`}
+                        </Typography>
+                    </Grid>
+
+                    <Grid>
+                        <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                            {`phí bán: ${utils.view.displayCurrency(tongChiPhiSauKhiBan)}`}
+                        </Typography>
+                    </Grid>
+
+                    <Grid>
+                        <Typography variant="body2" color="success" sx={{ fontWeight: "bold" }}>
+                            {`bán: ${utils.view.displayCurrency(giaBan)}`}
+                        </Typography>
+                    </Grid>
+
+                    <Grid>
+                        <Typography variant="body2" color={soTienConLai > 0 ? "success" : "error"} sx={{ fontWeight: "bold" }}>
+                            {`${soTienConLai > 0 ? "lãi" : "lỗ"}: ${utils.view.displayCurrency(soTienConLai)}`}
+                        </Typography>
+                    </Grid>
+
+                    <Grid>
+                        {/* {giaShopee && <Typography variant="body2" color={giaShopee - tongTien > 0 ? "success" : "error"} sx={{ fontWeight: "bold" }}>
                             {`= ${utils.view.displayCurrency(giaShopee - tongTien)} (${Math.round(tongTien * 100 / giaShopee)}%)`}
-                        </Typography>}
+                        </Typography>} */}
                     </Grid>
                 </Grid>
-                <Grid>
+                {/* <Grid>
                     {quantityBuy > 1 && <Typography variant="body2" sx={{ fontWeight: "bold" }}>
                         {quantityBuy > 1 ? `${quantityBuy} cái: ${utils.view.displayCurrency(tongTien * quantityBuy)}` : ""}
                     </Typography>}
-                </Grid>
+                </Grid> */}
             </Grid>
         );
     }

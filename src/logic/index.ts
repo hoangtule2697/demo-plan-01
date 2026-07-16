@@ -1,28 +1,33 @@
-import { danhSachSanPham, getTamTinhTienPhuPhi, phuPhiOpts, sanPhamOpts } from "@data";
-import type { TypeFullDataSanPham, TypeSanPhamCanLam, TypeVatLieu, VatLieuCode } from "@type";
+import { chiPhiSauKhiBanOpts, danhSachSanPham, getTamTinhTienPhuPhi, phuPhiOpts, sanPhamOpts } from "@data";
+import type { TypeFullDataSanPham, TypeSanPham, TypeSanPhamCanLam, TypeVatLieu, VatLieuCode } from "@type";
 import * as utils from "@utils";
 import { MaxRectsPacker, PACKING_LOGIC } from "maxrects-packer";
 
 export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSanPham => {
     const chiTietDanhSachSanPham = (danhSachCanLam || []).map((SanPhamCanLam) => {
-        const sanPham = sanPhamOpts[SanPhamCanLam.sanPhamCode];
-        const tongTienSanPham = utils.number.num(sanPham?.tienSanPham);
+        const sanPhamData = sanPhamOpts[SanPhamCanLam.sanPhamCode];
+        const tongTienSanPham = utils.number.num(sanPhamData?.tienSanPham);
 
-        const { danhSachPhuPhi: danhSachPhuPhiVatLieu, tongTienPhuPhi: tongTienPhuPhiVatLieu } = getDanhSachPhuPhi(sanPham.vatLieu.map(i => ({ ...i, quantityNeedBuy: i.quantityNeed })) as unknown as TypeFullDataSanPham["chiTietVatLieu"]);
-        const { danhSachPhuPhi: danhSachPhuPhiSanPham, tongTienPhuPhi: tongTienPhuPhiSanPham } = getDanhSachPhuPhi([sanPham] as unknown as TypeFullDataSanPham["chiTietVatLieu"]);
-
+        const { danhSachPhuPhi: danhSachPhuPhiVatLieu, tongTienPhuPhi: tongTienPhuPhiVatLieu } = getDanhSachPhuPhi(sanPhamData.vatLieu.map(i => ({ ...i, quantityNeedBuy: i.quantityNeed })) as unknown as TypeFullDataSanPham["chiTietVatLieu"]);
+        const { danhSachPhuPhi: danhSachPhuPhiSanPham, tongTienPhuPhi: tongTienPhuPhiSanPham } = getDanhSachPhuPhi([sanPhamData] as unknown as TypeFullDataSanPham["chiTietVatLieu"]);
         const phuPhi = [...danhSachPhuPhiVatLieu, ...danhSachPhuPhiSanPham];
+        const tamTinhPhiNhapHang = tongTienSanPham + tongTienPhuPhiVatLieu + tongTienPhuPhiSanPham;
+
+        const { danhSachChiPhiSauKhiBan, tongChiPhiSauKhiBan } = getDanhSachPhiSauKhiBan(sanPhamData);
 
         return {
             ...SanPhamCanLam,
-            ...sanPham,
+            ...sanPhamData,
+            danhSachChiPhiSauKhiBan,
             phuPhi,
-            tongTien: tongTienSanPham + tongTienPhuPhiVatLieu + tongTienPhuPhiSanPham,
+            tongChiPhiSauKhiBan,
+            tamTinhPhiNhapHang,
+            soTienConLai: sanPhamData.giaBan - tamTinhPhiNhapHang - tongChiPhiSauKhiBan
         };
     });
 
-    const tongTienTamTinh = chiTietDanhSachSanPham.filter(c => c.quantityBuy).reduce(
-        (sum, item) => sum + utils.number.num(item.tongTien) * utils.number.num(item.quantityBuy),
+    const tamTinhTongPhiNhapHang = chiTietDanhSachSanPham.filter(c => c.quantityBuy).reduce(
+        (sum, item) => sum + utils.number.num(item.tamTinhPhiNhapHang) * utils.number.num(item.quantityBuy),
         0,
     );
 
@@ -75,14 +80,14 @@ export const getFullData = (danhSachCanLam: TypeSanPhamCanLam[]): TypeFullDataSa
     const { danhSachPhuPhi: danhSachPhuPhiSanPham, tongTienPhuPhi: tongTienPhuPhiSanPham } = getDanhSachPhuPhi(chiTietDanhSachSanPham.filter(c => c.quantityBuy).map(i => ({ ...i, quantityNeedBuy: i.quantityBuy })) as unknown as TypeFullDataSanPham["chiTietVatLieu"]);
     const chiTietPhuPhi = [...danhSachPhuPhiVatLieu, ...danhSachPhuPhiSanPham];
 
-    const tongTien = tongTienvatLieuCanMua + tongTienPhuPhiVatLieu + tongTienPhuPhiSanPham;
+    const tongPhiNhapHang = tongTienvatLieuCanMua + tongTienPhuPhiVatLieu + tongTienPhuPhiSanPham;
     return {
         chiTietDanhSachSanPham,
         chiTietVatLieu,
         chiTietVatLieuCanMua,
         chiTietPhuPhi,
-        tongTien,
-        tongTienTamTinh
+        tongPhiNhapHang,
+        tamTinhTongPhiNhapHang
     };
 };
 
@@ -107,6 +112,22 @@ const getDanhSachPhuPhi = (items: TypeFullDataSanPham["chiTietVatLieu"]) => {
         0,
     );
     return { danhSachPhuPhi, tongTienPhuPhi };
+}
+
+const getDanhSachPhiSauKhiBan = (sanPhamData: TypeSanPham) => {
+    const danhSachChiPhiSauKhiBan = (sanPhamData.chiPhiSauKhiBanCodes || []).map(chiPhiSauKhiBanCode => {
+        const chiPhiSauKhiBanData = chiPhiSauKhiBanOpts[chiPhiSauKhiBanCode];
+        return {
+            chiPhiSauKhiBanData,
+            tongChiTietChiPhiSauKhiBan: chiPhiSauKhiBanData.amountType === "VND" ? chiPhiSauKhiBanData.value : (chiPhiSauKhiBanData.value * sanPhamData.giaBan / 100)
+        }
+    })
+
+    const tongChiPhiSauKhiBan = danhSachChiPhiSauKhiBan.reduce(
+        (sum, item) => sum + utils.number.num(item?.tongChiTietChiPhiSauKhiBan),
+        0,
+    );
+    return { danhSachChiPhiSauKhiBan, tongChiPhiSauKhiBan };
 }
 
 const getTongVatLieuCanMua = (

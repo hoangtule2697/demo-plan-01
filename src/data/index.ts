@@ -1,4 +1,4 @@
-import type { TypeCanThietVatLieu, TypeFullDataSanPham, TypePhuPhi, TypeSanPham, TypeVatLieu } from "@type";
+import type { TypeCanThietVatLieu, TypeChiPhiSauKhiBan, TypeFullDataSanPham, TypePhuPhi, TypeSanPham, TypeVatLieu } from "@type";
 import * as utils from "@utils";
 
 const activeGiaCongKhungKe = true;
@@ -72,6 +72,28 @@ export const phuPhiBaseData = [
 
 export const danhSachPhuPhi = phuPhiBaseData.filter(i => i.active);
 export const phuPhiOpts = utils.object.reMapObject(danhSachPhuPhi);
+
+export const danhSachChiPhiSauKhiBan = [
+    {
+        name: "Phí sàn shopee",
+        code: "phi_san_shopee",
+        value: 35,
+        amountType: "%"
+    },
+    {
+        name: "Phí vận chuyển hàng cồng kềnh",
+        code: "phi_van_chuyen_hang_cong_kenh",
+        value: 60000,
+        amountType: "VND"
+    },
+    {
+        name: "Phí vận chuyển hàng nhẹ",
+        code: "phi_van_chuyen_hang_nhe",
+        value: 20000,
+        amountType: "VND"
+    },
+] as const satisfies TypeChiPhiSauKhiBan[];
+export const chiPhiSauKhiBanOpts = utils.object.reMapObject(danhSachChiPhiSauKhiBan);
 
 export const getTitleVatLieu = (item: TypeCanThietVatLieu, vatLieuData: TypeVatLieu) => {
     const vl = vatLieuOpts[item.vatLieuCode];
@@ -195,7 +217,9 @@ export const sanPhamBaseData = [
         name: "Kệ 1 tầng - gỗ vàng nhạt",
         code: "ke_1_tang_vang_nhat",
         giaShopee: 150000,
+        giaBan: 150000,
         phuPhiCodes: ["gia_cong_khung_ke_1_tang", "phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -233,7 +257,9 @@ export const sanPhamBaseData = [
         name: "Kệ 1 tầng - gỗ nâu đậm",
         code: "ke_1_tang_nau_dam",
         giaShopee: 150000,
+        giaBan: 150000,
         phuPhiCodes: ["gia_cong_khung_ke_1_tang", "phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -271,7 +297,9 @@ export const sanPhamBaseData = [
         name: "Kệ 2 tầng - gỗ vàng nhạt",
         code: "ke_2_tang_vang_nhat",
         giaShopee: 280000,
+        giaBan: 280000,
         phuPhiCodes: ["gia_cong_khung_ke_2_tang", "phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -309,7 +337,9 @@ export const sanPhamBaseData = [
         name: "Kệ 2 tầng - gỗ nâu đậm",
         code: "ke_2_tang_nau_dam",
         giaShopee: 280000,
+        giaBan: 280000,
         phuPhiCodes: ["gia_cong_khung_ke_2_tang", "phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -347,7 +377,9 @@ export const sanPhamBaseData = [
         name: "Kệ 3 tầng - gỗ vàng nhạt",
         code: "ke_3_tang_vang_nhat",
         giaShopee: 350000,
+        giaBan: 350000,
         phuPhiCodes: ["gia_cong_khung_ke_3_tang", "phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -385,7 +417,9 @@ export const sanPhamBaseData = [
         name: "Kệ 3 tầng - gỗ nâu đậm",
         code: "ke_3_tang_nau_dam",
         giaShopee: 350000,
+        giaBan: 350000,
         phuPhiCodes: ["gia_cong_khung_ke_3_tang", "phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -423,7 +457,9 @@ export const sanPhamBaseData = [
         name: "Kệ 4 tầng - gỗ vàng nhạt",
         code: "ke_4_tang_vang_nhat",
         giaShopee: 470000,
+        giaBan: 470000,
         phuPhiCodes: ["gia_cong_khung_ke_4_tang", "phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -461,7 +497,9 @@ export const sanPhamBaseData = [
         name: "Kệ 4 tầng - gỗ nâu đậm",
         code: "ke_4_tang_nau_dam",
         giaShopee: 470000,
+        giaBan: 470000,
         phuPhiCodes: ["gia_cong_khung_ke_4_tang", "phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -499,7 +537,9 @@ export const sanPhamBaseData = [
         name: "Kệ 5 tầng - gỗ vàng nhạt",
         code: "ke_5_tang_vang_nhat",
         giaShopee: 550000,
+        giaBan: 550000,
         phuPhiCodes: ["gia_cong_khung_ke_5_tang", "phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",
@@ -537,7 +577,9 @@ export const sanPhamBaseData = [
         name: "Kệ 5 tầng - gỗ nâu đậm",
         code: "ke_5_tang_nau_dam",
         giaShopee: 550000,
+        giaBan: 550000,
         phuPhiCodes: ["gia_cong_khung_ke_5_tang", "phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
             {
                 vatLieuCode: "sat_hop_kem",

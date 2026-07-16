@@ -1,6 +1,7 @@
-import type { danhSachSanPham, danhSachVatLieu, phuPhiBaseData } from "@data";
+import type { danhSachChiPhiSauKhiBan, danhSachSanPham, danhSachVatLieu, phuPhiBaseData } from "@data";
 
 export type Unit = "cm" | "m" | "m2" | "hộp" | "phần" | "kg" | "cái" | "tấm" | "cây";
+export type AmountType = "%" | "VND";
 
 export interface TypePhuPhi {
     name: string;
@@ -10,8 +11,15 @@ export interface TypePhuPhi {
     value: number;
     active: boolean;
 }
-
 export type PhuPhiCode = (typeof phuPhiBaseData)[number]["code"];
+
+export interface TypeChiPhiSauKhiBan {
+    name: string;
+    code: string;
+    value: number;
+    amountType: AmountType;
+}
+export type ChiPhiSauKhiBanCode = (typeof danhSachChiPhiSauKhiBan)[number]["code"];
 
 export interface TypeVatLieu {
     name: string;
@@ -55,8 +63,10 @@ export interface TypeSanPham {
     vatLieu: TypeCanThietVatLieu[];
     active: boolean;
     phuPhiCodes?: PhuPhiCode[];
+    chiPhiSauKhiBanCodes?: ChiPhiSauKhiBanCode[];
     tienSanPham?: number;
     giaShopee?: number;
+    giaBan: number;
 }
 
 export type SanPhamCode = (typeof danhSachSanPham)[number]["code"];
@@ -75,7 +85,13 @@ export type TypeFullDataSanPham = {
                 tongTienPhuPhi: number,
                 options?: any
             })[],
-            tongTien: number
+            tamTinhPhiNhapHang: number,
+            danhSachChiPhiSauKhiBan: ({
+                chiPhiSauKhiBanData: TypeChiPhiSauKhiBan,
+                tongChiTietChiPhiSauKhiBan: number,
+            })[],
+            tongChiPhiSauKhiBan: number,
+            soTienConLai: number,
         })[];
     chiTietVatLieu: (TypeCanThietVatLieu & { tongTienVatLieu: number, quantityBuy: number, quantityNeedBuy: number })[];
     chiTietVatLieuCanMua: ({
@@ -92,6 +108,6 @@ export type TypeFullDataSanPham = {
         tongTienPhuPhi: number,
         options?: any
     })[];
-    tongTien: number;
-    tongTienTamTinh: number;
+    tongPhiNhapHang: number;
+    tamTinhTongPhiNhapHang: number;
 };

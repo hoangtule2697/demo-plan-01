@@ -18,7 +18,7 @@ export default function VatLieuNoiThatPage() {
   );
 
   const data = logic.getFullData(danhSachCanLam);
-  const { chiTietDanhSachSanPham, chiTietVatLieu, chiTietVatLieuCanMua, chiTietPhuPhi, tongTien, tongTienTamTinh } = data;
+  const { chiTietDanhSachSanPham, chiTietVatLieu, chiTietVatLieuCanMua, chiTietPhuPhi, tongPhiNhapHang, tamTinhTongPhiNhapHang } = data;
 
   const onChangeDanhSachCanLam = (
     updatedCanLams: TypeSanPhamCanLam[],
@@ -59,7 +59,7 @@ export default function VatLieuNoiThatPage() {
 
           <Grid sx={{ mb: 2 }}>
             <DanhSachCanLam
-              tongTienTamTinh={tongTienTamTinh}
+              tamTinhTongPhiNhapHang={tamTinhTongPhiNhapHang}
               chiTietDanhSachSanPham={chiTietDanhSachSanPham}
               onChangeSanPhamCanLam={onChangeSanPhamCanLam}
               onClearDanhSachCanLam={onClearDanhSachCanLam}
@@ -97,12 +97,12 @@ export default function VatLieuNoiThatPage() {
         <Grid container sx={{ justifyContent: "end" }}>
           <Grid sx={{ mr: 6 }}>
             <Typography variant="h5" sx={{ fontWeight: 700 }}>
-              Tạm tính: {utils.view.displayCurrency(tongTienTamTinh)}
+              Tạm Tính Tổng Phí Nhập Hàng: {utils.view.displayCurrency(tamTinhTongPhiNhapHang)}
             </Typography>
           </Grid>
           <Grid>
             <Typography variant="h5" color="success" sx={{ fontWeight: 700 }}>
-              Tổng cộng: {utils.view.displayCurrency(tongTien)}
+              Tổng cộng Phí Nhập Hàng: {utils.view.displayCurrency(tongPhiNhapHang)}
             </Typography>
           </Grid>
         </Grid>

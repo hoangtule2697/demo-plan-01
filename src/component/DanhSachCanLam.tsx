@@ -1,17 +1,17 @@
 import { BaseCard, BaseDrawer, QuantityButton } from "@component/base";
-import { Button, Grid, List, ListItem, Typography } from "@mui/material";
+import { Button, Divider, Grid, List, ListItem, Typography } from "@mui/material";
 import type { TypeFullDataSanPham } from "@type";
 import * as utils from "@utils";
 import useChiTietSanPham from "hook/component/useChiTietSanPham";
 
 export default function DanhSachCanLam({
     chiTietDanhSachSanPham,
-    tongTienTamTinh,
+    tamTinhTongPhiNhapHang,
     onChangeSanPhamCanLam = () => { },
     onClearDanhSachCanLam = () => { },
 }: {
     chiTietDanhSachSanPham: TypeFullDataSanPham["chiTietDanhSachSanPham"];
-    tongTienTamTinh: TypeFullDataSanPham["tongTienTamTinh"];
+    tamTinhTongPhiNhapHang: TypeFullDataSanPham["tamTinhTongPhiNhapHang"];
     onChangeSanPhamCanLam?: (index: number, newQuantity: number) => void;
     onClearDanhSachCanLam?: () => void;
 }) {
@@ -40,7 +40,7 @@ export default function DanhSachCanLam({
                 ))}
                 <Grid sx={{ pt: 2, position: "sticky", bottom: 0, bgcolor: "#fff" }}>
                     <Typography sx={{ fontWeight: "bold", textAlign: "right" }}>
-                        tổng tiền tạm tính: {utils.view.displayCurrency(tongTienTamTinh)}
+                        tổng phí nhập hàng tạm tính: {utils.view.displayCurrency(tamTinhTongPhiNhapHang)}
                     </Typography>
                 </Grid>
             </List>
@@ -51,7 +51,7 @@ export default function DanhSachCanLam({
 const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: { sanPhamDetail: TypeFullDataSanPham["chiTietDanhSachSanPham"][0]; indexSanPham: number; onChangeSanPhamCanLam: (index: number, newQuantity: number) => void }) => {
     if (!sanPhamDetail) return null;
     const { ChiTietVatLieuSanPham, SummaryPriceSanPham } = useChiTietSanPham({ sanPhamDetail });
-    const { name, quantityBuy } = sanPhamDetail;
+    const { name, quantityBuy, danhSachChiPhiSauKhiBan, giaBan, tamTinhPhiNhapHang, soTienConLai } = sanPhamDetail;
 
     return (
         <ListItem
@@ -74,9 +74,64 @@ const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: 
                             drawerProps={{ anchor: "left" }}
                             contentProps={{ sx: { p: 0, minWidth: "40svw" } }}
                             OpenButton={(p) => <Typography sx={{ color: "#1976d2", textDecoration: "underline", cursor: "pointer" }} {...p}>{`${quantityBuy} cái ${name}`}</Typography>}
-                            footer={<Grid container sx={{ justifyContent: "end" }}><SummaryPriceSanPham /></Grid>}
+                        // footer={<Grid container sx={{ justifyContent: "end" }}><SummaryPriceSanPham /></Grid>}
                         >
                             <ChiTietVatLieuSanPham />
+
+                            <Grid container sx={{ justifyContent: "space-between", p: 0.5 }}>
+                                <Grid>
+                                    <Typography>Tổng phí làm sản phẩm</Typography>
+                                </Grid>
+                                <Grid>
+                                    <Typography sx={{ fontWeight: "bold" }}>{utils.view.displayCurrency(tamTinhPhiNhapHang)}</Typography>
+                                </Grid>
+                            </Grid>
+
+                            {/* <Grid container sx={{ justifyContent: "end" }}>
+                                <SummaryPriceSanPham />
+                            </Grid> */}
+
+                            <Grid container sx={{ justifyContent: "space-between", p: 0.5, mt: 3 }}>
+                                <Grid>
+                                    <Typography sx={{ fontWeight: "bold" }}>Trừ phí sau khi bán 1 sp</Typography>
+                                </Grid>
+                                <Grid>
+                                    <Typography color="success">bán: {utils.view.displayCurrency(giaBan)}</Typography>
+                                </Grid>
+                            </Grid>
+
+                            <Grid container sx={{ justifyContent: "space-between", p: 0.5 }}>
+                                <Grid>
+                                    <Typography>Tổng phí làm sản phẩm</Typography>
+                                </Grid>
+                                <Grid>
+                                    <Typography>- {utils.view.displayCurrency(tamTinhPhiNhapHang)}</Typography>
+                                </Grid>
+                            </Grid>
+
+                            <Grid>
+                                {(danhSachChiPhiSauKhiBan || []).map(({ chiPhiSauKhiBanData, tongChiTietChiPhiSauKhiBan }) => {
+                                    return <Grid container sx={{ justifyContent: "space-between", p: 0.5 }}>
+                                        <Grid>
+                                            <Typography>{chiPhiSauKhiBanData.name} ({chiPhiSauKhiBanData.amountType === "%" ? `${chiPhiSauKhiBanData.value}%` : utils.view.displayCurrency(chiPhiSauKhiBanData.value)})</Typography>
+                                        </Grid>
+                                        <Grid>
+                                            <Typography>- {utils.view.displayCurrency(tongChiTietChiPhiSauKhiBan)}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                })}
+                            </Grid>
+
+                            <Divider sx={{ mt: 0.5, mb: 0.5 }} />
+
+                            <Grid container sx={{ justifyContent: "space-between", p: 0.5 }}>
+                                <Grid>
+                                    <Typography>còn lại</Typography>
+                                </Grid>
+                                <Grid>
+                                    <Typography sx={{ fontWeight: "bold" }} color={soTienConLai > 0 ? "success" : "error"}>{utils.view.displayCurrency(soTienConLai)}</Typography>
+                                </Grid>
+                            </Grid>
                         </BaseDrawer>
                     </Grid>
 
