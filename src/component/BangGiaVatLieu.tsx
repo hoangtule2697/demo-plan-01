@@ -1,4 +1,4 @@
-import { BaseCard } from "@component/base";
+import { BaseDrawer } from "@component/base";
 import { danhSachVatLieu, getTamTinhTienVatLieu, getTitleVatLieu } from "@data";
 import {
     Divider,
@@ -12,7 +12,7 @@ import * as utils from "@utils";
 
 export default function BangGiaVatLieu() {
     return (
-        <BaseCard title="Bảng giá vật liệu">
+        <BaseDrawer title="Bảng giá vật liệu" drawerProps={{ anchor: "left" }}>
             <List disablePadding>
                 {danhSachVatLieu
                     .map(
@@ -54,6 +54,6 @@ export default function BangGiaVatLieu() {
                         )
                     )}
             </List>
-        </BaseCard>
+        </BaseDrawer>
     );
 };

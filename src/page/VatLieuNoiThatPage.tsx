@@ -51,6 +51,12 @@ export default function VatLieuNoiThatPage() {
     <Container maxWidth="xl" sx={{ pb: 10, pt: 2 }}>
       <Grid container spacing={2}>
         <Grid size={{ xs: 6 }}>
+          <Grid container spacing={1} sx={{ mb: 2 }}>
+            <BangGiaVatLieu />
+
+            <BangGiaPhuPhi />
+          </Grid>
+
           <Grid sx={{ mb: 2 }}>
             <DanhSachCanLam
               tongTienTamTinh={tongTienTamTinh}
@@ -58,14 +64,6 @@ export default function VatLieuNoiThatPage() {
               onChangeSanPhamCanLam={onChangeSanPhamCanLam}
               onClearDanhSachCanLam={onClearDanhSachCanLam}
             />
-          </Grid>
-
-          <Grid sx={{ mb: 2 }}>
-            <BangGiaVatLieu />
-          </Grid>
-
-          <Grid sx={{ mb: 2 }}>
-            <BangGiaPhuPhi />
           </Grid>
         </Grid>
 

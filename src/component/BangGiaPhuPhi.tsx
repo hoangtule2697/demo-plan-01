@@ -1,4 +1,4 @@
-import { BaseCard } from "@component/base";
+import { BaseDrawer } from "@component/base";
 import { danhSachPhuPhi } from "@data";
 import {
     Divider,
@@ -11,7 +11,7 @@ import * as utils from "@utils";
 
 export default function BangGiaPhuPhi() {
     return (
-        <BaseCard title="Bảng giá phụ phí">
+        <BaseDrawer title="Bảng giá phụ phí" drawerProps={{ anchor: "left" }}>
             <List disablePadding>
                 {danhSachPhuPhi
                     .map(
@@ -35,6 +35,6 @@ export default function BangGiaPhuPhi() {
                         ),
                     )}
             </List>
-        </BaseCard>
+        </BaseDrawer>
     );
 };
