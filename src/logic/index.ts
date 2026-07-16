@@ -142,10 +142,10 @@ const getTongVatLieuCanMua = (
 
     switch (vatLieuCode) {
         case "sat_hop_kem": {
-            return getTongVatLieuCanMuaSatHop(vatLieuCode, vatLieuData, dsVatLieu);
+            return getTongVatLieuCanMuaSatHopV2(vatLieuCode, vatLieuData, dsVatLieu);
         }
         case "sat_hop_den": {
-            return getTongVatLieuCanMuaSatHop(vatLieuCode, vatLieuData, dsVatLieu);
+            return getTongVatLieuCanMuaSatHopV2(vatLieuCode, vatLieuData, dsVatLieu);
         }
         case "van_go_vang_nhat": {
             return getTongVatLieuCanMuaVanGo(vatLieuCode, vatLieuData, dsVatLieu);
@@ -208,6 +208,82 @@ const getTongVatLieuCanMuaSatHop = (vatLieuCode: VatLieuCode, vatLieuData: TypeV
             totalRemaining
         },
     };
+}
+
+const getTongVatLieuCanMuaSatHopV2 = (vatLieuCode: VatLieuCode, vatLieuData: TypeVatLieu, dsVatLieu: TypeFullDataSanPham["chiTietVatLieu"]) => {
+    const widthSatHop = utils.number.num(vatLieuData.width);
+    const heightSatHop = 20;
+
+    const allPieces = dsVatLieu.filter(d => d.width)
+        .flatMap((d) => Array(d.quantityNeedBuy)
+            .fill({ width: utils.number.num(d.width), height: 20 }))
+        .sort((a, b) => {
+            return b.width * b.height - a.width * a.height;
+        });
+
+    const packer = new MaxRectsPacker(widthSatHop, heightSatHop, 0, // hao lưỡi cưa 3mm
+        {
+            smart: false,
+            pot: false,
+            square: false,
+            allowRotation: false, // giữ chiều vân gỗ
+            border: 0,
+            logic: PACKING_LOGIC.MAX_EDGE
+        }
+    );
+
+    for (const { width, height } of allPieces) {
+        packer.add(width, height, {
+            allowRotation: false
+        });
+    }
+
+    const pieces = packer.bins.map((bin) => {
+        const newRests = bin.rects.map((r) => ({
+            width: r.width,
+            height: r.height,
+            rotated: r.rot,
+            x: r.x,
+            y: r.y,
+            x2: r.x + r.width,
+            y2: r.y + r.height,
+        }));
+        const usedArea = bin.rects.reduce((sum, r) => sum + r.width * r.height, 0);
+        const totalArea = widthSatHop * heightSatHop;
+        const usedPercent = (usedArea / totalArea) * 100;
+        const totalLength = widthSatHop;
+        const totalUsed = Math.round(usedPercent * totalLength / 100);
+        const totalRemaining = totalLength - totalUsed;
+        return {
+            rects: newRests,
+            usedArea,
+            totalArea,
+            usedPercent: Math.round(usedPercent),
+            totalUsed,
+            totalLength,
+            totalRemaining
+        };
+    });
+
+    const quantityNeedBuy = packer.bins.length;
+    const usedPercent = pieces.reduce((sum, r) => sum + r.usedPercent, 0) / pieces.length;
+    const totalLength = quantityNeedBuy * widthSatHop;
+    const totalUsed = Math.round(usedPercent * totalLength / 100);
+    const totalRemaining = totalLength - totalUsed;
+
+    return {
+        vatLieuCode,
+        vatLieuData,
+        quantityNeedBuy,
+        totalVatLieuCanMua: quantityNeedBuy * vatLieuData.price,
+        options: {
+            pieces,
+            usedPercent: Math.round(usedPercent),
+            totalUsed,
+            totalLength,
+            totalRemaining
+        }
+    }
 }
 
 const getTongVatLieuCanMuaVanGo = (vatLieuCode: VatLieuCode, vatLieuData: TypeVatLieu, dsVatLieu: TypeFullDataSanPham["chiTietVatLieu"]) => {

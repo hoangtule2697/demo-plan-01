@@ -221,18 +221,25 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_1_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_35",
+            //     quantityNeed: 4,
+            //     width: 35,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_30",
+            //     quantityNeed: 4,
+            //     width: 30,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_35",
-                quantityNeed: 4,
-                width: 35,
-                phuPhiCodes: ["son_tinh_dien"]
-            },
-            {
-                vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_30",
-                quantityNeed: 4,
-                width: 30,
+                keyVatLieu: "sat_hop_kem_dai_130",
+                quantityNeed: 2,
+                width: 130,//35x30
                 phuPhiCodes: ["son_tinh_dien"]
             },
             {
@@ -261,18 +268,25 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_1_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_35",
+            //     quantityNeed: 4,
+            //     width: 35,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_30",
+            //     quantityNeed: 4,
+            //     width: 30,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_35",
-                quantityNeed: 4,
-                width: 35,
-                phuPhiCodes: ["son_tinh_dien"]
-            },
-            {
-                vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_30",
-                quantityNeed: 4,
-                width: 30,
+                keyVatLieu: "sat_hop_kem_dai_130",
+                quantityNeed: 2,
+                width: 130,//35x30
                 phuPhiCodes: ["son_tinh_dien"]
             },
             {
@@ -301,18 +315,25 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_2_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_35",
+            //     quantityNeed: 4,
+            //     width: 35,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_30",
+            //     quantityNeed: 4,
+            //     width: 30,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_35",
-                quantityNeed: 4,
-                width: 35,
-                phuPhiCodes: ["son_tinh_dien"]
-            },
-            {
-                vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_30",
-                quantityNeed: 4,
-                width: 30,
+                keyVatLieu: "sat_hop_kem_dai_130",
+                quantityNeed: 2,
+                width: 130,//35x30
                 phuPhiCodes: ["son_tinh_dien"]
             },
             {
@@ -341,18 +362,25 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_2_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_35",
+            //     quantityNeed: 4,
+            //     width: 35,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_30",
+            //     quantityNeed: 4,
+            //     width: 30,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_35",
-                quantityNeed: 4,
-                width: 35,
-                phuPhiCodes: ["son_tinh_dien"]
-            },
-            {
-                vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_30",
-                quantityNeed: 4,
-                width: 30,
+                keyVatLieu: "sat_hop_kem_dai_130",
+                quantityNeed: 2,
+                width: 130,//35x30
                 phuPhiCodes: ["son_tinh_dien"]
             },
             {
@@ -381,18 +409,25 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_3_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_66.5",
+            //     quantityNeed: 4,
+            //     width: 66.5,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_30",
+            //     quantityNeed: 4,
+            //     width: 30,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_66.5",
-                quantityNeed: 4,
-                width: 66.5,
-                phuPhiCodes: ["son_tinh_dien"]
-            },
-            {
-                vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_30",
-                quantityNeed: 4,
-                width: 30,
+                keyVatLieu: "sat_hop_kem_dai_200",
+                quantityNeed: 2,
+                width: 200,//70x30
                 phuPhiCodes: ["son_tinh_dien"]
             },
             {
@@ -421,18 +456,25 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_3_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_66.5",
+            //     quantityNeed: 4,
+            //     width: 66.5,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_30",
+            //     quantityNeed: 4,
+            //     width: 30,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_66.5",
-                quantityNeed: 4,
-                width: 66.5,
-                phuPhiCodes: ["son_tinh_dien"]
-            },
-            {
-                vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_30",
-                quantityNeed: 4,
-                width: 30,
+                keyVatLieu: "sat_hop_kem_dai_200",
+                quantityNeed: 2,
+                width: 200,//70x30
                 phuPhiCodes: ["son_tinh_dien"]
             },
             {
@@ -461,18 +503,25 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_4_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_100",
+            //     quantityNeed: 4,
+            //     width: 100,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_30",
+            //     quantityNeed: 4,
+            //     width: 30,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_100",
-                quantityNeed: 4,
-                width: 100,
-                phuPhiCodes: ["son_tinh_dien"]
-            },
-            {
-                vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_30",
-                quantityNeed: 4,
-                width: 30,
+                keyVatLieu: "sat_hop_kem_dai_260",
+                quantityNeed: 2,
+                width: 260,//100x30
                 phuPhiCodes: ["son_tinh_dien"]
             },
             {
@@ -501,18 +550,25 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_4_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_100",
+            //     quantityNeed: 4,
+            //     width: 100,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_30",
+            //     quantityNeed: 4,
+            //     width: 30,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_100",
-                quantityNeed: 4,
-                width: 100,
-                phuPhiCodes: ["son_tinh_dien"]
-            },
-            {
-                vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_30",
-                quantityNeed: 4,
-                width: 30,
+                keyVatLieu: "sat_hop_kem_dai_260",
+                quantityNeed: 2,
+                width: 260,//100x30
                 phuPhiCodes: ["son_tinh_dien"]
             },
             {
@@ -541,18 +597,25 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_5_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_130",
+            //     quantityNeed: 4,
+            //     width: 130,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_30",
+            //     quantityNeed: 4,
+            //     width: 30,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_130",
-                quantityNeed: 4,
-                width: 130,
-                phuPhiCodes: ["son_tinh_dien"]
-            },
-            {
-                vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_30",
-                quantityNeed: 4,
-                width: 30,
+                keyVatLieu: "sat_hop_kem_dai_320",
+                quantityNeed: 2,
+                width: 320,//130x30
                 phuPhiCodes: ["son_tinh_dien"]
             },
             {
@@ -581,18 +644,25 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_5_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_130",
+            //     quantityNeed: 4,
+            //     width: 130,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_30",
+            //     quantityNeed: 4,
+            //     width: 30,
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_130",
-                quantityNeed: 4,
-                width: 130,
-                phuPhiCodes: ["son_tinh_dien"]
-            },
-            {
-                vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_30",
-                quantityNeed: 4,
-                width: 30,
+                keyVatLieu: "sat_hop_kem_dai_320",
+                quantityNeed: 2,
+                width: 320,//130x30
                 phuPhiCodes: ["son_tinh_dien"]
             },
             {
