@@ -16,12 +16,14 @@ const BaseDrawer = ({
     actionHeader,
     OpenButton,
     children,
+    footer,
     headerProps,
     drawerProps,
     contentProps,
 }: DrawerProps & {
     title?: string;
     header?: ReactNode;
+    footer?: ReactNode;
     actionHeader?: ReactNode;
     OpenButton?: ElementType;
     children?: ReactNode;
@@ -43,10 +45,26 @@ const BaseDrawer = ({
                 <OpenButton onClick={toggleDrawer(true)} />
             </Grid>
             <Grid>
-                <Drawer open={open} onClose={toggleDrawer(false)} anchor={"right"} {...drawerProps}>
-                    <Grid sx={{ p: 1 }}>
+                <Drawer
+                    open={open}
+                    anchor={"right"}
+                    onClose={toggleDrawer(false)}
+                    {...drawerProps}
+                >
+                    <Grid sx={{ position: "relative" }}>
                         {!!(header || title || actionHeader) && (
-                            <>
+                            <Grid
+                                sx={{
+                                    position: "sticky",
+                                    left: 0,
+                                    right: 0,
+                                    top: 0,
+                                    p: 2,
+                                    paddingBottom: 0,
+                                    zIndex: (theme) => theme.zIndex.appBar,
+                                    bgcolor: "#fff"
+                                }}
+                            >
                                 <CardHeader
                                     title={<Grid data-testid="base-card-header">
                                         <Grid container spacing={1} sx={{ justifyContent: "space-between" }}>
@@ -57,22 +75,34 @@ const BaseDrawer = ({
                                         </Grid>
                                         <Grid>{header}</Grid>
                                     </Grid>}
-                                    sx={{
-                                        py: 1.5,
-                                        px: 2,
-                                        p: 0,
-                                    }}
+                                    sx={{ py: 1.5, px: 2, p: 0 }}
                                     {...headerProps}
                                 />
-                                <Grid sx={{ mt: 1, mb: 1 }}>
-                                    <Divider />
-                                </Grid>
-                            </>
+                                <Divider sx={{ mt: 1 }} />
+                            </Grid>
                         )}
 
-                        <CardContent sx={{ p: 0, minWidth: "500px" }} {...contentProps}>
-                            {children}
-                        </CardContent>
+                        <Grid sx={{ p: 1, minHeight: "82svh" }}>
+                            <CardContent sx={{ p: 0, minWidth: "500px" }} {...contentProps}>
+                                {children}
+                            </CardContent>
+                        </Grid>
+
+                        {footer && <Grid
+                            sx={{
+                                position: "sticky",
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                p: 2,
+                                paddingTop: 0,
+                                zIndex: (theme) => theme.zIndex.appBar,
+                                bgcolor: "#fff"
+                            }}
+                        >
+                            <Divider sx={{ mb: 1 }} />
+                            {footer}
+                        </Grid>}
                     </Grid>
                 </Drawer>
             </Grid>

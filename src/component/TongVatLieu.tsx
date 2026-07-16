@@ -61,7 +61,7 @@ export default function TongVatLieu({ chiTietVatLieuCanMua }: { chiTietVatLieuCa
                                                     </Typography>
                                                 </Grid>
                                                 <Grid>
-                                                    <BaseDrawer title="Chi tiết bản vẽ" contentProps={{ sx: { p: 0, minWidth: "1300px" } }}>
+                                                    <BaseDrawer title="Chi tiết bản vẽ" contentProps={{ sx: { p: 0, minWidth: "60svw" } }}>
                                                         <ChiTietBanVe {...vatLieuCanMua} />
                                                     </BaseDrawer>
                                                 </Grid>

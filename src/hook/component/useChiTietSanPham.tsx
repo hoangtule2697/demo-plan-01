@@ -14,10 +14,10 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
 
     const ChiTietVatLieuSanPham = () => {
         return (
-            <Box sx={{ ml: 2 }}>
+            <Box>
                 <Typography
                     variant="subtitle1"
-                    sx={{ fontWeight: 600, mb: 1 }}
+                    sx={{ fontWeight: 600 }}
                 >
                     {`Làm 1 cái ${name} cần:`}
                 </Typography>
@@ -66,11 +66,9 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
     };
 
     const SummaryPriceSanPham = () => {
-        if (!quantityBuy) return null;
-
         return (
             <Typography sx={{ mt: 1, fontWeight: "bold", ml: 2 }}>
-                {`giá tạm tính 1 cái: ${utils.view.displayCurrency(tongTien)}, tổng ${quantityBuy} cái: ${utils.view.displayCurrency(tongTien * quantityBuy)}`}
+                {`giá tạm tính 1 cái: ${utils.view.displayCurrency(tongTien)}${quantityBuy > 1 ? `, tổng ${quantityBuy} cái: ${utils.view.displayCurrency(tongTien * quantityBuy)}` : ""}`}
             </Typography>
         );
     }

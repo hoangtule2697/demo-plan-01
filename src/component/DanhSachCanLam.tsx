@@ -1,9 +1,8 @@
-import { BaseCard, QuantityButton } from "@component/base";
+import { BaseCard, BaseDrawer, QuantityButton } from "@component/base";
 import { Button, Grid, List, ListItem, Typography } from "@mui/material";
 import type { TypeFullDataSanPham } from "@type";
 import * as utils from "@utils";
 import useChiTietSanPham from "hook/component/useChiTietSanPham";
-import { useCollapse } from "hook/component/useCollapse";
 
 export default function DanhSachCanLam({
     chiTietDanhSachSanPham,
@@ -51,10 +50,8 @@ export default function DanhSachCanLam({
 
 const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: { sanPhamDetail: TypeFullDataSanPham["chiTietDanhSachSanPham"][0]; indexSanPham: number; onChangeSanPhamCanLam: (index: number, newQuantity: number) => void }) => {
     if (!sanPhamDetail) return null;
-    const { CollapseButton, CollapseContent } = useCollapse();
     const { ChiTietVatLieuSanPham, SummaryPriceSanPham } = useChiTietSanPham({ sanPhamDetail });
-
-    const { sanPhamCode, name, quantityBuy } = sanPhamDetail;
+    const { name, quantityBuy } = sanPhamDetail;
 
     return (
         <ListItem
@@ -72,12 +69,16 @@ const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: 
                     }}
                 >
                     <Grid container spacing={1}>
-                        <Typography>
-                            {`${quantityBuy} cái ${name}`}
-                        </Typography>
-                        <CollapseButton collapseKey={`collapse-${sanPhamCode}-${quantityBuy}`} />
+                        <BaseDrawer
+                            title="Chi tiết sản phẩm"
+                            drawerProps={{ anchor: "left" }}
+                            contentProps={{ sx: { p: 0, minWidth: "60svw" } }}
+                            OpenButton={(p) => <Typography sx={{ color: "#1976d2", textDecoration: "underline", cursor: "pointer" }} {...p}>{`${quantityBuy} cái ${name}`}</Typography>}
+                            footer={<Grid container sx={{ justifyContent: "end" }}><SummaryPriceSanPham /></Grid>}
+                        >
+                            <ChiTietVatLieuSanPham />
+                        </BaseDrawer>
                     </Grid>
-
 
                     <QuantityButton
                         defaultValue={quantityBuy}
@@ -87,14 +88,7 @@ const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: 
                     />
                 </Grid>
                 <Grid sx={{ xs: 12 }}>
-                    <Grid>
-                        <CollapseContent collapseKey={`collapse-${sanPhamCode}-${quantityBuy}`}>
-                            <ChiTietVatLieuSanPham />
-                        </CollapseContent>
-                    </Grid>
-                    <Grid>
-                        <SummaryPriceSanPham />
-                    </Grid>
+                    <SummaryPriceSanPham />
                 </Grid>
             </Grid>
         </ListItem>
