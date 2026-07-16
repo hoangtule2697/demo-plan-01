@@ -38,7 +38,7 @@ export default function DanhSachCanLam({
                         onChangeSanPhamCanLam={onChangeSanPhamCanLam}
                     />
                 ))}
-                <Grid sx={{ mt: 2 }}>
+                <Grid sx={{ pt: 2, position: "sticky", bottom: 0, bgcolor: "#fff" }}>
                     <Typography sx={{ fontWeight: "bold", textAlign: "right" }}>
                         tổng tiền tạm tính: {utils.view.displayCurrency(tongTienTamTinh)}
                     </Typography>
