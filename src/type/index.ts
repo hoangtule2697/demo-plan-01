@@ -1,4 +1,4 @@
-import type { danhSachPhuPhi, danhSachSanPham, danhSachVatLieu } from "@data";
+import type { danhSachSanPham, danhSachVatLieu, phuPhiBaseData } from "@data";
 
 export type Unit = "cm" | "m" | "m2" | "hộp" | "phần" | "kg" | "cái" | "tấm" | "cây";
 
@@ -8,9 +8,10 @@ export interface TypePhuPhi {
     price: number;
     unit: Unit;
     value: number;
+    active: boolean;
 }
 
-export type PhuPhiCode = (typeof danhSachPhuPhi)[number]["code"];
+export type PhuPhiCode = (typeof phuPhiBaseData)[number]["code"];
 
 export interface TypeVatLieu {
     name: string;

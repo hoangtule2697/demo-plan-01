@@ -1,13 +1,15 @@
 import type { TypeCanThietVatLieu, TypeFullDataSanPham, TypePhuPhi, TypeSanPham, TypeVatLieu } from "@type";
 import * as utils from "@utils";
 
-export const danhSachPhuPhi = [
+const activeGiaCongKhungKe = true;
+export const phuPhiBaseData = [
     {
         name: "Gia công khung kệ 1 tầng",
         code: "gia_cong_khung_ke_1_tang",
         price: 40000,
         unit: "cái",
         value: 1,
+        active: activeGiaCongKhungKe
     },
     {
         name: "Gia công khung kệ 2 tầng",
@@ -15,6 +17,7 @@ export const danhSachPhuPhi = [
         price: 40000,
         unit: "cái",
         value: 1,
+        active: activeGiaCongKhungKe
     },
     {
         name: "Gia công khung kệ 3 tầng",
@@ -22,6 +25,7 @@ export const danhSachPhuPhi = [
         price: 40000,
         unit: "cái",
         value: 1,
+        active: activeGiaCongKhungKe
     },
     {
         name: "Gia công khung kệ 4 tầng",
@@ -29,6 +33,7 @@ export const danhSachPhuPhi = [
         price: 40000,
         unit: "cái",
         value: 1,
+        active: activeGiaCongKhungKe
     },
     {
         name: "Gia công khung kệ 5 tầng",
@@ -36,6 +41,7 @@ export const danhSachPhuPhi = [
         price: 40000,
         unit: "cái",
         value: 1,
+        active: activeGiaCongKhungKe
     },
     {
         name: "Sơn tỉnh điện",
@@ -43,6 +49,7 @@ export const danhSachPhuPhi = [
         price: 12000,
         unit: "kg",
         value: 1,
+        active: true
     },
     {
         name: "Dán viền 4 cạnh - ván ép",
@@ -50,6 +57,7 @@ export const danhSachPhuPhi = [
         price: 7000,
         unit: "m",
         value: 1,
+        active: true
     },
     //khoan mồi không tính phí
     {
@@ -58,8 +66,11 @@ export const danhSachPhuPhi = [
         price: 15000,
         unit: "cái",
         value: 1,
+        active: true
     },
 ] as const satisfies TypePhuPhi[];
+
+export const danhSachPhuPhi = phuPhiBaseData.filter(i => i.active);
 export const phuPhiOpts = utils.object.reMapObject(danhSachPhuPhi);
 
 export const getTitleVatLieu = (item: TypeCanThietVatLieu, vatLieuData: TypeVatLieu) => {

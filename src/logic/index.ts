@@ -92,7 +92,9 @@ const getDanhSachPhuPhi = (items: TypeFullDataSanPham["chiTietVatLieu"]) => {
 
     let phuPhiChiTietVatLieu = [];
     for (const phuPhiCode of Object.keys(groupPhuPhi) as (keyof typeof groupPhuPhi)[]) {
-        const phuPhiData = phuPhiOpts[phuPhiCode];
+        const phuPhiData = phuPhiOpts[phuPhiCode as keyof typeof phuPhiOpts];
+        if (!phuPhiData) continue;
+
         phuPhiChiTietVatLieu.push({
             phuPhiCode,
             phuPhiData,
