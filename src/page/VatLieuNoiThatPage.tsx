@@ -98,7 +98,7 @@ export default function VatLieuNoiThatPage() {
       >
         <Grid container sx={{ justifyContent: "end" }}>
           <Grid sx={{ mr: 6 }}>
-            <Typography variant="h5" color="warning" sx={{ fontWeight: 700 }}>
+            <Typography variant="h5" sx={{ fontWeight: 700 }}>
               Tạm tính: {utils.view.displayCurrency(tongTienTamTinh)}
             </Typography>
           </Grid>

@@ -10,7 +10,7 @@ import * as utils from "@utils";
 import { viewOptions } from "component/TongPhuPhi";
 
 export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: TypeFullDataSanPham["chiTietDanhSachSanPham"][0] }) {
-    const { name, quantityBuy, vatLieu, phuPhi, tongTien } = sanPhamDetail;
+    const { name, quantityBuy, vatLieu, phuPhi, tongTien, giaShopee } = sanPhamDetail;
 
     const ChiTietVatLieuSanPham = () => {
         return (
@@ -67,9 +67,25 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
 
     const SummaryPriceSanPham = () => {
         return (
-            <Typography sx={{ mt: 1, fontWeight: "bold", ml: 2 }}>
-                {`giá tạm tính 1 cái: ${utils.view.displayCurrency(tongTien)}${quantityBuy > 1 ? `, tổng ${quantityBuy} cái: ${utils.view.displayCurrency(tongTien * quantityBuy)}` : ""}`}
-            </Typography>
+            <Grid container sx={{ mt: 1, ml: 2, justifyContent: "space-between" }}>
+                <Grid container>
+                    <Grid>
+                        <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                            {`giá tạm tính 1 cái: ${utils.view.displayCurrency(tongTien)}`}
+                        </Typography>
+                    </Grid>
+                    <Grid>
+                        {giaShopee && <Typography variant="body2" color="warning" sx={{ fontWeight: "bold", ml: 1 }}>
+                            {` giá shopee: ${utils.view.displayCurrency(giaShopee)}`}
+                        </Typography>}
+                    </Grid>
+                </Grid>
+                <Grid>
+                    {quantityBuy > 1 && <Typography variant="body2" sx={{ fontWeight: "bold", ml: 1 }}>
+                        {quantityBuy > 1 ? `${quantityBuy} cái: ${utils.view.displayCurrency(tongTien * quantityBuy)}` : ""}
+                    </Typography>}
+                </Grid>
+            </Grid>
         );
     }
 

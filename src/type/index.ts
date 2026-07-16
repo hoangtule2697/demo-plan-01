@@ -54,6 +54,7 @@ export interface TypeSanPham {
     vatLieu: TypeCanThietVatLieu[];
     phuPhiCodes?: PhuPhiCode[];
     tienSanPham?: number;
+    giaShopee?: number;
 }
 
 export type SanPhamCode = (typeof danhSachSanPham)[number]["code"];

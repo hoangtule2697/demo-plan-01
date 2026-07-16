@@ -63,6 +63,9 @@ export const viewOptions = ({ phuPhiCode, phuPhiData, options }: TypeFullDataSan
         case "son_tinh_dien": {
             return `• ${options.totalWeight}kg, ${options.totalMet}m - (${utils.view.displayCurrency(phuPhiData.price)} / 1kg)`
         }
+        case "gia_cong_khung_ke_1_tang": {
+            return giaCongKhungKe();
+        }
         case "gia_cong_khung_ke_2_tang": {
             return giaCongKhungKe();
         }
