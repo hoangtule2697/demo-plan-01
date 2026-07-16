@@ -11,7 +11,7 @@ import { useCollapse } from "hook/component/useCollapse";
 import type { ReactNode } from "react";
 
 const BaseCard = ({
-    isUseCollapse,
+    isUseCollapse = true,
     defaultOpen = true,
     title,
     actionHeader,

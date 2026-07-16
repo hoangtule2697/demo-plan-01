@@ -29,7 +29,7 @@ export default function DanhSachCanLam({
                 </Button>
             }
         >
-            <List disablePadding>
+            <List disablePadding sx={{ maxHeight: "80svh", overflowY: "auto" }}>
                 {chiTietDanhSachSanPham.map((sanPhamDetail, indexSanPham) => (
                     <ChiTietSanPham
                         key={`dscl-${sanPhamDetail?.sanPhamCode}-${sanPhamDetail?.quantityBuy}`}
@@ -72,7 +72,7 @@ const ChiTietSanPham = ({ sanPhamDetail, indexSanPham, onChangeSanPhamCanLam }: 
                         <BaseDrawer
                             title="Chi tiết sản phẩm"
                             drawerProps={{ anchor: "left" }}
-                            contentProps={{ sx: { p: 0, minWidth: "60svw" } }}
+                            contentProps={{ sx: { p: 0, minWidth: "40svw" } }}
                             OpenButton={(p) => <Typography sx={{ color: "#1976d2", textDecoration: "underline", cursor: "pointer" }} {...p}>{`${quantityBuy} cái ${name}`}</Typography>}
                             footer={<Grid container sx={{ justifyContent: "end" }}><SummaryPriceSanPham /></Grid>}
                         >

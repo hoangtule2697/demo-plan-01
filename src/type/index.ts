@@ -52,6 +52,7 @@ export interface TypeSanPham {
     name: string;
     code: string;
     vatLieu: TypeCanThietVatLieu[];
+    active: boolean;
     phuPhiCodes?: PhuPhiCode[];
     tienSanPham?: number;
     giaShopee?: number;

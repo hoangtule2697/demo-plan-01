@@ -1,5 +1,6 @@
 import {
     Box,
+    Divider,
     Grid,
     List,
     ListItem,
@@ -25,14 +26,17 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
                 <List disablePadding sx={{ ml: 2 }}>
                     {vatLieu.map((vl) => (
                         <ListItem key={`ctsp-vl-${vl.title}`} disableGutters sx={{ py: 1 }} >
-                            <Grid container sx={{ width: "100%", justifyContent: "space-between" }}>
-                                <Typography>
-                                    {`- ${vl.quantityNeed} ${vl.title}`}
-                                </Typography>
+                            <Grid sx={{ width: "100%" }}>
+                                <Grid container sx={{ width: "100%", justifyContent: "space-between" }}>
+                                    <Typography>
+                                        {`- ${vl.quantityNeed} ${vl.title}`}
+                                    </Typography>
 
-                                <Typography>
-                                    {`${utils.view.displayCurrency(vl.perTienVatLieu)} x ${vl.quantityNeed} = ${utils.view.displayCurrency(vl.tienVatLieu)}`}
-                                </Typography>
+                                    <Typography>
+                                        {`${utils.view.displayCurrency(vl.perTienVatLieu)} x ${vl.quantityNeed} = ${utils.view.displayCurrency(vl.tienVatLieu)}`}
+                                    </Typography>
+                                </Grid>
+                                <Divider sx={{ mt: 0.5 }} />
                             </Grid>
                         </ListItem>
                     ))}
@@ -57,6 +61,7 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
                                         {viewOptions(detailPhuPhi)}
                                     </Typography>
                                 </Grid>
+                                <Divider sx={{ mt: 0.5 }} />
                             </Grid>
                         </ListItem>
                     ))}
@@ -71,12 +76,17 @@ export default function useChiTietSanPham({ sanPhamDetail }: { sanPhamDetail: Ty
                 <Grid container>
                     <Grid>
                         <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                            {`giá tạm tính 1 cái: ${utils.view.displayCurrency(tongTien)}`}
+                            {`giá tạm tính: ${utils.view.displayCurrency(tongTien)}`}
                         </Typography>
                     </Grid>
                     <Grid>
                         {giaShopee && <Typography variant="body2" color="warning" sx={{ fontWeight: "bold", ml: 1 }}>
-                            {` giá shopee: ${utils.view.displayCurrency(giaShopee)}`}
+                            {`giá shopee: ${utils.view.displayCurrency(giaShopee)}`}
+                        </Typography>}
+                    </Grid>
+                    <Grid>
+                        {giaShopee && <Typography variant="body2" color={giaShopee - tongTien > 0 ? "success" : "error"} sx={{ fontWeight: "bold", ml: 1 }}>
+                            {`chênh lệch: ${utils.view.displayCurrency(giaShopee - tongTien)}`}
                         </Typography>}
                     </Grid>
                 </Grid>

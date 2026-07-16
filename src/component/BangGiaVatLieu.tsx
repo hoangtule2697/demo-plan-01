@@ -12,10 +12,7 @@ import * as utils from "@utils";
 
 export default function BangGiaVatLieu() {
     return (
-        <BaseCard
-            title="Bảng giá vật liệu"
-            isUseCollapse={true}
-        >
+        <BaseCard title="Bảng giá vật liệu">
             <List disablePadding>
                 {danhSachVatLieu
                     .map(

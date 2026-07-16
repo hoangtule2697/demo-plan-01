@@ -11,10 +11,7 @@ import * as utils from "@utils";
 
 export default function BangGiaPhuPhi() {
     return (
-        <BaseCard
-            title="Bảng giá phụ phí"
-            isUseCollapse={true}
-        >
+        <BaseCard title="Bảng giá phụ phí">
             <List disablePadding>
                 {danhSachPhuPhi
                     .map(

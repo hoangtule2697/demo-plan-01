@@ -11,11 +11,7 @@ import { BaseCard } from "./base";
 export default function ChiTietVatLieu({ chiTietVatLieu }: { chiTietVatLieu: TypeFullDataSanPham["chiTietVatLieu"] }) {
     const tongTienChiTietVatLieu = chiTietVatLieu.reduce((acc, cur) => acc + utils.number.num(cur.tongTienVatLieu), 0);
     return (
-        <BaseCard
-            title="Chi tiết vật liệu"
-            isUseCollapse={true}
-            defaultOpen={false}
-        >
+        <BaseCard title="Chi tiết vật liệu" defaultOpen={false}>
             <Grid>
                 <Grid>
                     <List disablePadding>

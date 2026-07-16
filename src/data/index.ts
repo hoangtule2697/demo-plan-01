@@ -40,7 +40,7 @@ export const danhSachPhuPhi = [
     {
         name: "Sơn tỉnh điện",
         code: "son_tinh_dien",
-        price: 15000,
+        price: 12000,
         unit: "kg",
         value: 1,
     },
@@ -210,6 +210,7 @@ export const sanPhamBaseData = [
                 height: 8
             },
         ],
+        active: false
     },
     {
         name: "Kệ 1 tầng - gỗ nâu đậm",
@@ -247,6 +248,7 @@ export const sanPhamBaseData = [
                 height: 8
             },
         ],
+        active: false
     },
     {
         name: "Kệ 2 tầng - gỗ vàng nhạt",
@@ -284,6 +286,7 @@ export const sanPhamBaseData = [
                 height: 8
             },
         ],
+        active: true
     },
     {
         name: "Kệ 2 tầng - gỗ nâu đậm",
@@ -321,6 +324,7 @@ export const sanPhamBaseData = [
                 height: 8
             },
         ],
+        active: true
     },
     {
         name: "Kệ 3 tầng - gỗ vàng nhạt",
@@ -358,6 +362,7 @@ export const sanPhamBaseData = [
                 height: 8
             },
         ],
+        active: true
     },
     {
         name: "Kệ 3 tầng - gỗ nâu đậm",
@@ -395,6 +400,7 @@ export const sanPhamBaseData = [
                 height: 8
             },
         ],
+        active: true
     },
     {
         name: "Kệ 4 tầng - gỗ vàng nhạt",
@@ -432,6 +438,7 @@ export const sanPhamBaseData = [
                 height: 8
             },
         ],
+        active: true
     },
     {
         name: "Kệ 4 tầng - gỗ nâu đậm",
@@ -469,6 +476,7 @@ export const sanPhamBaseData = [
                 height: 8
             },
         ],
+        active: true
     },
     {
         name: "Kệ 5 tầng - gỗ vàng nhạt",
@@ -506,6 +514,7 @@ export const sanPhamBaseData = [
                 height: 8
             },
         ],
+        active: true
     },
     {
         name: "Kệ 5 tầng - gỗ nâu đậm",
@@ -543,10 +552,11 @@ export const sanPhamBaseData = [
                 height: 8
             },
         ],
+        active: true
     },
 ] as const satisfies TypeSanPham[];
 
-export const danhSachSanPham: TypeSanPham[] = sanPhamBaseData.map((sanPham) => {
+export const danhSachSanPham: TypeSanPham[] = sanPhamBaseData.filter(s => s.active).map((sanPham) => {
     const vatLieu = sanPham.vatLieu.map((vl) => {
         const vatLieuData = vatLieuOpts[vl.vatLieuCode];
         if (!vatLieuData) throw new Error(`Không tìm thấy vật liệu với code: ${vl.vatLieuCode}`);
