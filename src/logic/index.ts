@@ -140,79 +140,13 @@ const getTongVatLieuCanMua = (
         throw new Error(`Không tìm thấy vật liệu với code: ${vatLieuCode}`);
     }
 
-    switch (vatLieuCode) {
-        case "sat_hop_kem": {
-            return getTongVatLieuCanMuaSatHopV2(vatLieuCode, vatLieuData, dsVatLieu);
-        }
-        case "sat_hop_den": {
-            return getTongVatLieuCanMuaSatHopV2(vatLieuCode, vatLieuData, dsVatLieu);
-        }
-        case "van_go_vang_nhat": {
-            return getTongVatLieuCanMuaVanGo(vatLieuCode, vatLieuData, dsVatLieu);
-        }
-        case "van_go_nau_dam": {
-            return getTongVatLieuCanMuaVanGo(vatLieuCode, vatLieuData, dsVatLieu);
-        }
-    }
+    if (vatLieuData.width && !vatLieuData.height) return getTongVatLieuCanMuaByWidth(vatLieuCode, vatLieuData, dsVatLieu);
+    if (vatLieuData.width && vatLieuData.height) return getTongVatLieuCanMuaByWidthHeight(vatLieuCode, vatLieuData, dsVatLieu);
 };
 
-const getTongVatLieuCanMuaSatHop = (vatLieuCode: VatLieuCode, vatLieuData: TypeVatLieu, dsVatLieu: TypeFullDataSanPham["chiTietVatLieu"]) => {
-    const widthSatHop = utils.number.num(vatLieuData.width);
-
-    const lengths = dsVatLieu.flatMap((d) => Array(d.quantityNeedBuy).fill(utils.number.num(d.width))).sort((a, b) => b - a);
-
-    const bars: {
-        usedLength: number;
-        remainingLength: number;
-        cuts: number[];
-        fullWidth: number
-    }[] = [];
-
-    for (const length of lengths) {
-        let placed = false;
-
-        for (const bar of bars) {
-            if (bar.remainingLength >= length) {
-                bar.usedLength += length;
-                bar.remainingLength -= length;
-                bar.cuts.push(length);
-                placed = true;
-                break;
-            }
-        }
-
-        if (!placed) {
-            bars.push({
-                usedLength: length,
-                remainingLength:
-                    widthSatHop - length,
-                cuts: [length],
-                fullWidth: utils.number.num(vatLieuData.width)
-            });
-        }
-    }
-
-    const totalUsed = bars.reduce((s, b) => s + b.usedLength, 0);
-    const totalLength = bars.length * widthSatHop;
-    const totalRemaining = bars.reduce((s, b) => s + b.remainingLength, 0);
-
-    return {
-        vatLieuCode,
-        vatLieuData,
-        quantityNeedBuy: bars.length,
-        totalVatLieuCanMua: bars.length * vatLieuData.price,
-        options: {
-            bars,
-            totalUsed,
-            totalLength,
-            totalRemaining
-        },
-    };
-}
-
-const getTongVatLieuCanMuaSatHopV2 = (vatLieuCode: VatLieuCode, vatLieuData: TypeVatLieu, dsVatLieu: TypeFullDataSanPham["chiTietVatLieu"]) => {
-    const widthSatHop = utils.number.num(vatLieuData.width);
-    const heightSatHop = 20;
+const getTongVatLieuCanMuaByWidth = (vatLieuCode: VatLieuCode, vatLieuData: TypeVatLieu, dsVatLieu: TypeFullDataSanPham["chiTietVatLieu"]) => {
+    const fullWidth = utils.number.num(vatLieuData.width);
+    const fillHeight = 20;
 
     const allPieces = dsVatLieu.filter(d => d.width)
         .flatMap((d) => Array(d.quantityNeedBuy)
@@ -221,7 +155,7 @@ const getTongVatLieuCanMuaSatHopV2 = (vatLieuCode: VatLieuCode, vatLieuData: Typ
             return b.width * b.height - a.width * a.height;
         });
 
-    const packer = new MaxRectsPacker(widthSatHop, heightSatHop, 0, // hao lưỡi cưa 3mm
+    const packer = new MaxRectsPacker(fullWidth, fillHeight, 0, // hao lưỡi cưa 3mm
         {
             smart: false,
             pot: false,
@@ -249,9 +183,9 @@ const getTongVatLieuCanMuaSatHopV2 = (vatLieuCode: VatLieuCode, vatLieuData: Typ
             y2: r.y + r.height,
         }));
         const usedArea = bin.rects.reduce((sum, r) => sum + r.width * r.height, 0);
-        const totalArea = widthSatHop * heightSatHop;
+        const totalArea = fullWidth * fillHeight;
         const usedPercent = (usedArea / totalArea) * 100;
-        const totalLength = widthSatHop;
+        const totalLength = fullWidth;
         const totalUsed = Math.round(usedPercent * totalLength / 100);
         const totalRemaining = totalLength - totalUsed;
         return {
@@ -267,7 +201,7 @@ const getTongVatLieuCanMuaSatHopV2 = (vatLieuCode: VatLieuCode, vatLieuData: Typ
 
     const quantityNeedBuy = packer.bins.length;
     const usedPercent = pieces.reduce((sum, r) => sum + r.usedPercent, 0) / pieces.length;
-    const totalLength = quantityNeedBuy * widthSatHop;
+    const totalLength = quantityNeedBuy * fullWidth;
     const totalUsed = Math.round(usedPercent * totalLength / 100);
     const totalRemaining = totalLength - totalUsed;
 
@@ -286,9 +220,9 @@ const getTongVatLieuCanMuaSatHopV2 = (vatLieuCode: VatLieuCode, vatLieuData: Typ
     }
 }
 
-const getTongVatLieuCanMuaVanGo = (vatLieuCode: VatLieuCode, vatLieuData: TypeVatLieu, dsVatLieu: TypeFullDataSanPham["chiTietVatLieu"]) => {
-    const widthVanGo = utils.number.num(vatLieuData.width);
-    const heightVanGo = utils.number.num(vatLieuData.height);
+const getTongVatLieuCanMuaByWidthHeight = (vatLieuCode: VatLieuCode, vatLieuData: TypeVatLieu, dsVatLieu: TypeFullDataSanPham["chiTietVatLieu"]) => {
+    const fullWidth = utils.number.num(vatLieuData.width);
+    const fullHeight = utils.number.num(vatLieuData.height);
 
     const allPieces = dsVatLieu.filter(d => d.width && d.height)
         .flatMap((d) => Array(d.quantityNeedBuy)
@@ -297,7 +231,7 @@ const getTongVatLieuCanMuaVanGo = (vatLieuCode: VatLieuCode, vatLieuData: TypeVa
             return b.width * b.height - a.width * a.height;
         });
 
-    const packer = new MaxRectsPacker(widthVanGo, heightVanGo, 0.3, // hao lưỡi cưa 3mm
+    const packer = new MaxRectsPacker(fullWidth, fullHeight, 0.3, // hao lưỡi cưa 3mm
         {
             smart: false,
             pot: false,
@@ -325,7 +259,7 @@ const getTongVatLieuCanMuaVanGo = (vatLieuCode: VatLieuCode, vatLieuData: TypeVa
             y2: r.y + r.height,
         }));
         const usedArea = bin.rects.reduce((sum, r) => sum + r.width * r.height, 0);
-        const totalArea = widthVanGo * heightVanGo;
+        const totalArea = fullWidth * fullHeight;
         const usedPercent = Math.round((usedArea / totalArea) * 100);
         return {
             rects: newRests,

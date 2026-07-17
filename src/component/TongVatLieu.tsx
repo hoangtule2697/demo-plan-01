@@ -14,17 +14,8 @@ export default function TongVatLieu({ chiTietVatLieuCanMua }: { chiTietVatLieuCa
     const totalVatLieuCanMua = chiTietVatLieuCanMua.reduce((acc, cur) => acc + utils.number.num(cur.totalVatLieuCanMua), 0);
 
     const viewOptions = ({ vatLieuCode, options }: TypeFullDataSanPham["chiTietVatLieuCanMua"][number]) => {
-        switch (vatLieuCode) {
-            case "sat_hop_kem": {
-                return `• Đã dùng ${options.totalUsed / 100}m / ${options.totalLength / 100}m, còn lại ${options.totalRemaining / 100}m`
-            }
-            case "van_go_vang_nhat": {
-                return `• Đã dùng ${options.usedPercent}%`
-            }
-            case "van_go_nau_dam": {
-                return `• Đã dùng ${options.usedPercent}%`
-            }
-        }
+        if (options?.totalLength) return `• Đã dùng ${options.totalUsed / 100}m / ${options.totalLength / 100}m, còn lại ${options.totalRemaining / 100}m`;
+        if (options?.usedPercent) return `• Đã dùng ${options.usedPercent}%`;
         return null;
     }
 
@@ -83,43 +74,15 @@ export default function TongVatLieu({ chiTietVatLieuCanMua }: { chiTietVatLieuCa
 };
 
 const ChiTietBanVe = (vatLieuCanMua: TypeFullDataSanPham["chiTietVatLieuCanMua"][number]) => {
-    switch (vatLieuCanMua.vatLieuCode) {
-        case "sat_hop_kem": {
-            return <ChiTietBanVeSatHop {...vatLieuCanMua} />
-        }
-        case "van_go_vang_nhat": {
-            return <ChiTietBanVeVanGo {...vatLieuCanMua} />
-        }
-        case "van_go_nau_dam": {
-            return <ChiTietBanVeVanGo {...vatLieuCanMua} />
-        }
-    }
+    if (vatLieuCanMua.vatLieuData.width && !vatLieuCanMua.vatLieuData.height) return <ChiTietBanVeByWidth {...vatLieuCanMua} />;
+    if (vatLieuCanMua.vatLieuData.width && vatLieuCanMua.vatLieuData.height) return <ChiTietBanVeByWidthHeight {...vatLieuCanMua} />;
     return null;
 };
 
-const ChiTietBanVeSatHop = ({ vatLieuCode, options, vatLieuData }: TypeFullDataSanPham["chiTietVatLieuCanMua"][number]) => {
+const ChiTietBanVeByWidth = ({ vatLieuCode, options, vatLieuData }: TypeFullDataSanPham["chiTietVatLieuCanMua"][number]) => {
     const { pieces } = options;
     const fullWidth = utils.number.num(vatLieuData.width);
     const fullHeight = 20;
-
-    // const BanVeHopSat = ({ fullWidth, remainingLength, cuts }: { fullWidth: number; remainingLength: number; cuts: number[] }) => {
-    //     return <Grid>
-    //         <Grid>
-    //             <Typography>{`cắt ${cuts.length} đoạn`}</Typography>
-    //         </Grid>
-    //         <Grid data-testid="ban-ve-hop-sat" container wrap="nowrap" sx={{ width: "100%", backgroundColor: "red", height: "40px" }}>
-    //             {cuts.map((cut: number, idx: number) => {
-    //                 return <Grid key={`cut-${idx}`} container sx={{ width: `${Math.ceil((cut * 100) / fullWidth)}%`, backgroundColor: "#7cdf7c", height: "40px", borderRight: "4px dashed grey", alignItems: "center" }}>
-    //                     <span style={{ textAlign: "center", width: "100%" }}>{cut}</span>
-    //                 </Grid>
-    //             })}
-    //             {remainingLength &&
-    //                 <Grid container sx={{ width: `${Math.ceil((remainingLength * 100) / fullWidth)}%`, height: "40px", alignItems: "center" }}>
-    //                     <span style={{ textAlign: "center", width: "100%" }}>{remainingLength}</span>
-    //                 </Grid>}
-    //         </Grid>
-    //     </Grid>;
-    // }
 
     return <Grid>
         <Grid sx={{ mb: 2 }}>
@@ -133,7 +96,7 @@ const ChiTietBanVeSatHop = ({ vatLieuCode, options, vatLieuData }: TypeFullDataS
     </Grid>;
 }
 
-const ChiTietBanVeVanGo = ({ vatLieuCode, options, vatLieuData }: TypeFullDataSanPham["chiTietVatLieuCanMua"][number]) => {
+const ChiTietBanVeByWidthHeight = ({ vatLieuCode, options, vatLieuData }: TypeFullDataSanPham["chiTietVatLieuCanMua"][number]) => {
     const { pieces } = options;
     const fullWidth = utils.number.num(vatLieuData.width);
     const fullHeight = utils.number.num(vatLieuData.height);
@@ -153,7 +116,8 @@ const ChiTietBanVeVanGo = ({ vatLieuCode, options, vatLieuData }: TypeFullDataSa
 const BanVeXY = ({ vatLieuCode, fullWidth, fullHeight, rects, totalRemaining, showHeight = true, showTotalRemaining = false }: { vatLieuCode: VatLieuCode, fullWidth: number, fullHeight: number, showHeight?: boolean, totalRemaining?: number; showTotalRemaining?: boolean, rects: { x: number; y: number; x2: number; y2: number }[] }) => {
     const bgImages: Partial<Record<VatLieuCode, string>> = {
         "van_go_vang_nhat": "https://media.istockphoto.com/id/1002879824/fr/photo/fond-de-bois-clair-table-en-bois-ou-en-planches-texture-close-up.jpg?s=612x612&w=0&k=20&c=jdqCGGfmZFwoMol4aL0xtlsC_gGV0EwwqksLKM27eLY=",
-        "van_go_nau_dam": "https://gominhlong.com/wp-content/uploads/2017/10/9.-ML-2408-cherry.jpg"
+        "van_go_nau_dam": "https://gominhlong.com/wp-content/uploads/2017/10/9.-ML-2408-cherry.jpg",
+        "van_plywood_20mm": "https://media.istockphoto.com/id/1002879824/fr/photo/fond-de-bois-clair-table-en-bois-ou-en-planches-texture-close-up.jpg?s=612x612&w=0&k=20&c=jdqCGGfmZFwoMol4aL0xtlsC_gGV0EwwqksLKM27eLY=",
     };
     return (
         <Box

@@ -92,6 +92,12 @@ export const danhSachChiPhiSauKhiBan = [
         value: 20000,
         amountType: "VND"
     },
+    {
+        name: "Phí vận chuyển hàng cồng kềnh giường",
+        code: "phi_van_chuyen_hang_cong_kenh_giuong",
+        value: 200000,
+        amountType: "VND"
+    },
 ] as const satisfies TypeChiPhiSauKhiBan[];
 export const chiPhiSauKhiBanOpts = utils.object.reMapObject(danhSachChiPhiSauKhiBan);
 
@@ -99,33 +105,28 @@ export const getTitleVatLieu = (item: TypeCanThietVatLieu, vatLieuData: TypeVatL
     const vl = vatLieuOpts[item.vatLieuCode];
     if (!vl) throw new Error(`Không tìm thấy vật liệu với code: ${item.vatLieuCode}`);
 
-    if (["sat_hop_den", "sat_hop_kem"].includes(item.vatLieuCode)) {
-        return `${vatLieuData.unit} ${vatLieuData.name} dài ${item.width}${vatLieuData.unitPrice}`;
-    }
-    if (["van_go_vang_nhat", "van_go_nau_dam"].includes(item.vatLieuCode)) {
-        return `${vatLieuData.unit} ${vatLieuData.name} ${item.width}${vatLieuData.unitPrice} x ${item.height}${vatLieuData.unitPrice}`;
-    }
+    const titleWidth = () => `${vatLieuData.unit} ${vatLieuData.name} dài ${item.width}${vatLieuData.unitPrice}`;
+    const titleWidthHeight = () => `${vatLieuData.unit} ${vatLieuData.name} ${item.width}${vatLieuData.unitPrice} x ${item.height}${vatLieuData.unitPrice}`;
+
+    if (item.width && !item.height) return titleWidth();
+    if (item.width && item.height) return titleWidthHeight();
 }
 
 export const getTamTinhTienVatLieu = (item: TypeCanThietVatLieu) => {
     const vl = vatLieuOpts[item.vatLieuCode];
     if (!vl) throw new Error(`Không tìm thấy vật liệu với code: ${item.vatLieuCode}`);
 
-    if (["sat_hop_den", "sat_hop_kem"].includes(item.vatLieuCode)) {
-        return utils.number.num(item.width) * (vl.price / vl.width);
-    }
-    if (["van_go_vang_nhat", "van_go_nau_dam"].includes(item.vatLieuCode)) {
+    const tamTinhWidth = () => utils.number.num(item.width) * (vl.price / vl.width);
+    const tamTinhWidthHeight = () => {
         const dienTichTam = utils.number.num((vl as any)?.width) * utils.number.num((vl as any)?.height);
-
-        const dienTichItem =
-            utils.number.num(item.width) *
-            utils.number.num(item.height);
-
-        return (
-            (dienTichItem / dienTichTam) *
-            vl.price
-        );
+        const dienTichItem = utils.number.num(item.width) * utils.number.num(item.height);
+        return ((dienTichItem / dienTichTam) * vl.price);
     }
+
+    if (item.width && !item.height) return tamTinhWidth();
+    if (item.width && item.height) return tamTinhWidthHeight();
+
+    return vl.price;
 }
 
 export const getTamTinhTienPhuPhi = (phuPhiData: TypePhuPhi, items: TypeFullDataSanPham["chiTietVatLieu"]) => {
@@ -196,6 +197,15 @@ export const danhSachVatLieu = [
         unitPrice: "cm",
         description: "340k đã bao gồm dán melamine 2 mặt vân gỗ, mua lẻ +20k, cnc cắt gỗ + 100k, khoan mồi k tính"
     },
+    {
+        name: "gỗ ép plywood dày 20mm",
+        code: "van_plywood_20mm",
+        price: 560000,//đã bao gồm dán melamine 2 mặt
+        unit: "tấm",//cmxcm
+        width: 244,
+        height: 122,
+        unitPrice: "cm",
+    },
     // {
     //     name: "hộp đóng gói",
     //     code: "hop_dong_goi",
@@ -212,7 +222,255 @@ export const danhSachVatLieu = [
 
 export const vatLieuOpts = utils.object.reMapObject(danhSachVatLieu);
 
+const danhSachChiTietVatLieu = {
+    "chan_giuong_bay_up_15x20": {
+        vatLieuCode: "van_plywood_20mm",
+        keyVatLieu: "chan_giuong_bay_up_15x20",
+        width: 20,//cm
+        height: 15,
+        quantityNeed: 1,
+    },
+    "chan_giuong_bay_down_15x20": {
+        vatLieuCode: "van_plywood_20mm",
+        keyVatLieu: "chan_giuong_bay_down_15x20",
+        width: 20,//cm
+        height: 15,
+        quantityNeed: 1,
+    },
+    "chan_giuong_bay_up_20x20": {
+        vatLieuCode: "van_plywood_20mm",
+        keyVatLieu: "chan_giuong_bay_up_20x20",
+        width: 20,//cm
+        height: 20,
+        quantityNeed: 1,
+    },
+    "chan_giuong_bay_down_20x20": {
+        vatLieuCode: "van_plywood_20mm",
+        keyVatLieu: "chan_giuong_bay_down_20x20",
+        width: 20,//cm
+        height: 20,
+        quantityNeed: 1,
+    },
+    "mat_giuong_bay_vien_60x200": {
+        vatLieuCode: "van_plywood_20mm",
+        keyVatLieu: "mat_giuong_bay_vien_60x200",
+        width: 200,//cm
+        height: 60,
+        quantityNeed: 1,
+    },
+    "mat_giuong_bay_noi_60x200": {
+        vatLieuCode: "van_plywood_20mm",
+        keyVatLieu: "mat_giuong_bay_noi_60x200",
+        width: 200,//cm
+        height: 60,
+        quantityNeed: 1,
+    },
+    "mat_giuong_bay_vien_40x200": {
+        vatLieuCode: "van_plywood_20mm",
+        keyVatLieu: "mat_giuong_bay_vien_40x200",
+        width: 200,//cm
+        height: 60,
+        quantityNeed: 1,
+    },
+    "mat_giuong_bay_noi_40x200": {
+        vatLieuCode: "van_plywood_20mm",
+        keyVatLieu: "mat_giuong_bay_noi_40x200",
+        width: 200,//cm
+        height: 60,
+        quantityNeed: 1,
+    },
+} satisfies Record<string, TypeCanThietVatLieu>;
+
 export const sanPhamBaseData = [
+    {
+        name: "Giường bay gỗ plywood 1m x 2m x 15cm",
+        code: "giuong_bay_go_plywood_100x200x15",
+        giaShopee: 1000000,
+        giaBan: 1000000,
+        phuPhiCodes: ["phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh_giuong"],
+        vatLieu: [
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_vien_60x200"],
+                quantityNeed: 1,
+            },
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_vien_40x200"],
+                quantityNeed: 1,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_up_15x20"],
+                quantityNeed: 9,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_down_15x20"],
+                quantityNeed: 9,
+            },
+        ],
+        active: true
+    },
+    {
+        name: "Giường bay gỗ plywood 1m2 x 2m x 15cm",
+        code: "giuong_bay_go_plywood_120x200x15",
+        giaShopee: 1200000,
+        giaBan: 1200000,
+        phuPhiCodes: ["phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh_giuong"],
+        vatLieu: [
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_vien_60x200"],
+                quantityNeed: 2,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_up_15x20"],
+                quantityNeed: 9,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_down_15x20"],
+                quantityNeed: 9,
+            },
+        ],
+        active: true
+    },
+    {
+        name: "Giường bay gỗ plywood 1m4 x 2m x 15cm",
+        code: "giuong_bay_go_plywood_140x200x15",
+        giaShopee: 1400000,
+        giaBan: 1400000,
+        phuPhiCodes: ["phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh_giuong"],
+        vatLieu: [
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_vien_40x200"],
+                quantityNeed: 2,
+            },
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_noi_60x200"],
+                quantityNeed: 1,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_up_15x20"],
+                quantityNeed: 14,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_down_15x20"],
+                quantityNeed: 14,
+            },
+        ],
+        active: true
+    },
+    {
+        name: "Giường bay gỗ plywood 1m6 x 2m x 15cm",
+        code: "giuong_bay_go_plywood_160x200x15",
+        giaShopee: 1600000,
+        giaBan: 1600000,
+        phuPhiCodes: ["phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh_giuong"],
+        vatLieu: [
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_vien_60x200"],
+                quantityNeed: 2,
+            },
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_noi_40x200"],
+                quantityNeed: 1,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_up_15x20"],
+                quantityNeed: 12,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_down_15x20"],
+                quantityNeed: 12,
+            },
+        ],
+        active: true
+    },
+    {
+        name: "Giường bay gỗ plywood 1m8 x 2m x 15cm",
+        code: "giuong_bay_go_plywood_180x200x15",
+        giaShopee: 1800000,
+        giaBan: 1800000,
+        phuPhiCodes: ["phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh_giuong"],
+        vatLieu: [
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_vien_60x200"],
+                quantityNeed: 2,
+            },
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_noi_60x200"],
+                quantityNeed: 1,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_up_15x20"],
+                quantityNeed: 14,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_down_15x20"],
+                quantityNeed: 14,
+            },
+        ],
+        active: true
+    },
+    {
+        name: "Giường bay gỗ plywood 2m x 2m x 15cm",
+        code: "giuong_bay_go_plywood_200x200x15",
+        giaShopee: 2000000,
+        giaBan: 2000000,
+        phuPhiCodes: ["phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh_giuong"],
+        vatLieu: [
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_vien_60x200"],
+                quantityNeed: 2,
+            },
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_noi_40x200"],
+                quantityNeed: 2,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_up_15x20"],
+                quantityNeed: 15,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_down_15x20"],
+                quantityNeed: 15,
+            },
+        ],
+        active: true
+    },
+    {
+        name: "Giường bay gỗ plywood 2m2 x 2m x 15cm",
+        code: "giuong_bay_go_plywood_220x200x15",
+        giaShopee: 2200000,
+        giaBan: 2200000,
+        phuPhiCodes: ["phu_kien_ke_va_dong_goi"],
+        chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh_giuong"],
+        vatLieu: [
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_vien_60x200"],
+                quantityNeed: 2,
+            },
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_noi_40x200"],
+                quantityNeed: 1,
+            },
+            {
+                ...danhSachChiTietVatLieu["mat_giuong_bay_noi_60x200"],
+                quantityNeed: 1,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_up_15x20"],
+                quantityNeed: 17,
+            },
+            {
+                ...danhSachChiTietVatLieu["chan_giuong_bay_down_15x20"],
+                quantityNeed: 17,
+            },
+        ],
+        active: true
+    },
     {
         name: "Kệ 1 tầng - gỗ vàng nhạt",
         code: "ke_1_tang_vang_nhat",
@@ -221,27 +479,27 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_1_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_35",
-            //     quantityNeed: 4,
-            //     width: 35,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_30",
-            //     quantityNeed: 4,
-            //     width: 30,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_130",
-                quantityNeed: 2,
-                width: 130,//35x30
+                keyVatLieu: "sat_hop_kem_dai_35",
+                quantityNeed: 4,
+                width: 35,
                 phuPhiCodes: ["son_tinh_dien"]
             },
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_30",
+                quantityNeed: 4,
+                width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
+            },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_130",
+            //     quantityNeed: 2,
+            //     width: 130,//35x30
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_30x50",
@@ -268,27 +526,27 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_1_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_35",
-            //     quantityNeed: 4,
-            //     width: 35,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_30",
-            //     quantityNeed: 4,
-            //     width: 30,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_130",
-                quantityNeed: 2,
-                width: 130,//35x30
+                keyVatLieu: "sat_hop_kem_dai_35",
+                quantityNeed: 4,
+                width: 35,
                 phuPhiCodes: ["son_tinh_dien"]
             },
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_30",
+                quantityNeed: 4,
+                width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
+            },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_130",
+            //     quantityNeed: 2,
+            //     width: 130,//35x30
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_30x50",
@@ -315,27 +573,27 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_2_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_35",
-            //     quantityNeed: 4,
-            //     width: 35,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_30",
-            //     quantityNeed: 4,
-            //     width: 30,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_130",
-                quantityNeed: 2,
-                width: 130,//35x30
+                keyVatLieu: "sat_hop_kem_dai_35",
+                quantityNeed: 4,
+                width: 35,
                 phuPhiCodes: ["son_tinh_dien"]
             },
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_30",
+                quantityNeed: 4,
+                width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
+            },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_130",
+            //     quantityNeed: 2,
+            //     width: 130,//35x30
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_30x50",
@@ -362,27 +620,27 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_2_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_35",
-            //     quantityNeed: 4,
-            //     width: 35,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_30",
-            //     quantityNeed: 4,
-            //     width: 30,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_130",
-                quantityNeed: 2,
-                width: 130,//35x30
+                keyVatLieu: "sat_hop_kem_dai_35",
+                quantityNeed: 4,
+                width: 35,
                 phuPhiCodes: ["son_tinh_dien"]
             },
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_30",
+                quantityNeed: 4,
+                width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
+            },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_130",
+            //     quantityNeed: 2,
+            //     width: 130,//35x30
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_30x50",
@@ -409,27 +667,27 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_3_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_66.5",
-            //     quantityNeed: 4,
-            //     width: 66.5,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_30",
-            //     quantityNeed: 4,
-            //     width: 30,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_200",
-                quantityNeed: 2,
-                width: 200,//70x30
+                keyVatLieu: "sat_hop_kem_dai_66.5",
+                quantityNeed: 4,
+                width: 66.5,
                 phuPhiCodes: ["son_tinh_dien"]
             },
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_30",
+                quantityNeed: 4,
+                width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
+            },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_200",
+            //     quantityNeed: 2,
+            //     width: 200,//70x30
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_30x50",
@@ -456,27 +714,27 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_3_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_66.5",
-            //     quantityNeed: 4,
-            //     width: 66.5,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_30",
-            //     quantityNeed: 4,
-            //     width: 30,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_200",
-                quantityNeed: 2,
-                width: 200,//70x30
+                keyVatLieu: "sat_hop_kem_dai_66.5",
+                quantityNeed: 4,
+                width: 66.5,
                 phuPhiCodes: ["son_tinh_dien"]
             },
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_30",
+                quantityNeed: 4,
+                width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
+            },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_200",
+            //     quantityNeed: 2,
+            //     width: 200,//70x30
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_30x50",
@@ -503,27 +761,27 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_4_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_100",
-            //     quantityNeed: 4,
-            //     width: 100,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_30",
-            //     quantityNeed: 4,
-            //     width: 30,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_260",
-                quantityNeed: 2,
-                width: 260,//100x30
+                keyVatLieu: "sat_hop_kem_dai_100",
+                quantityNeed: 4,
+                width: 100,
                 phuPhiCodes: ["son_tinh_dien"]
             },
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_30",
+                quantityNeed: 4,
+                width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
+            },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_260",
+            //     quantityNeed: 2,
+            //     width: 260,//100x30
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_30x50",
@@ -550,27 +808,27 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_4_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_100",
-            //     quantityNeed: 4,
-            //     width: 100,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_30",
-            //     quantityNeed: 4,
-            //     width: 30,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_260",
-                quantityNeed: 2,
-                width: 260,//100x30
+                keyVatLieu: "sat_hop_kem_dai_100",
+                quantityNeed: 4,
+                width: 100,
                 phuPhiCodes: ["son_tinh_dien"]
             },
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_30",
+                quantityNeed: 4,
+                width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
+            },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_260",
+            //     quantityNeed: 2,
+            //     width: 260,//100x30
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_30x50",
@@ -597,27 +855,27 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_5_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_130",
-            //     quantityNeed: 4,
-            //     width: 130,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_30",
-            //     quantityNeed: 4,
-            //     width: 30,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_320",
-                quantityNeed: 2,
-                width: 320,//130x30
+                keyVatLieu: "sat_hop_kem_dai_130",
+                quantityNeed: 4,
+                width: 130,
                 phuPhiCodes: ["son_tinh_dien"]
             },
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_30",
+                quantityNeed: 4,
+                width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
+            },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_320",
+            //     quantityNeed: 2,
+            //     width: 320,//130x30
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "van_go_vang_nhat",
                 keyVatLieu: "van_go_vang_nhat_30x50",
@@ -644,27 +902,27 @@ export const sanPhamBaseData = [
         phuPhiCodes: ["gia_cong_khung_ke_5_tang", "phu_kien_ke_va_dong_goi"],
         chiPhiSauKhiBanCodes: ["phi_san_shopee", "phi_van_chuyen_hang_cong_kenh"],
         vatLieu: [
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_130",
-            //     quantityNeed: 4,
-            //     width: 130,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
-            // {
-            //     vatLieuCode: "sat_hop_kem",
-            //     keyVatLieu: "sat_hop_kem_dai_30",
-            //     quantityNeed: 4,
-            //     width: 30,
-            //     phuPhiCodes: ["son_tinh_dien"]
-            // },
             {
                 vatLieuCode: "sat_hop_kem",
-                keyVatLieu: "sat_hop_kem_dai_320",
-                quantityNeed: 2,
-                width: 320,//130x30
+                keyVatLieu: "sat_hop_kem_dai_130",
+                quantityNeed: 4,
+                width: 130,
                 phuPhiCodes: ["son_tinh_dien"]
             },
+            {
+                vatLieuCode: "sat_hop_kem",
+                keyVatLieu: "sat_hop_kem_dai_30",
+                quantityNeed: 4,
+                width: 30,
+                phuPhiCodes: ["son_tinh_dien"]
+            },
+            // {
+            //     vatLieuCode: "sat_hop_kem",
+            //     keyVatLieu: "sat_hop_kem_dai_320",
+            //     quantityNeed: 2,
+            //     width: 320,//130x30
+            //     phuPhiCodes: ["son_tinh_dien"]
+            // },
             {
                 vatLieuCode: "van_go_nau_dam",
                 keyVatLieu: "van_go_nau_dam_30x50",
