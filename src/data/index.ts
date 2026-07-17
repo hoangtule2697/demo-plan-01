@@ -165,7 +165,7 @@ export const danhSachVatLieu = [
         unit: "cây",
         width: 600,//cm
         unitPrice: "cm",
-        weight: 3.54 //kg
+        weight: 3.54, //kg
     },
     {
         name: "sắt hộp kẽm",
@@ -229,6 +229,7 @@ const danhSachChiTietVatLieu = {
         width: 20,//cm
         height: 15,
         quantityNeed: 1,
+        cutOptions: { allowRotation: true }
     },
     "chan_giuong_bay_down_15x20": {
         vatLieuCode: "van_plywood_20mm",
@@ -236,6 +237,7 @@ const danhSachChiTietVatLieu = {
         width: 20,//cm
         height: 15,
         quantityNeed: 1,
+        cutOptions: { allowRotation: true }
     },
     "chan_giuong_bay_up_20x20": {
         vatLieuCode: "van_plywood_20mm",
@@ -243,6 +245,7 @@ const danhSachChiTietVatLieu = {
         width: 20,//cm
         height: 20,
         quantityNeed: 1,
+        cutOptions: { allowRotation: true }
     },
     "chan_giuong_bay_down_20x20": {
         vatLieuCode: "van_plywood_20mm",
@@ -250,6 +253,7 @@ const danhSachChiTietVatLieu = {
         width: 20,//cm
         height: 20,
         quantityNeed: 1,
+        cutOptions: { allowRotation: true }
     },
     "mat_giuong_bay_vien_60x200": {
         vatLieuCode: "van_plywood_20mm",
@@ -513,7 +517,8 @@ export const sanPhamBaseData = [
                 keyVatLieu: "van_go_vang_nhat_10x50",
                 quantityNeed: 1,
                 width: 50,
-                height: 8
+                height: 8,
+                cutOptions: { allowRotation: true }
             },
         ],
         active: false
@@ -560,7 +565,8 @@ export const sanPhamBaseData = [
                 keyVatLieu: "van_go_nau_dam_10x50",
                 quantityNeed: 1,
                 width: 50,
-                height: 8
+                height: 8,
+                cutOptions: { allowRotation: true }
             },
         ],
         active: false
@@ -607,7 +613,8 @@ export const sanPhamBaseData = [
                 keyVatLieu: "van_go_vang_nhat_10x50",
                 quantityNeed: 1,
                 width: 50,
-                height: 8
+                height: 8,
+                cutOptions: { allowRotation: true }
             },
         ],
         active: true
@@ -654,7 +661,8 @@ export const sanPhamBaseData = [
                 keyVatLieu: "van_go_nau_dam_10x50",
                 quantityNeed: 1,
                 width: 50,
-                height: 8
+                height: 8,
+                cutOptions: { allowRotation: true }
             },
         ],
         active: true
@@ -701,7 +709,8 @@ export const sanPhamBaseData = [
                 keyVatLieu: "van_go_vang_nhat_10x50",
                 quantityNeed: 2,
                 width: 50,
-                height: 8
+                height: 8,
+                cutOptions: { allowRotation: true }
             },
         ],
         active: true
@@ -748,7 +757,8 @@ export const sanPhamBaseData = [
                 keyVatLieu: "van_go_nau_dam_10x50",
                 quantityNeed: 2,
                 width: 50,
-                height: 8
+                height: 8,
+                cutOptions: { allowRotation: true }
             },
         ],
         active: true
@@ -795,7 +805,8 @@ export const sanPhamBaseData = [
                 keyVatLieu: "van_go_vang_nhat_10x50",
                 quantityNeed: 3,
                 width: 50,
-                height: 8
+                height: 8,
+                cutOptions: { allowRotation: true }
             },
         ],
         active: true
@@ -842,7 +853,8 @@ export const sanPhamBaseData = [
                 keyVatLieu: "van_go_nau_dam_10x50",
                 quantityNeed: 3,
                 width: 50,
-                height: 8
+                height: 8,
+                cutOptions: { allowRotation: true }
             },
         ],
         active: true
@@ -889,7 +901,8 @@ export const sanPhamBaseData = [
                 keyVatLieu: "van_go_vang_nhat_10x50",
                 quantityNeed: 4,
                 width: 50,
-                height: 8
+                height: 8,
+                cutOptions: { allowRotation: true }
             },
         ],
         active: true
@@ -936,7 +949,8 @@ export const sanPhamBaseData = [
                 keyVatLieu: "van_go_nau_dam_10x50",
                 quantityNeed: 4,
                 width: 50,
-                height: 8
+                height: 8,
+                cutOptions: { allowRotation: true }
             },
         ],
         active: true

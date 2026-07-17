@@ -51,6 +51,7 @@ export interface TypeCanThietVatLieu {
     value?: number;
     width?: number;
     height?: number;
+    cutOptions?: object;
     title?: string;
     tienVatLieu?: number;
     perTienVatLieu?: number;

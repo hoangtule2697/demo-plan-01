@@ -226,7 +226,7 @@ const getTongVatLieuCanMuaByWidthHeight = (vatLieuCode: VatLieuCode, vatLieuData
 
     const allPieces = dsVatLieu.filter(d => d.width && d.height)
         .flatMap((d) => Array(d.quantityNeedBuy)
-            .fill({ width: utils.number.num(d.width), height: utils.number.num(d.height) }))
+            .fill({ width: utils.number.num(d.width), height: utils.number.num(d.height), cutOptions: d.cutOptions }))
         .sort((a, b) => {
             return b.width * b.height - a.width * a.height;
         });
@@ -238,13 +238,14 @@ const getTongVatLieuCanMuaByWidthHeight = (vatLieuCode: VatLieuCode, vatLieuData
             square: false,
             allowRotation: false, // giữ chiều vân gỗ
             border: 1,
-            logic: PACKING_LOGIC.MAX_EDGE
+            logic: PACKING_LOGIC.MAX_AREA
         }
     );
 
-    for (const { width, height } of allPieces) {
+    for (const { width, height, cutOptions } of allPieces) {
         packer.add(width, height, {
-            allowRotation: height <= 10 //tấm gỗ nhỏ quá thì cho xoay
+            allowRotation: false,
+            ...cutOptions
         });
     }
 
